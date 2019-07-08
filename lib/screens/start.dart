@@ -6,6 +6,15 @@ import 'package:edukasi_pot/widgets/widgets.dart';
 class StartPage extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
 
+  final _moduleList = [
+    Module(title: 'Decimal fractions and place value patterns'),
+    Module(title: 'Decimal fractions and place value patterns'),
+    Module(title: 'Decimal fractions and place value patterns'),
+    Module(title: 'Decimal fractions and place value patterns'),
+    Module(title: 'Decimal fractions and place value patterns'),
+    Module(title: 'Decimal fractions and place value patterns'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     final Size media = MediaQuery.of(context).size;
@@ -13,7 +22,7 @@ class StartPage extends StatelessWidget {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Color(0xFFF2F4F6),
-      drawer: _buildDrawer(context),
+      drawer: _buildDrawer(context, media),
       body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,102 +55,167 @@ class StartPage extends StatelessWidget {
     );
   }
 
-  Widget _buildDrawer(BuildContext context) {
-    return Drawer(
-      child: Column(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                /// User menu
-                Row(
-                  children: <Widget>[
-                    /// Username text
-                    Text(
-                      'Deprito',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
+  Widget _buildDrawer(BuildContext context, Size media) {
+    final bool target = media.height > 1000;
+    return SizedBox(
+      width: target ? media.width / 2 : media.width / 3,
+      child: Drawer(
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            /// User section and close drawer button
+            Container(
+              margin: EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  /// User menu
+                  Row(
+                    children: <Widget>[
+                      /// Username text
+                      Text(
+                        'Deprito',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
 
-                    /// Expanded button
-                    Container(
-                      margin: EdgeInsets.only(top: 4.0, left: 4.0),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {},
-                          borderRadius: BorderRadius.circular(16.0),
-                          child: Container(
-                            child: Icon(
-                              Icons.keyboard_arrow_down,
-                              size: 20.0,
+                      /// Expanded button
+                      Container(
+                        margin: EdgeInsets.only(top: 4.0, left: 4.0),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {},
+                            borderRadius: BorderRadius.circular(16.0),
+                            child: Container(
+                              child: Icon(
+                                Icons.keyboard_arrow_down,
+                                size: 20.0,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-
-                /// Close drawer icon
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () => Navigator.pop(context),
-                    borderRadius: BorderRadius.circular(16.0),
-                    child: Container(
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.close,
-                        color: Color(0xFF7B8189),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Divider(color: Colors.grey, height: 1.0),
-          SizedBox(height: 8.0),
-
-          /// Notes section
-          InkWell(
-            onTap: () {},
-            child: Container(
-              margin: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  /// Notes text
-                  Row(
-                    children: <Widget>[
-                      Icon(Icons.note, color: Colors.blue),
-                      SizedBox(width: 8.0),
-                      Text('Notes', style: TextStyle(fontSize: 20.0)),
                     ],
                   ),
 
-                  /// Notes indicator
-                  Container(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
-                    decoration: BoxDecoration(
-                        color: Color(0xFFFF5657),
-                        borderRadius: BorderRadius.circular(16.0)),
-                    child: Text(
-                      '3',
-                      style: TextStyle(fontSize: 18.0, color: Colors.white),
+                  /// Close drawer button
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () => Navigator.pop(context),
+                      borderRadius: BorderRadius.circular(16.0),
+                      child: Container(
+                        padding: EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.close,
+                          color: Color(0xFF7B8189),
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-          ),
-          SizedBox(height: 8.0),
-        ],
+            Divider(color: Colors.grey, height: 1.0),
+            SizedBox(height: 8.0),
+
+            /// Notes section
+            InkWell(
+              onTap: () {},
+              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    /// Notes text
+                    Row(
+                      children: <Widget>[
+                        Icon(Icons.note, color: Colors.blue),
+                        SizedBox(width: 8.0),
+                        Text('Notes', style: TextStyle(fontSize: 20.0)),
+                      ],
+                    ),
+
+                    /// Notes indicator
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+                      decoration: BoxDecoration(
+                          color: Color(0xFFFF5657),
+                          borderRadius: BorderRadius.circular(16.0)),
+                      child: Text(
+                        '3',
+                        style: TextStyle(fontSize: 18.0, color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            SizedBox(height: 24.0),
+
+            /// Modules section
+            Container(
+              margin: EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 16.0),
+              child: Text(
+                'GRADE 5 MODULES',
+                style: TextStyle(fontSize: 16.0, color: Color(0xFF586069)),
+              ),
+            ),
+            _buildModuleList(_moduleList),
+
+            Divider(color: Colors.grey, height: 1.0),
+            SizedBox(height: 16.0),
+
+            /// Slider conclude class
+            ConcludeSlider(),
+            SizedBox(height: 24.0),
+          ],
+        ),
       ),
+    );
+  }
+
+  Widget _buildModuleList(List<Module> modules) {
+    return Expanded(
+      child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: modules.length,
+          itemBuilder: (context, index) {
+            Module module = modules[index];
+            int no = index;
+            return InkWell(
+              onTap: () {},
+              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.folder, color: Color(0xFF90CFE8)),
+                    SizedBox(width: 12.0),
+                    Expanded(
+                      child: Text(
+                        'Module ' + no.toString() + " " + module.title,
+                        style: no == 0
+                            ? TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black54,
+                              )
+                            : TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.black54,
+                              ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
+          }),
     );
   }
 
@@ -162,35 +236,39 @@ class StartPage extends StatelessWidget {
       child: Column(
         children: <Widget>[
           /// Sidebar content
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                /// Menu icon
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () => _scaffoldKey.currentState.openDrawer(),
-                    borderRadius: BorderRadius.circular(16.0),
-                    child: Container(
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.menu,
-                        size: 32.0,
-                        color: Color(0xFF586069),
-                      ),
-                    ),
-                  ),
-                ),
+          _buildSiderbarContent(),
 
-                /// Empty widget for module indicators
-                Container()
-              ],
+          /// Empty container for floating part
+          Container(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSiderbarContent() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          /// Menu icon
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () => _scaffoldKey.currentState.openDrawer(),
+              borderRadius: BorderRadius.circular(16.0),
+              child: Container(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(
+                  Icons.menu,
+                  size: 32.0,
+                  color: Color(0xFF586069),
+                ),
+              ),
             ),
           ),
 
-          /// Empty container for floating part
+          /// Empty widget for module indicators
           Container(),
         ],
       ),
@@ -203,14 +281,14 @@ class StartPage extends StatelessWidget {
         length: 2,
         child: Scaffold(
           backgroundColor: Color(0xFFF2F4F6),
-          appBar: _buildPreferredSize(context, media),
+          appBar: _buildAppBar(context, media),
           body: _buildContent(),
         ),
       ),
     );
   }
 
-  Widget _buildPreferredSize(BuildContext context, Size media) {
+  Widget _buildAppBar(BuildContext context, Size media) {
     final bool target = media.height > 800;
     return PreferredSize(
       preferredSize:
