@@ -15,7 +15,7 @@ class EdukasiPoTApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Edukasi POTY',
+      title: 'Edukasi POT',
       home: LoginPage(),
     );
   }
