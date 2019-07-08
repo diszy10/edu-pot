@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import './screens/login.dart';
+import './router.dart';
 
 void main() {
-  runApp(EdukasiPoTApp());
+  EdukasiPotRouter.setupRouter();
+  runApp(EdukasiPotApp());
 }
 
-class EdukasiPoTApp extends StatelessWidget {
+class EdukasiPotApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Edukasi POT',
-      home: LoginPage(),
+      initialRoute: 'login',
+      onGenerateRoute: EdukasiPotRouter.router.generator,
     );
   }
 }

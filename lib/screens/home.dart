@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:edukasi_pot/models/models.dart';
 import 'package:edukasi_pot/widgets/widgets.dart';
 
-class StartPage extends StatelessWidget {
+class HomePage extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
 
   final _moduleList = [

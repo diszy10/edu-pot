@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:edukasi_pot/widgets/widgets.dart';
 
-import './start.dart';
+import './home.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -104,10 +104,7 @@ class LoginPage extends StatelessWidget {
           child: Material(
               color: Colors.transparent,
               child: InkWell(
-                onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => StartPage()),
-                    ),
+                onTap: () => Navigator.pushReplacementNamed(context, 'home'),
                 borderRadius: BorderRadius.circular(16.0),
                 child: Row(
                   children: <Widget>[
