@@ -18,7 +18,6 @@ class StartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size media = MediaQuery.of(context).size;
-    final bool target = media.height > 1000;
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Color(0xFFF2F4F6),
@@ -27,11 +26,10 @@ class StartPage extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _buildSidebar(context, media),
+            _buildSidebar(context),
             SizedBox(
               width: 48.0,
               child: Container(
-                height: target ? 550.0 : 1024.0,
                 decoration: BoxDecoration(
                   color: Color(0xFFF2F4F6),
                   boxShadow: [
@@ -219,10 +217,8 @@ class StartPage extends StatelessWidget {
     );
   }
 
-  Widget _buildSidebar(BuildContext context, Size media) {
-    final bool target = media.height > 1000;
+  Widget _buildSidebar(BuildContext context) {
     return Container(
-      height: target ? 550.0 : 1024.0,
       decoration: BoxDecoration(
         color: Color(0xFFFBFCFD),
         boxShadow: [
