@@ -75,17 +75,17 @@ class _ConcludeSliderState extends State<ConcludeSlider>
     );
   }
 
-  Widget _drawDotCurtain(Decoration decoration, {double width = 0.0}) {
-    if (width == 0.0) {
-      return Container();
-    }
-    double marginRight =
-        width - _pacmanPosition - screenAwareSize(_pacmanWidth / 2, context);
-    return Positioned.fill(
-      right: marginRight,
-      child: Container(decoration: decoration),
-    );
-  }
+  // Widget _drawDotCurtain(Decoration decoration, {double width = 0.0}) {
+  //   if (width == 0.0) {
+  //     return Container();
+  //   }
+  //   double marginRight =
+  //       width - _pacmanPosition - screenAwareSize(_pacmanWidth / 2, context);
+  //   return Positioned.fill(
+  //     right: marginRight,
+  //     child: Container(decoration: decoration),
+  //   );
+  // }
 
   Widget _drawPacman({double width}) {
     if (pacmanAnimation == null && width != 0.0) {

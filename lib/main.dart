@@ -1,11 +1,16 @@
+import 'package:edukasi_pot/states/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import './screens/login.dart';
-import './router.dart';
+import 'package:edukasi_pot/router.dart';
 
 void main() {
   EdukasiPotRouter.setupRouter();
-  runApp(EdukasiPotApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider<Auth>(
+      builder: (_) => Auth(),
+    )
+  ], child: EdukasiPotApp()));
 }
 
 class EdukasiPotApp extends StatelessWidget {
@@ -14,7 +19,7 @@ class EdukasiPotApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Edukasi POT',
-      initialRoute: 'login',
+      initialRoute: '/',
       onGenerateRoute: EdukasiPotRouter.router.generator,
     );
   }

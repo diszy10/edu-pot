@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:edukasi_pot/widgets/widgets.dart';
+import 'package:flutter/material.dart';
 
-import './home.dart';
-
-class LoginPage extends StatelessWidget {
+class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

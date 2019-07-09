@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-
 import 'package:edukasi_pot/models/models.dart';
 import 'package:edukasi_pot/widgets/widgets.dart';
+import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
 
   final _moduleList = [
