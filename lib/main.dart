@@ -7,8 +7,8 @@ import 'package:edukasi_pot/router.dart';
 void main() {
   EdukasiPotRouter.setupRouter();
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider<Auth>(
-      builder: (_) => Auth(),
+    ChangeNotifierProvider<AuthNotifier>(
+      builder: (_) => AuthNotifier(),
     )
   ], child: EdukasiPotApp()));
 }

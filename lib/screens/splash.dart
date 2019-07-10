@@ -14,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // Need to use future.delayed
     // because context is not available on initState
     Future.delayed(Duration(milliseconds: 750), () {
-      final auth = Provider.of<Auth>(context);
+      final auth = Provider.of<AuthNotifier>(context);
       if (auth.isAuthenticated) {
         Navigator.pushReplacementNamed(context, 'home');
       } else if (!auth.isAuthenticated) {
