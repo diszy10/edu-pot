@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 const double _pacmanWidth = 21.0;
 const double _sliderHorizontalMargin = 0.0;
-const double _dotsLeftMargin = 8.0;
 
 class ConcludeSlider extends StatefulWidget {
   @override
@@ -39,7 +38,7 @@ class _ConcludeSliderState extends State<ConcludeSlider>
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 24.0),
-      height: screenAwareSize(52.0, context),
+      height: screenAwareSize(55.0, context),
       decoration: decoration,
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -74,18 +73,6 @@ class _ConcludeSliderState extends State<ConcludeSlider>
       ),
     );
   }
-
-  // Widget _drawDotCurtain(Decoration decoration, {double width = 0.0}) {
-  //   if (width == 0.0) {
-  //     return Container();
-  //   }
-  //   double marginRight =
-  //       width - _pacmanPosition - screenAwareSize(_pacmanWidth / 2, context);
-  //   return Positioned.fill(
-  //     right: marginRight,
-  //     child: Container(decoration: decoration),
-  //   );
-  // }
 
   Widget _drawPacman({double width}) {
     if (pacmanAnimation == null && width != 0.0) {
@@ -155,126 +142,7 @@ class _ConcludeSliderState extends State<ConcludeSlider>
       screenAwareSize(_sliderHorizontalMargin, context);
 
   double _pacmanMaxPosition(double sliderWidth) =>
-      sliderWidth - screenAwareSize(80.0 / 2 + _pacmanWidth, context);
-}
-
-class AnimatedDots extends StatefulWidget {
-  @override
-  _AnimatedDotsState createState() => _AnimatedDotsState();
-}
-
-class _AnimatedDotsState extends State<AnimatedDots>
-    with SingleTickerProviderStateMixin {
-  final int numberOfDots = 10;
-  final double minOpacity = 0.1;
-  final double maxOpacity = 0.5;
-  AnimationController hintAnimationController;
-
-  @override
-  void initState() {
-    super.initState();
-    _initHintAnimationController();
-    hintAnimationController.forward();
-  }
-
-  @override
-  void dispose() {
-    hintAnimationController.dispose();
-    super.dispose();
-  }
-
-  void _initHintAnimationController() {
-    hintAnimationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 800),
-    );
-    hintAnimationController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        Future.delayed(Duration(milliseconds: 800), () {
-          hintAnimationController.forward(from: 0.0);
-        });
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-          left: screenAwareSize(
-              _sliderHorizontalMargin + _pacmanWidth + _dotsLeftMargin,
-              context),
-          right: screenAwareSize(_sliderHorizontalMargin, context)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: List.generate(numberOfDots, _generateDot)
-          ..add(Opacity(
-            opacity: maxOpacity,
-            child: Dot(size: 14.0),
-          )),
-      ),
-    );
-  }
-
-  Widget _generateDot(int dotNumber) {
-    Animation animation = _initDotAnimation(dotNumber);
-    return AnimatedBuilder(
-      animation: animation,
-      builder: (context, child) => Opacity(
-            opacity: animation.value,
-            child: child,
-          ),
-      child: Dot(size: 9.0),
-    );
-  }
-
-  Animation<double> _initDotAnimation(int dotNumber) {
-    double lastDotStartTime = 0.4;
-    double dotAnimationDuration = 0.5;
-    double begin = lastDotStartTime * dotNumber / numberOfDots;
-    double end = begin + dotAnimationDuration;
-    return SinusoidalAnimation(min: minOpacity, max: maxOpacity).animate(
-      CurvedAnimation(
-        parent: hintAnimationController,
-        curve: Interval(begin, end),
-      ),
-    );
-  }
-}
-
-class SinusoidalAnimation extends Animatable<double> {
-  SinusoidalAnimation({this.min, this.max});
-
-  final double min;
-  final double max;
-
-  @protected
-  double lerp(double t) {
-    return min + (max - min) * math.sin(math.pi * t);
-  }
-
-  @override
-  double transform(double t) {
-    return (t == 0.0 || t == 1.0) ? min : lerp(t);
-  }
-}
-
-class Dot extends StatelessWidget {
-  final double size;
-
-  const Dot({Key key, @required this.size}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: screenAwareSize(size, context),
-      width: screenAwareSize(size, context),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors.white,
-      ),
-    );
-  }
+      sliderWidth - screenAwareSize(105.0 / 2 + _pacmanWidth, context);
 }
 
 class PacmanIcon extends StatelessWidget {
@@ -296,10 +164,8 @@ class PacmanIcon extends StatelessWidget {
   }
 }
 
-const double baseHeight = 650.0;
-
 double screenAwareSize(double size, BuildContext context) {
   double drawingHeight =
       MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
-  return size * drawingHeight / baseHeight;
+  return size * drawingHeight / MediaQuery.of(context).size.height;
 }
