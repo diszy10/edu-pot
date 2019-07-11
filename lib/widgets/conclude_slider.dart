@@ -107,7 +107,7 @@ class _ConcludeSliderState extends State<ConcludeSlider>
 
   _onPacmanSubmited() {
     //temporary:
-    Future.delayed(Duration(milliseconds: 500), () => Navigator.pop(context));
+    Future.delayed(Duration(milliseconds: 500), () => Navigator.pushReplacementNamed(context, 'homeworks'));
   }
 
   _onPacmanDrag(double width, DragUpdateDetails details) {

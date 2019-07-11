@@ -1,6 +1,7 @@
 import 'package:edukasi_pot/screens/home.dart';
 import 'package:edukasi_pot/screens/login.dart';
 import 'package:edukasi_pot/screens/splash.dart';
+import 'package:edukasi_pot/screens/homeworks.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,10 @@ class EdukasiPotRouter {
       handlerFunc: (BuildContext ctx, Map<String, dynamic> params) =>
           HomeScreen());
 
+  static Handler _homeworkHandler = Handler(
+      handlerFunc: (BuildContext ctx, Map<String, dynamic> params) =>
+          HomeworkScreen());
+
   static void setupRouter() {
     router.define('/',
         handler: _splashHandler, transitionType: TransitionType.fadeIn);
@@ -29,5 +34,7 @@ class EdukasiPotRouter {
     );
 
     router.define('home', handler: _homeHandler);
+
+    router.define('homeworks', handler: _homeworkHandler);
   }
 }
