@@ -1,33 +1,35 @@
 import 'package:edukasi_pot/screens/home.dart';
 import 'package:edukasi_pot/screens/login.dart';
 import 'package:edukasi_pot/screens/splash.dart';
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
-class EdukasiPotRouter {
-  static Router router = Router();
+class AppRouter {
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    // Argumenst when calling with pushNamed
+    final args = settings.arguments;
 
-  static Handler _splashHandler = Handler(
-      handlerFunc: (BuildContext ctx, Map<String, dynamic> params) =>
-          SplashScreen());
+    switch (settings.name) {
+      case SplashScreen.routeName:
+        return MaterialPageRoute(builder: (_) => SplashScreen());
+      case HomeScreen.routeName:
+        return MaterialPageRoute(builder: (_) => HomeScreen());
+      case LoginScreen.routeName:
+        return MaterialPageRoute(builder: (_) => LoginScreen());
+      default:
+        return _errorRoute(settings.name);
+    }
+  }
 
-  static Handler _loginHandler = Handler(
-      handlerFunc: (BuildContext ctx, Map<String, dynamic> params) =>
-          LoginScreen());
-
-  static Handler _homeHandler = Handler(
-      handlerFunc: (BuildContext ctx, Map<String, dynamic> params) =>
-          HomeScreen());
-
-  static void setupRouter() {
-    router.define('/',
-        handler: _splashHandler, transitionType: TransitionType.fadeIn);
-
-    router.define(
-      'login',
-      handler: _loginHandler
-    );
-
-    router.define('home', handler: _homeHandler);
+  static Route<dynamic> _errorRoute(String name) {
+    return MaterialPageRoute(builder: (_) {
+      return Scaffold(
+        body: Center(
+          child: Text(
+            'No route defined for $name',
+            style: TextStyle(fontSize: 28),
+          ),
+        ),
+      );
+    });
   }
 }

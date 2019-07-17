@@ -1,3 +1,4 @@
+import 'package:edukasi_pot/screens/splash.dart';
 import 'package:edukasi_pot/states/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:edukasi_pot/router.dart';
 
 void main() {
-  EdukasiPotRouter.setupRouter();
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider<AuthNotifier>(
       builder: (_) => AuthNotifier(),
@@ -19,8 +19,8 @@ class EdukasiPotApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Edukasi POT',
-      initialRoute: '/',
-      onGenerateRoute: EdukasiPotRouter.router.generator,
+      initialRoute: SplashScreen.routeName,
+      onGenerateRoute: AppRouter.generateRoute,
     );
   }
 }
