@@ -26,19 +26,14 @@ dependencies:
   cupertino_icons: ^0.1.2
 
   # 3rd party
-  chopper: ^2.4.1
-  http: ^0.12.0+2
+  dio: ^2.1.13
   intl: ^0.15.7
   json_annotation: ^2.4.0
-  moor_flutter: ^1.5.0
-  fluro: ^1.5.0
   provider: ^3.0.0
   sqflite: ^1.1.6
 
 dev_dependencies:
-  chopper_generator: ^2.4.1
   json_serializable: ^3.0.0
-  moor_generator: ^1.5.0
   build_runner: ^1.0.0
 
   flutter_test:
