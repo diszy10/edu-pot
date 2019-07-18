@@ -87,6 +87,15 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
+  _handleLogin(BuildContext context) async {
+    if (await Provider.of<AuthNotifier>(context).login()) {
+      Navigator.pushReplacementNamed(
+          context, HomeScreen.routeName);
+    } else {
+      print('Failed Login');
+    }
+  }
+
   Widget _buildLogin(BuildContext context) {
     return Column(
       children: <Widget>[
@@ -107,14 +116,7 @@ class LoginScreen extends StatelessWidget {
           child: Material(
               color: Colors.transparent,
               child: InkWell(
-                  onTap: () async {
-                    if (await Provider.of<AuthNotifier>(context).login()) {
-                      Navigator.pushReplacementNamed(
-                          context, HomeScreen.routeName);
-                    } else {
-                      print('Failed Login');
-                    }
-                  },
+                  onTap: _handleLogin(context),
                   borderRadius: BorderRadius.circular(16.0),
                   child: Center(
                     child: Container(
