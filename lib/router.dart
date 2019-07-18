@@ -1,6 +1,6 @@
 import 'package:edukasi_pot/screens/homeworks.dart';
 import 'package:edukasi_pot/screens/home.dart';
-import 'package:edukasi_pot/screens/login.dart';
+import 'package:edukasi_pot/screens/subject.dart';
 import 'package:edukasi_pot/screens/splash.dart';
 import 'package:flutter/material.dart';
 
@@ -14,8 +14,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => SplashScreen());
       case HomeScreen.routeName:
         return MaterialPageRoute(builder: (_) => HomeScreen());
-      case LoginScreen.routeName:
-        return MaterialPageRoute(builder: (_) => LoginScreen());
+      case SubjectScreen.routeName:
+        return MaterialPageRoute(builder: (_) => SubjectScreen());
       case HomeworkScreen.routeName:
         return MaterialPageRoute(builder: (_) => HomeworkScreen());
       default:

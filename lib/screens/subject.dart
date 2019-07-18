@@ -4,8 +4,8 @@ import 'package:edukasi_pot/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
-  static const routeName = '/login';
+class SubjectScreen extends StatelessWidget {
+  static const routeName = '/subject';
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class LoginScreen extends StatelessWidget {
             children: <Widget>[
               _buildClassBanner(),
               _buildSubjectInfo(),
-              _buildLogin(context)
+              _buildSubject(context)
             ],
           ),
         ),
@@ -87,7 +87,7 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  _handleLogin(BuildContext context) async {
+  void _login(BuildContext context) async {
     if (await Provider.of<AuthNotifier>(context).login()) {
       Navigator.pushReplacementNamed(
           context, HomeScreen.routeName);
@@ -96,7 +96,7 @@ class LoginScreen extends StatelessWidget {
     }
   }
 
-  Widget _buildLogin(BuildContext context) {
+  Widget _buildSubject(BuildContext context) {
     return Column(
       children: <Widget>[
         /// Login button
@@ -116,7 +116,7 @@ class LoginScreen extends StatelessWidget {
           child: Material(
               color: Colors.transparent,
               child: InkWell(
-                  onTap: _handleLogin(context),
+                  onTap: () => _login(context),
                   borderRadius: BorderRadius.circular(16.0),
                   child: Center(
                     child: Container(

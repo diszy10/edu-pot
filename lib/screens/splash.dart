@@ -1,5 +1,5 @@
 import 'package:edukasi_pot/screens/home.dart';
-import 'package:edukasi_pot/screens/login.dart';
+import 'package:edukasi_pot/screens/subject.dart';
 import 'package:edukasi_pot/states/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (auth) {
         Navigator.pushReplacementNamed(context, HomeScreen.routeName);
       } else if (!auth) {
-        Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+        Navigator.pushReplacementNamed(context, SubjectScreen.routeName);
       }
     });
     super.initState();
