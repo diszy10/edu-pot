@@ -3,6 +3,8 @@ import 'package:edukasi_pot/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
+  static const routeName = '/home';
+
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
 
   final _moduleList = [
