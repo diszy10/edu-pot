@@ -17,11 +17,11 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // Need to use future.delayed
     // because context is not available on initState
-    Future.delayed(Duration(milliseconds: 750), () {
-      final auth = Provider.of<AuthNotifier>(context);
-      if (auth.isAuthenticated) {
+    Future.delayed(Duration(milliseconds: 550), () async {
+      final auth = await Provider.of<AuthNotifier>(context).isAuth;
+      if (auth) {
         Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-      } else if (!auth.isAuthenticated) {
+      } else if (!auth) {
         Navigator.pushReplacementNamed(context, LoginScreen.routeName);
       }
     });

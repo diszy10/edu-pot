@@ -1,6 +1,8 @@
 import 'package:edukasi_pot/screens/home.dart';
+import 'package:edukasi_pot/states/auth.dart';
 import 'package:edukasi_pot/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   static const routeName = '/login';
@@ -105,8 +107,14 @@ class LoginScreen extends StatelessWidget {
           child: Material(
               color: Colors.transparent,
               child: InkWell(
-                  onTap: () => Navigator.pushReplacementNamed(
-                      context, HomeScreen.routeName),
+                  onTap: () async {
+                    if (await Provider.of<AuthNotifier>(context).login()) {
+                      Navigator.pushReplacementNamed(
+                          context, HomeScreen.routeName);
+                    } else {
+                      print('Failed Login');
+                    }
+                  },
                   borderRadius: BorderRadius.circular(16.0),
                   child: Center(
                     child: Container(
