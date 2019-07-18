@@ -230,19 +230,11 @@ class HomeScreen extends StatelessWidget {
           )
         ],
       ),
-      child: Column(
-        children: <Widget>[
-          /// Sidebar content
-          _buildSiderbarContent(),
-
-          /// Empty container for floating part
-          Container(),
-        ],
-      ),
+      child: _buildSidebarContent()
     );
   }
 
-  Widget _buildSiderbarContent() {
+  Widget _buildSidebarContent() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
       child: Column(

@@ -105,62 +105,23 @@ class LoginScreen extends StatelessWidget {
           child: Material(
               color: Colors.transparent,
               child: InkWell(
-                onTap: () => Navigator.pushReplacementNamed(context, HomeScreen.routeName),
-                borderRadius: BorderRadius.circular(16.0),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      width: 80.0,
-                      height: 80.0,
-                      margin: EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 12.0),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                              'https://image.shutterstock.com/image-photo/headshot-portrait-happy-ginger-girl-260nw-623804987.jpg'),
-                        ),
+                  onTap: () => Navigator.pushReplacementNamed(
+                      context, HomeScreen.routeName),
+                  borderRadius: BorderRadius.circular(16.0),
+                  child: Center(
+                    child: Container(
+                      padding: EdgeInsets.all(24.0),
+                      child: Text(
+                        'Continue',
+                        style: TextStyle(
+                            fontSize: 24.0,
+                            color: Color(0xFF2C3235),
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('Natalia Napitupulu',
-                              style: TextStyle(
-                                color: Color(0xFF2C3235),
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.bold,
-                              )),
-                          SizedBox(
-                            height: 8.0,
-                          ),
-                          Text(
-                            'Login with Facial Recognition',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              color: Color(0xFF9AA8AE),
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              )),
+                  ))),
         ),
-        SizedBox(height: 50.0),
-
-        /// Failed to Login
-        Container(
-          child: Text('Failed to Log in ?',
-              style: TextStyle(
-                  color: Color(0xFF53A49F),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.0)),
-        ),
-        SizedBox(height: 50.0)
+        SizedBox(height: 100.0),
       ],
     );
   }
