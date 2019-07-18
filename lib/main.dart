@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:edukasi_pot/router.dart';
 
 void main() {
+  SystemChrome.setEnabledSystemUIOverlays([]);
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider<AuthNotifier>(
       builder: (_) => AuthNotifier(),

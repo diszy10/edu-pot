@@ -1,3 +1,4 @@
+import 'package:edukasi_pot/screens/homeworks.dart';
 import 'package:edukasi_pot/screens/home.dart';
 import 'package:edukasi_pot/screens/login.dart';
 import 'package:edukasi_pot/screens/splash.dart';
@@ -15,6 +16,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => HomeScreen());
       case LoginScreen.routeName:
         return MaterialPageRoute(builder: (_) => LoginScreen());
+      case HomeworkScreen.routeName:
+        return MaterialPageRoute(builder: (_) => HomeworkScreen());
       default:
         return _errorRoute(settings.name);
     }

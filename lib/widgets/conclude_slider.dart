@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:edukasi_pot/screens/homeworks.dart';
 import 'package:flutter/material.dart';
 
 const double _pacmanWidth = 21.0;
@@ -107,7 +108,7 @@ class _ConcludeSliderState extends State<ConcludeSlider>
 
   _onPacmanSubmited() {
     //temporary:
-    Future.delayed(Duration(milliseconds: 500), () => Navigator.pushReplacementNamed(context, 'homeworks'));
+    Future.delayed(Duration(milliseconds: 500), () => Navigator.pushReplacementNamed(context, HomeworkScreen.routeName));
   }
 
   _onPacmanDrag(double width, DragUpdateDetails details) {

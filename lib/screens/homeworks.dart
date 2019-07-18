@@ -1,6 +1,9 @@
+import 'package:edukasi_pot/screens/login.dart';
 import 'package:flutter/material.dart';
 
 class HomeworkScreen extends StatelessWidget {
+  static const routeName = '/homeworks';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +52,7 @@ class HomeworkScreen extends StatelessWidget {
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(16.0),
           child: InkWell(
-            onTap: () => Navigator.pushReplacementNamed(context, 'login'),
+            onTap: () => Navigator.pushReplacementNamed(context, LoginScreen.routeName),
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
               decoration: BoxDecoration(
