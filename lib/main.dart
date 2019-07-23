@@ -1,28 +1,24 @@
-import 'package:edukasi_pot/screens/splash.dart';
-import 'package:edukasi_pot/states/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:provider/provider.dart';
 
+import 'package:edukasi_pot/states/auth.dart';
 import 'package:edukasi_pot/router.dart';
 
 void main() {
   SystemChrome.setEnabledSystemUIOverlays([]);
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider<AuthNotifier>(
-      builder: (_) => AuthNotifier(),
+    ChangeNotifierProvider<AdminAuthNotifier>(
+      builder: (_) => AdminAuthNotifier(),
     )
-  ], child: EdukasiPotApp()));
+  ], child: _mainApp()));
 }
 
-class EdukasiPotApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Edukasi POT',
-      initialRoute: SplashScreen.routeName,
-      onGenerateRoute: AppRouter.generateRoute,
-    );
-  }
+Widget _mainApp() {
+  return MaterialApp(
+    debugShowCheckedModeBanner: false,
+    title: 'Edukasi POT',
+    onGenerateRoute: AppRouter.generateRoute,
+  );
 }
