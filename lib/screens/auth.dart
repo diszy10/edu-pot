@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:edukasi_pot/states/auth.dart';
-
-import './login.dart';
-import './school.dart';
-import './splash.dart';
+import 'package:edukasi_pot/screens/screens.dart';
 
 class AuthScreen extends StatefulWidget {
   static const routeName = '/';
@@ -40,7 +37,7 @@ class _AuthScreenState extends State<AuthScreen> {
             case ConnectionState.done:
               // If result is true, then user is authenticated
               if (authSnapshot.data) {
-                return SchoolScreen();
+                return SubjectScreen();
               }
               break;
             default:

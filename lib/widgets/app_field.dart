@@ -39,30 +39,28 @@ class AppTextField extends StatefulWidget {
 class _AppTextFieldState extends State<AppTextField> {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-      child: TextFormField(
-        key: widget.key,
-        keyboardType: widget.inputType,
-        obscureText: widget.obscureText ?? false,
-        focusNode: widget.focusNode,
-        textInputAction: widget.textInputAction,
-        onSaved: widget.onSaved,
-        validator: widget.validator,
-        onFieldSubmitted: widget.onFieldSubmitted,
-        decoration: InputDecoration(
-            border: InputBorder.none,
-            filled: true,
-            hintText: widget.hintText,
-            labelText: widget.labelText,
-            helperText: widget.helperText,
-            suffixIcon: GestureDetector(
-              onTap: widget.onIconTapped,
-              child: Icon(
-                widget.icon ?? Icons.email,
-                color: Colors.blueGrey,
-              ),
-            )),
+    return TextFormField(
+      key: widget.key,
+      keyboardType: widget.inputType,
+      obscureText: widget.obscureText ?? false,
+      focusNode: widget.focusNode,
+      textInputAction: widget.textInputAction,
+      onSaved: widget.onSaved,
+      validator: widget.validator,
+      onFieldSubmitted: widget.onFieldSubmitted,
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        filled: true,
+        hintText: widget.hintText,
+        labelText: widget.labelText,
+        helperText: widget.helperText,
+        suffixIcon: GestureDetector(
+          onTap: widget.onIconTapped,
+          child: Icon(
+            widget.icon,
+            color: Colors.blueGrey,
+          ),
+        ),
       ),
     );
   }
@@ -115,33 +113,5 @@ class _AppPasswordFieldState extends State<AppPasswordField> {
         });
       },
     );
-    //   return Material(
-    //     borderRadius: BorderRadius.all(Radius.circular(20.0)),
-    //     child: TextFormField(
-    //       key: widget.key,
-    //       focusNode: widget.focusNode,
-    //       obscureText: _obscureText,
-    //       onSaved: widget.onSaved,
-    //       validator: widget.validator,
-    //       onFieldSubmitted: widget.onFieldSubmitted,
-    //       decoration: InputDecoration(
-    //           border: InputBorder.none,
-    //           filled: true,
-    //           hintText: widget.hintText,
-    //           labelText: widget.labelText,
-    //           helperText: widget.helperText,
-    //           suffixIcon: GestureDetector(
-    //             onTap: () {
-    //               setState(() {
-    //                 _obscureText = !_obscureText;
-    //               });
-    //             },
-    //             child: Icon(
-    //               _obscureText ? Icons.visibility : Icons.visibility_off,
-    //               color: Colors.blueGrey,
-    //             ),
-    //           )),
-    //     ),
-    //   );
   }
 }

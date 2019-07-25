@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './subject_auth.dart';
+import 'package:edukasi_pot/screens/screens.dart';
 
 class HomeworkScreen extends StatelessWidget {
   static const routeName = '/homeworks';
@@ -53,7 +53,8 @@ class HomeworkScreen extends StatelessWidget {
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(16.0),
           child: InkWell(
-            onTap: () => Navigator.pushReplacementNamed(context, SubjectAuthScreen.routeName),
+            onTap: () => Navigator.pushReplacementNamed(
+                context, SubjectScreen.routeName),
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
               decoration: BoxDecoration(
@@ -63,10 +64,9 @@ class HomeworkScreen extends StatelessWidget {
               child: Text(
                 'Continue',
                 style: TextStyle(
-                  fontSize: 20.0,
-                  color: Color(0xFF5771AD),
-                  fontWeight: FontWeight.bold
-                ),
+                    fontSize: 20.0,
+                    color: Color(0xFF5771AD),
+                    fontWeight: FontWeight.bold),
               ),
             ),
           ),

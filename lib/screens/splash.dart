@@ -7,12 +7,11 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.red,
+      color: Colors.white,
       child: Center(
-        child: Icon(
-          Icons.rss_feed,
-          size: 100,
-          color: Colors.white,
+        child: AspectRatio(
+          aspectRatio: 4.0,
+          child: Image.asset('assets/graphics/edukasi-mark.png'),
         ),
       ),
     );

@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 
 import 'package:edukasi_pot/config/base.dart';
 import 'package:edukasi_pot/states/auth.dart';
+import 'package:edukasi_pot/screens/screens.dart';
 import 'package:edukasi_pot/widgets/widgets.dart';
-import './school.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
@@ -65,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
         _isAuth = false;
       }
       if (_isAuth) {
-        Navigator.of(context).pushReplacementNamed(SchoolScreen.routeName);
+        Navigator.of(context).pushReplacementNamed(SubjectScreen.routeName);
       }
     }
     _showInSnackBar("Something's wrong!!");
@@ -73,60 +73,78 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var config = Provider.of<BaseConfig>(context);
- 
-    var form = Form(
-      key: _formKey,
-      child: ListView(
+    return Scaffold(
+      key: _scaffoldKey,
+      backgroundColor: Colors.white,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text('Text ${config.env}'),
-          AppTextField(
-            hintText: "E-mail *",
-            validator: _validateEmail,
-            inputType: TextInputType.emailAddress,
-            textInputAction: TextInputAction.next,
-            focusNode: _emailFocus,
-            onSaved: (val) => _email = val,
-            onFieldSubmitted: (value) {
-              _emailFocus.unfocus();
-              FocusScope.of(context).requestFocus(_passwordFocus);
-            },
+          AspectRatio(
+            aspectRatio: 4.0,
+            child: Image.asset('assets/graphics/edukasi-logo.png'),
           ),
-          SizedBox(height: 10.0),
-          AppPasswordField(
-            hintText: "Password *",
-            focusNode: _passwordFocus,
-            validator: _validatePassword,
-            textInputAction: TextInputAction.done,
-            onSaved: (val) => _password = val,
-            onFieldSubmitted: (value) {
-              _passwordFocus.unfocus();
-            },
-          ),
-          SizedBox(
-            height: 15.0,
-          ),
-          MaterialButton(
-            onPressed: () => _handleLogin(context),
-            child: SizedBox(
-              width: double.infinity,
-              child: Text(
-                'Login',
-                textAlign: TextAlign.center,
+          Form(
+            key: _formKey,
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width / 4),
+              child: Column(
+                children: <Widget>[
+                  AppTextField(
+                    hintText: "Email",
+                    validator: _validateEmail,
+                    inputType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
+                    focusNode: _emailFocus,
+                    onSaved: (val) => _email = val,
+                    onFieldSubmitted: (value) {
+                      _emailFocus.unfocus();
+                      FocusScope.of(context).requestFocus(_passwordFocus);
+                    },
+                  ),
+                  SizedBox(height: 24.0),
+                  AppPasswordField(
+                    hintText: "Password",
+                    focusNode: _passwordFocus,
+                    validator: _validatePassword,
+                    textInputAction: TextInputAction.done,
+                    onSaved: (val) => _password = val,
+                    onFieldSubmitted: (value) {
+                      _passwordFocus.unfocus();
+                    },
+                  ),
+                  SizedBox(height: 24.0),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xFF5B6CEC),
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () => _handleLogin(context),
+                        borderRadius: BorderRadius.circular(16.0),
+                        child: Center(
+                          child: Container(
+                            padding: EdgeInsets.all(16.0),
+                            child: Text(
+                              'Login',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           )
         ],
-      ),
-    );
-    return Scaffold(
-      key: _scaffoldKey,
-      body: Material(
-        color: Colors.white,
-        child: Container(
-          padding: EdgeInsets.only(top: 48.0, left: 24.0, right: 24.0),
-          child: form,
-        ),
       ),
     );
   }

@@ -4,4 +4,4 @@ import './base.dart';
 BaseConfig config = BaseConfig(
     appName: 'Edukasi POT',
     env: Environment.PROD,
-    baseUrl: 'https://prod-url-here.com');
+    apiBaseUrl: 'https://api.prod.com');

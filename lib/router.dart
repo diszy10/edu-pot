@@ -5,7 +5,7 @@ import 'package:edukasi_pot/screens/screens.dart';
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // Argumenst when calling with pushNamed
-    final args = settings.arguments;
+    // final args = settings.arguments;
     switch (settings.name) {
       case AuthScreen.routeName:
         return MaterialPageRoute(builder: (_) => AuthScreen());
@@ -13,12 +13,10 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => SplashScreen());
       case LoginScreen.routeName:
         return MaterialPageRoute(builder: (_) => LoginScreen());
-      case SchoolScreen.routeName:
-        return MaterialPageRoute(builder: (_) => SchoolScreen());
       case SubjectScreen.routeName:
         return MaterialPageRoute(builder: (_) => SubjectScreen());
-      case SubjectAuthScreen.routeName:
-        return MaterialPageRoute(builder: (_) => SubjectAuthScreen());
+      case ModuleScreen.routeName:
+        return MaterialPageRoute(builder: (_) => ModuleScreen());
       case HomeworkScreen.routeName:
         return MaterialPageRoute(builder: (_) => HomeworkScreen());
       default:

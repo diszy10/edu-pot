@@ -7,9 +7,9 @@ class BaseConfig {
   BaseConfig({
     @required this.appName,
     @required this.env,
-    @required this.baseUrl,
+    @required this.apiBaseUrl,
   });
 
-  final String appName, baseUrl;
+  final String appName, apiBaseUrl;
   final Environment env;
 }
