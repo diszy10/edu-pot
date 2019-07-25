@@ -1,8 +1,10 @@
-import 'package:edukasi_pot/models/models.dart';
-import 'package:edukasi_pot/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+import 'package:edukasi_pot/models/models.dart';
+import 'package:edukasi_pot/widgets/widgets.dart';
+
+class SubjectScreen extends StatelessWidget {
+  /// Subject screen that show many modules.
   static const routeName = '/home';
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
