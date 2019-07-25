@@ -22,7 +22,7 @@ class _AuthScreenState extends State<AuthScreen> {
     super.initState();
     // Future delayed so context is accessible.
     _isAuth = Future.delayed(Duration(milliseconds: 1000), () {
-      return Provider.of<AdminAuthNotifier>(context).isAdminAuth;
+      return Provider.of<AuthNotifier>(context).isUserAuth;
     });
   }
 

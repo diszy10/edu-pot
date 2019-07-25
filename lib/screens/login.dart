@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 
 import 'package:provider/provider.dart';
 
+import 'package:edukasi_pot/config/base.dart';
 import 'package:edukasi_pot/states/auth.dart';
 import 'package:edukasi_pot/widgets/widgets.dart';
 import './school.dart';
@@ -52,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _handleLogin(BuildContext context) async {
     bool _isAuth;
     final FormState form = _formKey.currentState;
-    final auth = Provider.of<AdminAuthNotifier>(context, listen: false);
+    final auth = Provider.of<AuthNotifier>(context, listen: false);
     if (form.validate()) {
       form.save();
       setState(() {
@@ -72,10 +73,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var config = Provider.of<BaseConfig>(context);
+ 
     var form = Form(
       key: _formKey,
       child: ListView(
         children: <Widget>[
+          Text('Text ${config.env}'),
           AppTextField(
             hintText: "E-mail *",
             validator: _validateEmail,

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:edukasi_pot/mocks/admin.dart';
+import 'package:edukasi_pot/mocks/user.dart';
 
-class AdminAuthNotifier with ChangeNotifier {
-  String _prefsKey = 'adminToken';
+class AuthNotifier with ChangeNotifier {
+  String _prefsKey = 'userToken';
 
   String _token;
 
@@ -14,16 +14,16 @@ class AdminAuthNotifier with ChangeNotifier {
     return _token;
   }
 
-  Future<bool> get isAdminAuth async {
+  Future<bool> get isUserAuth async {
     // Simulate auth delay.
     final _tok = await token;
     return _tok != null && _tok != '' ? true : false;
   }
 
   Future<String> _authenticate(String email, String password) async {
-    for (var admin in admins) {
-      if (admin['email'] == email && admin['password'] == password) {
-        return admin['token'];
+    for (var user in users) {
+      if (user['email'] == email && user['password'] == password) {
+        return user['token'];
       }
     }
     return '';
