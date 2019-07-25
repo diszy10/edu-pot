@@ -1,21 +1,24 @@
-import 'package:edukasi_pot/screens/homeworks.dart';
-import 'package:edukasi_pot/screens/home.dart';
-import 'package:edukasi_pot/screens/login.dart';
-import 'package:edukasi_pot/screens/splash.dart';
 import 'package:flutter/material.dart';
+
+import 'package:edukasi_pot/screens/screens.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // Argumenst when calling with pushNamed
     final args = settings.arguments;
-
     switch (settings.name) {
+      case AuthScreen.routeName:
+        return MaterialPageRoute(builder: (_) => AuthScreen());
       case SplashScreen.routeName:
         return MaterialPageRoute(builder: (_) => SplashScreen());
-      case HomeScreen.routeName:
-        return MaterialPageRoute(builder: (_) => HomeScreen());
       case LoginScreen.routeName:
         return MaterialPageRoute(builder: (_) => LoginScreen());
+      case SchoolScreen.routeName:
+        return MaterialPageRoute(builder: (_) => SchoolScreen());
+      case SubjectScreen.routeName:
+        return MaterialPageRoute(builder: (_) => SubjectScreen());
+      case SubjectAuthScreen.routeName:
+        return MaterialPageRoute(builder: (_) => SubjectAuthScreen());
       case HomeworkScreen.routeName:
         return MaterialPageRoute(builder: (_) => HomeworkScreen());
       default:

@@ -1,138 +1,129 @@
-import 'package:edukasi_pot/screens/home.dart';
-import 'package:edukasi_pot/states/auth.dart';
-import 'package:edukasi_pot/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
+import 'package:edukasi_pot/states/auth.dart';
+import 'package:edukasi_pot/widgets/widgets.dart';
+import './school.dart';
+
+class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
 
   @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final FocusNode _emailFocus = FocusNode();
+  final FocusNode _passwordFocus = FocusNode();
+
+  String _email, _password;
+  bool _isLoading = false;
+
+  // Validation
+  String _validateEmail(String value) {
+    // Simple email regex.
+    // Might not handles all type of email
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value))
+      return 'Enter Valid Email';
+    else
+      return null;
+  }
+
+  String _validatePassword(String value) {
+    // TODO: Implement
+    return null;
+  }
+
+  // Logic
+  void _showInSnackBar(String value) {
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+      content: new Text(value),
+    ));
+  }
+
+  void _handleLogin(BuildContext context) async {
+    bool _isAuth;
+    final FormState form = _formKey.currentState;
+    final auth = Provider.of<AdminAuthNotifier>(context, listen: false);
+    if (form.validate()) {
+      form.save();
+      setState(() {
+        _isLoading = true;
+      });
+      try {
+        _isAuth = await auth.login(_email, _password);
+      } catch (e) {
+        _isAuth = false;
+      }
+      if (_isAuth) {
+        Navigator.of(context).pushReplacementNamed(SchoolScreen.routeName);
+      }
+    }
+    _showInSnackBar("Something's wrong!!");
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFF00716B),
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              _buildClassBanner(),
-              _buildSubjectInfo(),
-              _buildLogin(context)
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildClassBanner() {
-    return ClipPath(
-      clipper: BannerClipper(),
-      child: Container(
-        width: 200,
-        height: 50,
-        decoration: BoxDecoration(
-          color: Color(0xFFFF5B30),
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(16.0),
-            bottomRight: Radius.circular(16.0),
-          ),
-        ),
-        child: Center(
-          child: Text(
-            'Class 5A',
-            style: TextStyle(
-                fontSize: 24.0,
-                color: Colors.white,
-                fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSubjectInfo() {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+    var form = Form(
+      key: _formKey,
+      child: ListView(
         children: <Widget>[
-          /// Upcoming class text
-          Text(
-            'UPCOMING CLASS / 10:30 (90 MINS)',
-            style: TextStyle(
-              color: Color(0xFF54B9A6),
-              fontSize: 24.0,
-            ),
+          AppTextField(
+            hintText: "E-mail *",
+            validator: _validateEmail,
+            inputType: TextInputType.emailAddress,
+            textInputAction: TextInputAction.next,
+            focusNode: _emailFocus,
+            onSaved: (val) => _email = val,
+            onFieldSubmitted: (value) {
+              _emailFocus.unfocus();
+              FocusScope.of(context).requestFocus(_passwordFocus);
+            },
           ),
-          SizedBox(height: 24.0),
-
-          /// Subject text
-          GradientText(
-            text: 'Math & Logic',
-            gradient: LinearGradient(
-              colors: [
-                Color(0xFFE9FCD8),
-                Color(0xFFC6EDF8),
-              ],
+          SizedBox(height: 10.0),
+          AppPasswordField(
+            hintText: "Password *",
+            focusNode: _passwordFocus,
+            validator: _validatePassword,
+            textInputAction: TextInputAction.done,
+            onSaved: (val) => _password = val,
+            onFieldSubmitted: (value) {
+              _passwordFocus.unfocus();
+            },
+          ),
+          SizedBox(
+            height: 15.0,
+          ),
+          MaterialButton(
+            onPressed: () => _handleLogin(context),
+            child: SizedBox(
+              width: double.infinity,
+              child: Text(
+                'Login',
+                textAlign: TextAlign.center,
+              ),
             ),
-            style: TextStyle(
-                color: Color(0xFFE9FCD9),
-                fontSize: 90.0,
-                fontWeight: FontWeight.bold),
           )
         ],
       ),
     );
-  }
-
-  _handleLogin(BuildContext context) async {
-    if (await Provider.of<AuthNotifier>(context).login()) {
-      Navigator.pushReplacementNamed(
-          context, HomeScreen.routeName);
-    } else {
-      print('Failed Login');
-    }
-  }
-
-  Widget _buildLogin(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        /// Login button
-        Container(
-          width: 420.0,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16.0),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: Colors.black26,
-                  offset: Offset(9.0, 8.0),
-                  blurRadius: 16.0,
-                  spreadRadius: 4.0),
-            ],
-          ),
-          child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                  onTap: _handleLogin(context),
-                  borderRadius: BorderRadius.circular(16.0),
-                  child: Center(
-                    child: Container(
-                      padding: EdgeInsets.all(24.0),
-                      child: Text(
-                        'Continue',
-                        style: TextStyle(
-                            fontSize: 24.0,
-                            color: Color(0xFF2C3235),
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ))),
+    return Scaffold(
+      key: _scaffoldKey,
+      body: Material(
+        color: Colors.white,
+        child: Container(
+          padding: EdgeInsets.only(top: 48.0, left: 24.0, right: 24.0),
+          child: form,
         ),
-        SizedBox(height: 100.0),
-      ],
+      ),
     );
   }
 }

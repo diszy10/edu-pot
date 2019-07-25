@@ -1,37 +1,55 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthNotifier with ChangeNotifier {
-  String _prefsKey = 'auth';
+import 'package:edukasi_pot/mocks/admin.dart';
 
-  bool _isAuth = false;
+class AdminAuthNotifier with ChangeNotifier {
+  String _prefsKey = 'adminToken';
 
-  Future<bool> get isAuth async {
+  String _token;
+
+  Future<String> get token async {
     final prefs = await SharedPreferences.getInstance();
-    _isAuth = prefs.getBool(_prefsKey) ?? false;
-    return _isAuth;
+    _token = prefs.getString(_prefsKey);
+    return _token;
   }
 
-  Future<bool> login() async {
-    // Simulate login delay.
-    await Future<bool>.delayed(Duration(milliseconds: 600));
+  Future<bool> get isAdminAuth async {
+    // Simulate auth delay.
+    final _tok = await token;
+    return _tok != null && _tok != '' ? true : false;
+  }
 
-    final _isAuth = true;
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setBool(_prefsKey, _isAuth);
-    notifyListeners();
+  Future<String> _authenticate(String email, String password) async {
+    for (var admin in admins) {
+      if (admin['email'] == email && admin['password'] == password) {
+        return admin['token'];
+      }
+    }
+    return '';
+  }
+
+  void _autoLogout() {
+    // TODO: Implement auto logout
+  }
+
+  Future<bool> login(String email, String password) async {
+    _token = await _authenticate(email, password);
+    var _isAuth = false;
+    if (_token != '') {
+      _isAuth = true;
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString(_prefsKey, _token);
+      notifyListeners();
+    }
 
     return _isAuth;
   }
 
   Future<bool> logout() async {
-    final _isAuth = false;
     final prefs = await SharedPreferences.getInstance();
-    prefs.setBool(_prefsKey, _isAuth);
+    prefs.setString(_prefsKey, '');
     notifyListeners();
-
     return true;
   }
 }
