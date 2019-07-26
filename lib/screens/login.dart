@@ -3,10 +3,10 @@ import 'package:flutter/widgets.dart';
 
 import 'package:provider/provider.dart';
 
-import 'package:edukasi_pot/config/base.dart';
 import 'package:edukasi_pot/states/auth.dart';
-import 'package:edukasi_pot/screens/screens.dart';
 import 'package:edukasi_pot/widgets/widgets.dart';
+
+import './screens.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';

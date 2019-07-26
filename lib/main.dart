@@ -1,27 +1,23 @@
+import 'package:edukasi_pot/config/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
 
-import 'package:edukasi_pot/config/base.dart';
 import 'package:edukasi_pot/states/auth.dart';
 import 'package:edukasi_pot/router.dart';
 
-void baseMain(BaseConfig config) {
+void baseMain() {
   SystemChrome.setEnabledSystemUIOverlays([]);
   runApp(MultiProvider(providers: [
-    Provider<BaseConfig>.value(
-      value: config,
-      updateShouldNotify: (prev, curr) => false,
-    ),
     ChangeNotifierProvider<AuthNotifier>(
       builder: (_) => AuthNotifier(),
     )
-  ], child: MainApp()));
+  ], child: _MainApp()));
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({
+class _MainApp extends StatelessWidget {
+  const _MainApp({
     Key key,
   }) : super(key: key);
 
@@ -29,7 +25,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: Provider.of<BaseConfig>(context).appName,
+      title: Config().getString(Config.appName),
       onGenerateRoute: AppRouter.generateRoute,
     );
   }
