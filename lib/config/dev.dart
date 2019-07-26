@@ -1,7 +1,8 @@
 // App config dev
-import './base.dart';
+import './config.dart';
 
-BaseConfig config = BaseConfig(
-    appName: 'Edukasi POT',
-    env: Environment.DEV,
-    apiBaseUrl: 'https://api.dev.com');
+Map<String, dynamic> settings = {
+  Config.appName: 'Edukasi POT (Dev)',
+  Config.env: Env.DEV,
+  Config.baseUrl: 'http://api.dev.com'
+};

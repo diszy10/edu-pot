@@ -1,6 +1,9 @@
-import './main.dart' show baseMain;
+import 'package:edukasi_pot/config/config.dart';
 import 'package:edukasi_pot/config/prod.dart';
 
+import './main.dart';
+
 void main() {
-  baseMain(config);
+  Config().loadFromMap(settings);
+  baseMain();
 }

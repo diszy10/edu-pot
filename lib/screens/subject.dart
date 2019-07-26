@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:edukasi_pot/states/auth.dart';
-import 'package:edukasi_pot/screens/screens.dart';
 import 'package:edukasi_pot/widgets/widgets.dart';
+
+import './screens.dart';
 
 class SubjectScreen extends StatelessWidget {
   static const routeName = '/subject';
@@ -18,77 +19,25 @@ class SubjectScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              _buildClassBanner(),
-              _buildSubjectInfo(),
-              _buildSubject(context)
+              _ClassBanner(),
+              _SubjectInfo(),
+              _Subject()
             ],
           ),
         ),
       ),
     );
   }
+}
 
-  Widget _buildClassBanner() {
-    return ClipPath(
-      clipper: BannerClipper(),
-      child: Container(
-        width: 200,
-        height: 50,
-        decoration: BoxDecoration(
-          color: Color(0xFFFF5B30),
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(16.0),
-            bottomRight: Radius.circular(16.0),
-          ),
-        ),
-        child: Center(
-          child: Text(
-            'Class 5A',
-            style: TextStyle(
-                fontSize: 24.0,
-                color: Colors.white,
-                fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
-    );
-  }
+class _Subject extends StatelessWidget {
+  const _Subject({
+    Key key,
+  }) : super(key: key);
 
-  Widget _buildSubjectInfo() {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          /// Upcoming class text
-          Text(
-            'UPCOMING CLASS / 10:30 (90 MINS)',
-            style: TextStyle(
-              color: Color(0xFF54B9A6),
-              fontSize: 24.0,
-            ),
-          ),
-          SizedBox(height: 24.0),
 
-          /// Subject text
-          GradientText(
-            text: 'Math & Logic',
-            gradient: LinearGradient(
-              colors: [
-                Color(0xFFE9FCD8),
-                Color(0xFFC6EDF8),
-              ],
-            ),
-            style: TextStyle(
-                color: Color(0xFFE9FCD9),
-                fontSize: 90.0,
-                fontWeight: FontWeight.bold),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSubject(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         /// Login button
@@ -175,6 +124,80 @@ class SubjectScreen extends StatelessWidget {
         SizedBox(height: 50.0),
         SizedBox(height: 100.0),
       ],
+    );
+  }
+}
+
+class _SubjectInfo extends StatelessWidget {
+  const _SubjectInfo({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          /// Upcoming class text
+          Text(
+            'UPCOMING CLASS / 10:30 (90 MINS)',
+            style: TextStyle(
+              color: Color(0xFF54B9A6),
+              fontSize: 24.0,
+            ),
+          ),
+          SizedBox(height: 24.0),
+
+          /// Subject text
+          GradientText(
+            text: 'Math & Logic',
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFFE9FCD8),
+                Color(0xFFC6EDF8),
+              ],
+            ),
+            style: TextStyle(
+                color: Color(0xFFE9FCD9),
+                fontSize: 90.0,
+                fontWeight: FontWeight.bold),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class _ClassBanner extends StatelessWidget {
+  const _ClassBanner({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipPath(
+      clipper: BannerClipper(),
+      child: Container(
+        width: 200,
+        height: 50,
+        decoration: BoxDecoration(
+          color: Color(0xFFFF5B30),
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(16.0),
+            bottomRight: Radius.circular(16.0),
+          ),
+        ),
+        child: Center(
+          child: Text(
+            'Class 5A',
+            style: TextStyle(
+                fontSize: 24.0,
+                color: Colors.white,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
     );
   }
 }
