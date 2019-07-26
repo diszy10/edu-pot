@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:edukasi_pot/states/auth.dart';
-import 'package:edukasi_pot/screens/screens.dart';
+import 'package:edukasi_pot/widgets/builder.dart';
+
+import './screens.dart';
 
 class AuthScreen extends StatefulWidget {
   static const routeName = '/';
@@ -25,25 +27,26 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        // TODO: Autologin (to server) operation here,
-        future: _isAuth,
-        builder: (context, authSnapshot) {
-          switch (authSnapshot.connectionState) {
-            case ConnectionState.waiting:
-              // Show splash screen when waiting for result.
-              // TODO: Animation when splash screen disposed.
-              return SplashScreen();
-            case ConnectionState.done:
-              // If result is true, then user is authenticated
-              if (authSnapshot.data) {
-                return SubjectScreen();
-              }
-              break;
-            default:
-              break;
+    return AnimatedFutureBuilder(
+    // TODO: Autologin (to server) operation here,
+    duration: Duration(milliseconds: 550),
+    future: _isAuth,
+    builder: (context, authSnapshot) {
+      switch (authSnapshot.connectionState) {
+        case ConnectionState.waiting:
+          // Show splash screen when waiting for result.
+          // TODO: Animation when splash screen disposed.
+          return SplashScreen();
+        case ConnectionState.done:
+          // If result is true, then user is authenticated
+          if (authSnapshot.data) {
+            return SubjectScreen();
           }
-          return LoginScreen();
-        });
+          break;
+        default:
+          break;
+      }
+      return LoginScreen();
+    });
   }
 }

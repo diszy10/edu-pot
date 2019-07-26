@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:edukasi_pot/screens/screens.dart';
+import './screens.dart';
 
 class HomeworkScreen extends StatelessWidget {
   static const routeName = '/homeworks';
@@ -14,17 +14,24 @@ class HomeworkScreen extends StatelessWidget {
           child: Column(
             children: <Widget>[
               SizedBox(height: 100.0),
-              _buildHeaderNav(context),
+              _HeaderNav(),
               SizedBox(height: 100.0),
-              _buildBody()
+              Container() // Body
             ],
           ),
         ),
       ),
     );
   }
+}
 
-  Widget _buildHeaderNav(BuildContext context) {
+class _HeaderNav extends StatelessWidget {
+  const _HeaderNav({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -73,9 +80,5 @@ class HomeworkScreen extends StatelessWidget {
         )
       ],
     );
-  }
-
-  Widget _buildBody() {
-    return Container();
   }
 }
