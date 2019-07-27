@@ -1,3 +1,4 @@
+import 'package:edukasi_pot/screens/subject_list.dart';
 import 'package:flutter/material.dart';
 
 import 'package:edukasi_pot/screens/screens.dart';
@@ -13,6 +14,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => SplashScreen());
       case LoginScreen.routeName:
         return MaterialPageRoute(builder: (_) => LoginScreen());
+      case SubjectListScreen.routeName:
+        return MaterialPageRoute(builder: (_) => SubjectListScreen());
       case SubjectScreen.routeName:
         return MaterialPageRoute(builder: (_) => SubjectScreen());
       case ModuleScreen.routeName:

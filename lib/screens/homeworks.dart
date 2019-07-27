@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './screens.dart';
+import 'package:edukasi_pot/screens/screens.dart';
 
 class HomeworkScreen extends StatelessWidget {
   static const routeName = '/homeworks';

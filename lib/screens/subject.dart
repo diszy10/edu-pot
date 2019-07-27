@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:edukasi_pot/states/auth.dart';
+import 'package:edukasi_pot/providers/auth.dart';
 import 'package:edukasi_pot/widgets/widgets.dart';
 
-import './screens.dart';
+import 'package:edukasi_pot/screens/screens.dart';
 
 class SubjectScreen extends StatelessWidget {
   static const routeName = '/subject';
@@ -110,7 +110,7 @@ class _Subject extends StatelessWidget {
         Container(
           child: InkWell(
             onTap: () async {
-              final auth = Provider.of<AuthNotifier>(context, listen: false);
+              final auth = Provider.of<Auth>(context, listen: false);
               auth.logout();
               Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
             },

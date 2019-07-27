@@ -1,8 +1,8 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-import './table.dart';
-import '../school.dart';
+import 'package:edukasi_pot/helpers/helpers.dart';
+import 'package:edukasi_pot/models/data/data.dart';
 
 final List<Table> tables = [School()];
 

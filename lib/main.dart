@@ -4,14 +4,14 @@ import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
 
-import 'package:edukasi_pot/states/auth.dart';
+import 'package:edukasi_pot/providers/auth.dart';
 import 'package:edukasi_pot/router.dart';
 
 void baseMain() {
   SystemChrome.setEnabledSystemUIOverlays([]);
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider<AuthNotifier>(
-      builder: (_) => AuthNotifier(),
+    ChangeNotifierProvider<Auth>(
+      builder: (_) => Auth(),
     )
   ], child: _MainApp()));
 }

@@ -3,10 +3,10 @@ import 'package:flutter/widgets.dart';
 
 import 'package:provider/provider.dart';
 
-import 'package:edukasi_pot/states/auth.dart';
+import 'package:edukasi_pot/providers/auth.dart';
 import 'package:edukasi_pot/widgets/widgets.dart';
 
-import './screens.dart';
+import 'package:edukasi_pot/screens/screens.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
@@ -32,14 +32,17 @@ class _LoginScreenState extends State<LoginScreen> {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value))
+    if (value == '')
+      return 'Email must not be empty';
+    else if (!regex.hasMatch(value))
       return 'Enter Valid Email';
-    else
-      return null;
+    return null;
   }
 
   String _validatePassword(String value) {
-    // TODO: Implement
+    if (value == '')
+      return 'Passowrd must not be empty';
+    // TODO: Implement password validation
     return null;
   }
 
@@ -51,21 +54,20 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _handleLogin(BuildContext context) async {
-    bool _isAuth;
     final FormState form = _formKey.currentState;
-    final auth = Provider.of<AuthNotifier>(context, listen: false);
+    final authProv = Provider.of<Auth>(context);
     if (form.validate()) {
       form.save();
       setState(() {
         _isLoading = true;
       });
       try {
-        _isAuth = await auth.login(_email, _password);
+        await authProv.login(_email, _password);
       } catch (e) {
-        _isAuth = false;
+        // TODO: Error Handling.
       }
-      if (_isAuth) {
-        Navigator.of(context).pushReplacementNamed(SubjectScreen.routeName);
+      if (await authProv.isUserAuth) {
+        Navigator.of(context).pushReplacementNamed(SubjectListScreen.routeName);
       }
     }
     _showInSnackBar("Something's wrong!!");

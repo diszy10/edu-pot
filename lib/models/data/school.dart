@@ -1,6 +1,6 @@
 import 'package:sqflite/sqlite_api.dart';
 
-import './helpers/table.dart';
+import 'package:edukasi_pot/helpers/helpers.dart';
 
 class School extends Table {
   static const columnId = '_id';

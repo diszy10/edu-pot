@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:edukasi_pot/states/auth.dart';
+import 'package:edukasi_pot/providers/auth.dart';
 import 'package:edukasi_pot/widgets/builder.dart';
 
-import './screens.dart';
+import 'package:edukasi_pot/screens/screens.dart';
 
 class AuthScreen extends StatefulWidget {
   static const routeName = '/';
@@ -20,8 +20,8 @@ class _AuthScreenState extends State<AuthScreen> {
   void initState() {
     super.initState();
     // Future delayed so context is accessible.
-    _isAuth = Future.delayed(Duration(milliseconds: 1000), () {
-      return Provider.of<AuthNotifier>(context).isUserAuth;
+    _isAuth = Future.delayed(Duration(milliseconds: 450), () {
+      return Provider.of<Auth>(context).isUserAuth;
     });
   }
 
@@ -29,7 +29,7 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return AnimatedFutureBuilder(
     // TODO: Autologin (to server) operation here,
-    duration: Duration(milliseconds: 550),
+    duration: Duration(milliseconds: 450),
     future: _isAuth,
     builder: (context, authSnapshot) {
       switch (authSnapshot.connectionState) {
@@ -40,7 +40,7 @@ class _AuthScreenState extends State<AuthScreen> {
         case ConnectionState.done:
           // If result is true, then user is authenticated
           if (authSnapshot.data) {
-            return SubjectScreen();
+            return SubjectListScreen();
           }
           break;
         default:

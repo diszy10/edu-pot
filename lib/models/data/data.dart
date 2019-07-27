@@ -1,0 +1,1 @@
+export 'package:edukasi_pot/models/data/school.dart';
