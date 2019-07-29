@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:edukasi_pot/providers/providers.dart';
 import 'package:flutter/material.dart';
 
 import 'package:edukasi_pot/helpers/helpers.dart';
@@ -18,7 +19,8 @@ class AuthProvider with AuthService, UserToken, ChangeNotifier {
   }
 
   Future<void> logout() async {
-    delToken();
+    await SubjectListProvider().onLogout();
+    await delToken();
     notifyListeners();
   }
 }

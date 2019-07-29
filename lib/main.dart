@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:edukasi_pot/config/config.dart';
-import 'package:edukasi_pot/providers/auth.dart';
+import 'package:edukasi_pot/providers/providers.dart';
 import 'package:edukasi_pot/router.dart';
 
 void baseMain() {
@@ -12,6 +12,9 @@ void baseMain() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider<AuthProvider>(
       builder: (context) => AuthProvider(),
+    ),
+    ChangeNotifierProvider<SubjectListProvider>(
+      builder: (context) => SubjectListProvider(),
     )
   ], child: _MainApp()));
 }

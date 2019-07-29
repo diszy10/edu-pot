@@ -1,4 +1,5 @@
 import 'package:edukasi_pot/models/data/data.dart';
+import 'package:intl/intl.dart';
 
 class Subject {
   final int id;
@@ -16,7 +17,12 @@ class Subject {
       this.startTime,
       this.endTime});
 
-
+  @override
+  String toString() {
+    String startTimeStr = DateFormat('HH:mm').format(startTime).toString();
+    String endTimeStr = DateFormat('HH:mm').format(endTime).toString();
+    return '$klass - $name  $startTimeStr ~ $endTimeStr';
+  }
   // Serialization
   static const keyIdServer = 'id';
   static const keyName = 'name';
@@ -39,7 +45,7 @@ class Subject {
 
   factory Subject.fromData(Map<String, dynamic> data) {
     var dataStart = data[SubjectData.colStartTime];
-    var dataEnd = data[SubjectData.colStartTime];
+    var dataEnd = data[SubjectData.colEndTime];
 
     return Subject(
       id: data[SubjectData.colId] as int,
@@ -53,7 +59,6 @@ class Subject {
 
   Map<String, dynamic> toData() {
     return <String, dynamic>{
-      SubjectData.colId: this.id,
       SubjectData.colIdServer: this.idServer,
       SubjectData.colName: this.name,
       SubjectData.colKlass: this.klass,

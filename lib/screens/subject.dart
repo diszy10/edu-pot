@@ -110,8 +110,8 @@ class _Subject extends StatelessWidget {
         Container(
           child: InkWell(
             onTap: () async {
-              final auth = Provider.of<AuthProvider>(context, listen: false);
-              auth.logout();
+              final authProv = Provider.of<AuthProvider>(context, listen: false);
+              authProv.logout();
             },
             child: Text('Log out',
                 style: TextStyle(

@@ -18,12 +18,12 @@ class SubjectData implements Table {
   void onCreate(Batch batch, int version) {
     batch.execute('''CREATE TABLE IF NOT EXISTS $tableName(
       $colId INTEGER PRIMARY KEY,
-      $colIdServer INTEGER NOT NULL UNIQUE,
+      $colIdServer INT NOT NULL UNIQUE ON CONFLICT REPLACE,
       $colName TEXT NOT NULL,
       $colKlass TEXT NOT NULL,
       $colStartTime TEXT NOT NULL,
-      $colEndTime TEXT NOT NULL,
-    )''');
+      $colEndTime TEXT NOT NULL
+    );''');
   }
 
   @override
