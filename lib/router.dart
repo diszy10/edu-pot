@@ -1,3 +1,4 @@
+import 'package:edukasi_pot/screens/attendance.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -24,6 +25,8 @@ class AppRouter {
         return _buildRoute(ModuleScreen());
       case HomeworkScreen.routeName:
         return _buildRoute(HomeworkScreen());
+      case AttendanceScreen.routeName:
+        return _buildRoute(AttendanceScreen());
       default:
         return _errorRoute(settings.name);
     }

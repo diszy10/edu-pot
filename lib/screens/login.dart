@@ -77,9 +77,11 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          AspectRatio(
-            aspectRatio: 4.0,
-            child: Image.asset('assets/graphics/edukasi-logo.png'),
+          Flexible(
+            child: AspectRatio(
+              aspectRatio: 4.0,
+              child: Image.asset('assets/graphics/edukasi-logo.png'),
+            ),
           ),
           Form(
             key: _formKey,
