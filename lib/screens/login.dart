@@ -55,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _handleLogin(BuildContext context) async {
     final FormState form = _formKey.currentState;
-    final authProv = Provider.of<Auth>(context);
+    final authProv = Provider.of<AuthProvider>(context);
     if (form.validate()) {
       form.save();
       setState(() {
@@ -64,13 +64,9 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         await authProv.login(_email, _password);
       } catch (e) {
-        // TODO: Error Handling.
-      }
-      if (await authProv.isUserAuth) {
-        Navigator.of(context).pushReplacementNamed(SubjectListScreen.routeName);
+        _showInSnackBar("Something's wrong!!");
       }
     }
-    _showInSnackBar("Something's wrong!!");
   }
 
   @override

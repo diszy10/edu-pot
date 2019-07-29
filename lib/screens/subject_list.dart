@@ -12,7 +12,9 @@ class _SubjectListScreenState extends State<SubjectListScreen> {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[Text('TEST')],
+        children: <Widget>[
+          Text('TEST'),
+        ],
       ),
     );
   }

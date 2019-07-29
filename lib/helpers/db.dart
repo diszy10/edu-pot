@@ -1,10 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-import 'package:edukasi_pot/helpers/helpers.dart';
 import 'package:edukasi_pot/models/data/data.dart';
-
-final List<Table> tables = [School()];
 
 class AppDatabase {
   static final AppDatabase _instance = AppDatabase._internal();
@@ -47,17 +44,13 @@ class AppDatabase {
 
   void _onCreate(Database db, int version) async {
     var batch = db.batch();
-    for (var table in tables) {
-      table.onCreate(batch, version);
-    }
+    SubjectData().onCreate(batch, version);
     await batch.commit(noResult: true);
   }
 
   void _onUpgrade(Database db, int oldVersion, int newVersion) async {
     var batch = db.batch();
-    for (var table in tables) {
-      table.onUpgrade(batch, oldVersion, newVersion);
-    }
+    SubjectData().onUpgrade(batch, oldVersion, newVersion);
     await batch.commit(noResult: true);
   }
 }

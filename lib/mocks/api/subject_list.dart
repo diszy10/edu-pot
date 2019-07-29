@@ -3,12 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 
-var _users = [
-  {'email': 'teacher1@edukasi.com', 'password': '12345', 'token': 'teacher1'},
-  {'email': 'teacher2@edukasi.com', 'password': '12345', 'token': 'teacher2'}
-];
-
-Future<ResponseBody> login(RequestOptions options) async {
+Future<ResponseBody> subjectList(RequestOptions options) async {
   String text;
   int statusCode;
   bool isAuth = false;
@@ -17,21 +12,13 @@ Future<ResponseBody> login(RequestOptions options) async {
   String email = data['email'];
   String password = data['password'];
 
-  for (var user in _users) {
-    if (email == user['email'] && password == user['password']) {
-      statusCode = 200;
-      text = jsonEncode({'token': user['token']});
-      isAuth = true;
-    }
-  }
-
   if (!isAuth) {
     statusCode = 401;
     text = jsonEncode({'message': 'Wrong Credential'});
   }
 
   // Simulate latency
-  Future.delayed(Duration(seconds: 1));
+  Future.delayed(Duration(seconds: 2));
 
   return ResponseBody.fromString(text, statusCode,
       headers: DioHttpHeaders.fromMap({

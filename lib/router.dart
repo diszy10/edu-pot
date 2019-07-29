@@ -1,7 +1,9 @@
-import 'package:edukasi_pot/screens/subject_list.dart';
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
 import 'package:edukasi_pot/screens/screens.dart';
+import 'package:edukasi_pot/providers/providers.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -9,22 +11,26 @@ class AppRouter {
     // final args = settings.arguments;
     switch (settings.name) {
       case AuthScreen.routeName:
-        return MaterialPageRoute(builder: (_) => AuthScreen());
+        return _buildRoute(AuthScreen());
       case SplashScreen.routeName:
-        return MaterialPageRoute(builder: (_) => SplashScreen());
+        return _buildRoute(SplashScreen());
       case LoginScreen.routeName:
-        return MaterialPageRoute(builder: (_) => LoginScreen());
+        return _buildRoute(LoginScreen());
       case SubjectListScreen.routeName:
-        return MaterialPageRoute(builder: (_) => SubjectListScreen());
+        return _buildRoute(SubjectListScreen());
       case SubjectScreen.routeName:
-        return MaterialPageRoute(builder: (_) => SubjectScreen());
+        return _buildRoute(SubjectScreen());
       case ModuleScreen.routeName:
-        return MaterialPageRoute(builder: (_) => ModuleScreen());
+        return _buildRoute(ModuleScreen());
       case HomeworkScreen.routeName:
-        return MaterialPageRoute(builder: (_) => HomeworkScreen());
+        return _buildRoute(HomeworkScreen());
       default:
         return _errorRoute(settings.name);
     }
+  }
+
+  static MaterialPageRoute<dynamic> _buildRoute<T extends Widget>(T screen) {
+    return MaterialPageRoute(builder: (context) => _HigherOrderWidget(screen));
   }
 
   static Route<dynamic> _errorRoute(String name) {
@@ -38,5 +44,38 @@ class AppRouter {
         ),
       );
     });
+  }
+}
+
+/// Higher Order Widget with authenticated state.
+/// 
+/// This widget hold the authenticated state the entire applications
+/// If authenticated state change, then it will push to a new route accordingly
+class _HigherOrderWidget extends StatelessWidget {
+  final Widget _screen;
+  bool _isAuth;
+
+  _HigherOrderWidget(this._screen);
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<AuthProvider>(
+      builder: (context, value, child) {
+        if (_isAuth == null) {
+          value.isUserAuth.then((value) => _isAuth = value);
+        } else {
+          value.isUserAuth.then((value) {
+            if (_isAuth != value) {
+              if (value == false) {
+                Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+              } else if (value == true) {
+                Navigator.of(context).pushReplacementNamed(SubjectListScreen.routeName);
+              }
+            }
+          });
+        }
+        return child;
+      },
+      child: _screen);
   }
 }

@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-mixin Token {
+mixin UserToken {
   String _prefsKey = 'userToken';
 
   Future<String> getToken() async {

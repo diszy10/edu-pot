@@ -3,16 +3,13 @@ import 'package:flutter/material.dart';
 
 import 'package:edukasi_pot/helpers/helpers.dart';
 
-class Auth with Token, ChangeNotifier {
-  static const loginPath = '/login';
-  final Dio _dio = Api().dio;
-
+class AuthProvider with AuthService, UserToken, ChangeNotifier {
   Future<bool> get isUserAuth async {
     final _tok = await getToken();
     return _tok != null && _tok != '' ? true : false;
   }
 
-  Future<bool> login(String email, String password) async {
+  Future<void> login(String email, String password) async {
     String _token = await _postLogin(email, password);
     if (_token?.isNotEmpty ?? false) {
       setToken(_token);
@@ -20,15 +17,19 @@ class Auth with Token, ChangeNotifier {
     }
   }
 
-  Future<bool> logout() async {
+  Future<void> logout() async {
     delToken();
     notifyListeners();
-    return true;
   }
+}
+
+mixin AuthService {
+  static const loginPath = '/login';
+  final Dio _dio = Api().dio;
 
   Future<String> _postLogin(String email, String password) async {
-    Response response =
-        await _dio.post(loginPath, data: {'email': email, 'password': password});
+    Response response = await _dio
+        .post(loginPath, data: {'email': email, 'password': password});
     return response.data['token'];
   }
 }
