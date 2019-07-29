@@ -2,10 +2,9 @@ import 'dart:math';
 
 import 'package:edukasi_pot/providers/homework.dart';
 import 'package:edukasi_pot/providers/homeworks.dart';
+import 'package:edukasi_pot/screens/attendance.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import './screens.dart';
 
 class HomeworkScreen extends StatelessWidget {
   static const routeName = '/homeworks';
@@ -66,24 +65,27 @@ class _HeaderNav extends StatelessWidget {
               )
             ],
           ),
-          Material(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.circular(16.0),
-            child: InkWell(
-              onTap: () => Navigator.pushReplacementNamed(
-                  context, SubjectScreen.routeName),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
-                decoration: BoxDecoration(
-                  color: Color(0xFFDBE7F9),
-                  borderRadius: BorderRadius.circular(16.0),
-                ),
-                child: Text(
-                  'Continue',
-                  style: TextStyle(
-                      fontSize: 20.0,
-                      color: Color(0xFF5771AD),
-                      fontWeight: FontWeight.bold),
+          Container(
+            decoration: BoxDecoration(
+              color: Color(0xFFDBE7F9),
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () =>
+                    Navigator.pushNamed(context, AttendanceScreen.routeName),
+                borderRadius: BorderRadius.circular(16.0),
+                child: Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+                  child: Text(
+                    'Continue',
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        color: Color(0xFF5771AD),
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ),
