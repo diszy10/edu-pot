@@ -3,8 +3,13 @@ import 'package:edukasi_pot/providers/providers.dart';
 import 'package:flutter/material.dart';
 
 import 'package:edukasi_pot/helpers/helpers.dart';
+import 'package:edukasi_pot/models/db.dart';
 
 class AuthProvider with AuthService, UserToken, ChangeNotifier {
+  AppDatabase _db;
+
+  AuthProvider(this._db);
+
   Future<bool> get isUserAuth async {
     final _tok = await getToken();
     return _tok != null && _tok != '' ? true : false;
@@ -19,7 +24,7 @@ class AuthProvider with AuthService, UserToken, ChangeNotifier {
   }
 
   Future<void> logout() async {
-    await SubjectListProvider().onLogout();
+    await SubjectListProvider(_db).onLogout();
     await delToken();
     notifyListeners();
   }

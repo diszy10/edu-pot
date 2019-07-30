@@ -1,70 +1,38 @@
-import 'package:edukasi_pot/models/data/data.dart';
 import 'package:intl/intl.dart';
+import 'package:moor/src/runtime/data_class.dart';
+import 'package:moor_flutter/moor_flutter.dart';
 
-class Subject {
-  final int id;
-  final int idServer;
-  final String name;
-  final String klass;
-  final DateTime startTime;
-  final DateTime endTime;
-
-  Subject(
-      {this.id,
-      this.idServer,
-      this.name,
-      this.klass,
-      this.startTime,
-      this.endTime});
+class Subjects extends Table {
+  @override
+  IntColumn get id => integer().customConstraint('UNIQUE')();
 
   @override
-  String toString() {
-    String startTimeStr = DateFormat('HH:mm').format(startTime).toString();
-    String endTimeStr = DateFormat('HH:mm').format(endTime).toString();
-    return '$klass - $name  $startTimeStr ~ $endTimeStr';
-  }
-  // Serialization
-  static const keyIdServer = 'id';
-  static const keyName = 'name';
-  static const keyKlass = 'klass';
-  static const keyStartTime = 'startTime';
-  static const keyEndTime = 'endTime';
+  TextColumn get klass => text()();
 
-  factory Subject.fromJson(Map<String, dynamic> json) {
-    var jsonStart = json[keyStartTime];
-    var jsonEnd = json[keyEndTime];
+  @override
+  TextColumn get name => text()();
 
-    return Subject(
-      idServer: json[keyIdServer] as int,
-      name: json[keyName] as String,
-      klass: json[keyKlass] as String,
-      startTime: jsonStart == null ? null : DateTime.parse(jsonStart as String),
-      endTime: jsonEnd == null ? null : DateTime.parse(jsonEnd as String),
-    );
-  }
+  @override
+  DateTimeColumn get startTime => dateTime()();
 
-  factory Subject.fromData(Map<String, dynamic> data) {
-    var dataStart = data[SubjectData.colStartTime];
-    var dataEnd = data[SubjectData.colEndTime];
-
-    return Subject(
-      id: data[SubjectData.colId] as int,
-      idServer: data[SubjectData.colIdServer] as int,
-      name: data[SubjectData.colName] as String,
-      klass: data[SubjectData.colKlass] as String,
-      startTime: dataStart == null ? null : DateTime.parse(dataStart as String),
-      endTime: dataEnd == null ? null : DateTime.parse(dataEnd as String),
-    );
-  }
-
-  Map<String, dynamic> toData() {
-    return <String, dynamic>{
-      SubjectData.colIdServer: this.idServer,
-      SubjectData.colName: this.name,
-      SubjectData.colKlass: this.klass,
-      SubjectData.colStartTime: this.startTime?.toIso8601String(),
-      SubjectData.colEndTime: this.endTime?.toIso8601String()
-    };
-  }
+  @override
+  DateTimeColumn get endTime => dateTime()();
 }
 
+class UtcSerializer extends ValueSerializer {
+  @override
+  T fromJson<T>(json) {
+    if (T == DateTime) {
+      return DateTime.parse(json as String) as T;
+    } 
+    return json;
+  }
+
+  @override
+  toJson<T>(T value) {
+    if (T.runtimeType == DateTime) {
+      return (value as DateTime).toIso8601String();
+    }
+    return value;
+  }
+}

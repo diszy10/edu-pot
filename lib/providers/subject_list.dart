@@ -1,26 +1,28 @@
+import 'package:edukasi_pot/models/models.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sqflite/sqflite.dart';
 
 import 'package:edukasi_pot/helpers/helpers.dart';
-import 'package:edukasi_pot/models/data/data.dart';
-import 'package:edukasi_pot/models/models.dart';
+import 'package:edukasi_pot/models/db.dart';
 
 class SubjectListProvider
     with SubjectListPersist, SubjectListService, UserToken, ChangeNotifier {
   List<Subject> _subjectList = [];
+  AppDatabase _db;
+
+  SubjectListProvider(this._db);
 
   Future<List<Subject>> get subjectList async {
     List<int> ids = await _getIds();
     if (ids != null && ids.length > 0) {
-      _subjectList = await _subjectListByIds(ids);
+      _subjectList = await _db.subjectsDao.listByIds(ids);
     } else {
       List<Subject> serverList = await _getSubjects();
-      ids = await _saveSubjects(serverList);
-      await _setIds(ids);
-      _subjectList = await _subjectListByIds(ids);
+      await _db.subjectsDao.saveList(serverList);
+      await _setIds(serverList.map((sub) => sub.id).toList());
+      _subjectList = serverList;
     }
     notifyListeners();
     return _subjectList;
@@ -28,7 +30,7 @@ class SubjectListProvider
 
   Future<void> onLogout() async {
     await _delListPrefs();
-    await _deleteSubjects();
+    await _db.subjectsDao.deleteAll();
   }
 }
 
@@ -45,43 +47,11 @@ mixin SubjectListService implements UserToken {
     }));
     Response response = await _dio.get(subjectListPath);
     List maps = response.data['data'];
-    return maps.map((e) => Subject.fromJson(e)).toList();
+    return maps.map((e) => Subject.fromJson(e, serializer: UtcSerializer())).toList();
   }
 }
 
 mixin SubjectListPersist {
-  // Database
-  Future<Database> get _db => AppDatabase().db;
-
-  Future<List<Subject>> _subjectListByIds(List<int> ids) async {
-    Database db = await _db;
-
-    // Generate (?, ?, ...?) depending on ids size.
-    String idsQuery = ids.map((_)=> '?').join(', ');
-    List<Map<String, dynamic>> maps = await db.query(SubjectData.tableName,
-        where: '${SubjectData.colId} IN ($idsQuery)',
-        whereArgs: ids,
-        orderBy: '${SubjectData.colStartTime} ASC');
-    return maps.map((e) => Subject.fromData(e)).toList();
-  }
-
-  /// Save subjects and return list of saved ids.
-  Future<List<int>> _saveSubjects(List<Subject> subjects) async {
-    Database db = await _db;
-
-    Batch batch = db.batch();
-    for (var subject in subjects) {
-      batch.insert(SubjectData.tableName, subject.toData(),);
-    }
-    var results = await batch.commit();
-    return List<int>.from(results);
-  }
-
-  Future<int> _deleteSubjects() async {
-    Database db = await _db;
-    return db.delete(SubjectData.tableName, where: null);
-  }
-
   // Preference
   String _listPrefsKey = 'subjectListIds';
 
