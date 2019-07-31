@@ -6,9 +6,10 @@ import 'package:edukasi_pot/helpers/helpers.dart';
 import 'package:edukasi_pot/models/db.dart';
 
 class AuthProvider with AuthService, UserToken, ChangeNotifier {
-  AppDatabase _db;
+  final AppDatabase _db;
+  final Api _api;
 
-  AuthProvider(this._db);
+  AuthProvider(this._db, this._api);
 
   Future<bool> get isUserAuth async {
     final _tok = await getToken();
@@ -24,7 +25,8 @@ class AuthProvider with AuthService, UserToken, ChangeNotifier {
   }
 
   Future<void> logout() async {
-    await SubjectListProvider(_db).onLogout();
+    // NOTE: Need better pattern to do operations on logout.
+    await SubjectListProvider(_db, _api).onLogout();
     await delToken();
     notifyListeners();
   }
@@ -32,10 +34,10 @@ class AuthProvider with AuthService, UserToken, ChangeNotifier {
 
 mixin AuthService {
   static const loginPath = '/login';
-  final Dio _dio = Api().dio;
+  Api _api;
 
   Future<String> _postLogin(String email, String password) async {
-    Response response = await _dio
+    Response response = await _api.dio
         .post(loginPath, data: {'email': email, 'password': password});
     return response.data['token'];
   }

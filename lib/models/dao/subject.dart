@@ -11,7 +11,7 @@ class SubjectsDao extends DatabaseAccessor<AppDatabase>
   SubjectsDao(AppDatabase db) : super(db);
 
   Future<List<Subject>> listByIds(List<int> ids) async {
-    List<Variable> idsVar;
+    List<Variable> idsVar = [];
     String idsIn = ids.map((id) {
       idsVar.add(Variable.withInt(id));
       return '?';

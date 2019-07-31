@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-import 'package:moor/src/runtime/data_class.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 
 class Subjects extends Table {

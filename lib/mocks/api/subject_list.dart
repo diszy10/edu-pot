@@ -53,12 +53,10 @@ var _subjectList = {
 Future<ResponseBody> subjectList(RequestOptions options) async {
   String text;
   int statusCode;
-  bool isAuth = false;
 
   Map headers = options.headers;
   String token = headers['token'];
   if (token != null && _subjectList.containsKey(token)) {
-    isAuth = true;
     statusCode = 202;
     text = json.encode({'data': _subjectList[token]});
   } else {

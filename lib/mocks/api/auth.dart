@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 
 var _users = [
-  {'email': 'teacher1@edukasi.com', 'password': '12345', 'token': 'teacher1'},
-  {'email': 'teacher2@edukasi.com', 'password': '12345', 'token': 'teacher2'}
+  {'email': 'teach1@ed.com', 'password': '12345', 'token': 'teacher1'},
+  {'email': 'teach2@ed.com', 'password': '12345', 'token': 'teacher2'}
 ];
 
 Future<ResponseBody> login(RequestOptions options) async {

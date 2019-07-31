@@ -9,10 +9,13 @@ import 'package:edukasi_pot/models/db.dart';
 
 class SubjectListProvider
     with SubjectListPersist, SubjectListService, UserToken, ChangeNotifier {
-  List<Subject> _subjectList = [];
-  AppDatabase _db;
 
-  SubjectListProvider(this._db);
+  final AppDatabase _db;
+  final Api _api;
+
+  SubjectListProvider(this._db, this._api);
+
+  List<Subject> _subjectList = [];
 
   Future<List<Subject>> get subjectList async {
     List<int> ids = await _getIds();
@@ -35,24 +38,24 @@ class SubjectListProvider
 }
 
 mixin SubjectListService implements UserToken {
+  Api _api;
+
   static const subjectListPath = '/subject-list';
-  final Dio _dio = Api().dio;
 
   Future<List<Subject>> _getSubjects() async {
     String token = await getToken();
-    _dio.interceptors
+    _api.dio.interceptors
         .add(InterceptorsWrapper(onRequest: (Options options) async {
       options.headers['token'] = token;
       return options;
     }));
-    Response response = await _dio.get(subjectListPath);
+    Response response = await _api.dio.get(subjectListPath);
     List maps = response.data['data'];
     return maps.map((e) => Subject.fromJson(e, serializer: UtcSerializer())).toList();
   }
 }
 
 mixin SubjectListPersist {
-  // Preference
   String _listPrefsKey = 'subjectListIds';
 
   /// Get ID server from shared preferences
@@ -73,6 +76,7 @@ mixin SubjectListPersist {
     return prefs.setStringList(_listPrefsKey, strIds);
   }
 
+  /// Delete Preference Key and Value
   Future<bool> _delListPrefs() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList(_listPrefsKey, null);
