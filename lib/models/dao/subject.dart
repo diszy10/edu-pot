@@ -1,6 +1,5 @@
 import 'package:moor_flutter/moor_flutter.dart';
 
-import 'package:edukasi_pot/models/db.dart';
 import 'package:edukasi_pot/models/models.dart';
 
 part 'subject.g.dart';

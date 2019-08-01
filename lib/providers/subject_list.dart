@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:edukasi_pot/helpers/helpers.dart';
-import 'package:edukasi_pot/models/db.dart';
+import 'package:edukasi_pot/models/models.dart';
 
 class SubjectListProvider
     with SubjectListPersist, SubjectListService, UserToken, ChangeNotifier {

@@ -1,9 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:edukasi_pot/providers/providers.dart';
 import 'package:flutter/material.dart';
 
 import 'package:edukasi_pot/helpers/helpers.dart';
-import 'package:edukasi_pot/models/db.dart';
+import 'package:edukasi_pot/models/models.dart';
 
 class AuthProvider with AuthService, UserToken, ChangeNotifier {
   final AppDatabase _db;
@@ -25,8 +24,6 @@ class AuthProvider with AuthService, UserToken, ChangeNotifier {
   }
 
   Future<void> logout() async {
-    // NOTE: Need better pattern to do operations on logout.
-    await SubjectListProvider(_db, _api).onLogout();
     await delToken();
     notifyListeners();
   }

@@ -1,9 +1,10 @@
+import 'package:edukasi_pot/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:provider/provider.dart';
 
-import 'package:edukasi_pot/models/db.dart';
+import 'package:edukasi_pot/models/models.dart';
 import 'package:edukasi_pot/providers/providers.dart';
 
 class SubjectListScreen extends StatefulWidget {
@@ -86,9 +87,14 @@ class _SubjectListView extends StatelessWidget {
             String subStr =
                 '${subj.name} ${subj.klass}  ${startTime} ~ ${endTime}';
             return Center(
-                child: Text(
-              subStr,
-              style: TextStyle(fontSize: 40),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(SubjectScreen.routeName, arguments: subj);
+                  },
+              child: Text(
+                subStr,
+                style: TextStyle(fontSize: 40),
+              ),
             ));
           },
         ),

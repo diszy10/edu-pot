@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'package:edukasi_pot/config/config.dart';
 import 'package:edukasi_pot/helpers/helpers.dart';
-import 'package:edukasi_pot/models/db.dart';
+import 'package:edukasi_pot/models/models.dart';
 import 'package:edukasi_pot/providers/providers.dart';
 import 'package:edukasi_pot/router.dart';
 

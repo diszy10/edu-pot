@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import 'package:edukasi_pot/screens/screens.dart';
+import 'package:edukasi_pot/models/models.dart';
 import 'package:edukasi_pot/providers/providers.dart';
+import 'package:edukasi_pot/screens/screens.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // Argumenst when calling with pushNamed
-    // final args = settings.arguments;
+    final args = settings.arguments;
+
     switch (settings.name) {
       case AuthScreen.routeName:
         return _buildRoute(AuthScreen());
@@ -20,7 +22,8 @@ class AppRouter {
       case SubjectListScreen.routeName:
         return _buildRoute(SubjectListScreen());
       case SubjectScreen.routeName:
-        return _buildRoute(SubjectScreen());
+        assert(args is Subject);
+        return _buildRoute(SubjectScreen(subject: args as Subject));
       case ModuleScreen.routeName:
         return _buildRoute(ModuleScreen());
       case HomeworkScreen.routeName:
@@ -51,7 +54,7 @@ class AppRouter {
 }
 
 /// Higher Order Widget with authenticated state.
-/// 
+///
 /// This widget hold the authenticated state the entire applications
 /// If authenticated state change, then it will push to a new route accordingly
 class _HigherOrderWidget extends StatelessWidget {
@@ -63,22 +66,32 @@ class _HigherOrderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(
-      builder: (context, value, child) {
-        if (_isAuth == null) {
-          value.isUserAuth.then((value) => _isAuth = value);
-        } else {
-          value.isUserAuth.then((value) {
-            if (_isAuth != value) {
-              if (value == false) {
-                Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
-              } else if (value == true) {
-                Navigator.of(context).pushReplacementNamed(SubjectListScreen.routeName);
+        builder: (context, value, child) {
+          if (_isAuth == null) {
+            value.isUserAuth.then((value) => _isAuth = value);
+          } else {
+            value.isUserAuth.then((value) {
+              if (_isAuth != value) {
+                if (value == false) {
+                  _onSuccessLogout(context);
+                } else if (value == true) {
+                  _onSuccessLogin(context);
+                }
               }
-            }
-          });
-        }
-        return child;
-      },
-      child: _screen);
+            });
+          }
+          return child;
+        },
+        child: _screen);
+  }
+
+  _onSuccessLogout(BuildContext context) {
+    Provider.of<SubjectListProvider>(context).onLogout().then((_) {
+      Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+    });
+  }
+
+  _onSuccessLogin(BuildContext context) {
+    Navigator.of(context).pushReplacementNamed(SubjectListScreen.routeName);
   }
 }
