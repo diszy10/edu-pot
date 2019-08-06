@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
-import 'package:edukasi_pot/states/auth.dart';
+import 'package:edukasi_pot/models/models.dart';
+import 'package:edukasi_pot/screens/screens.dart';
 import 'package:edukasi_pot/widgets/widgets.dart';
-
-import './screens.dart';
 
 class SubjectScreen extends StatelessWidget {
   static const routeName = '/subject';
+
+  final Subject subject;
+
+  const SubjectScreen({Subject this.subject});
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +22,15 @@ class SubjectScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              _ClassBanner(),
-              _SubjectInfo(),
-              _Subject()
+              _ClassBanner(
+                klassName: subject.klass,
+              ),
+              _SubjectInfo(
+                subjectName: subject.name,
+                startTime: subject.startTime,
+                endTime: subject.endTime,
+              ),
+              _Subject(subjectId: subject.id)
             ],
           ),
         ),
@@ -31,10 +40,12 @@ class SubjectScreen extends StatelessWidget {
 }
 
 class _Subject extends StatelessWidget {
+  final int subjectId;
+
   const _Subject({
     Key key,
+    @required int this.subjectId,
   }) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -110,11 +121,9 @@ class _Subject extends StatelessWidget {
         Container(
           child: InkWell(
             onTap: () async {
-              final auth = Provider.of<AuthNotifier>(context, listen: false);
-              auth.logout();
-              Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+              Navigator.of(context).pop();
             },
-            child: Text('Log out',
+            child: Text('Back to List',
                 style: TextStyle(
                     color: Color(0xFF53A49F),
                     fontWeight: FontWeight.bold,
@@ -129,9 +138,24 @@ class _Subject extends StatelessWidget {
 }
 
 class _SubjectInfo extends StatelessWidget {
-  const _SubjectInfo({
-    Key key,
-  }) : super(key: key);
+  final String subjectName;
+  final DateTime startTime;
+  final DateTime endTime;
+
+  const _SubjectInfo(
+      {Key key,
+      @required String this.subjectName,
+      @required DateTime this.startTime,
+      @required DateTime this.endTime})
+      : super(key: key);
+
+  String _time_info() {
+    final startHm = DateFormat.Hm().format(startTime);
+    final endHm = DateFormat.Hm().format(endTime);
+
+    final diffMin = endTime.difference(startTime).inMinutes;
+    return '$startHm ~ $endHm ($diffMin Mins)';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +165,7 @@ class _SubjectInfo extends StatelessWidget {
         children: <Widget>[
           /// Upcoming class text
           Text(
-            'UPCOMING CLASS / 10:30 (90 MINS)',
+            _time_info(),
             style: TextStyle(
               color: Color(0xFF54B9A6),
               fontSize: 24.0,
@@ -151,7 +175,7 @@ class _SubjectInfo extends StatelessWidget {
 
           /// Subject text
           GradientText(
-            text: 'Math & Logic',
+            text: subjectName,
             gradient: LinearGradient(
               colors: [
                 Color(0xFFE9FCD8),
@@ -170,9 +194,10 @@ class _SubjectInfo extends StatelessWidget {
 }
 
 class _ClassBanner extends StatelessWidget {
-  const _ClassBanner({
-    Key key,
-  }) : super(key: key);
+  final String klassName;
+
+  const _ClassBanner({Key key, @required String this.klassName})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -190,7 +215,7 @@ class _ClassBanner extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            'Class 5A',
+            klassName,
             style: TextStyle(
                 fontSize: 24.0,
                 color: Colors.white,

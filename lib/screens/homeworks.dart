@@ -1,10 +1,11 @@
 import 'dart:math';
 
-import 'package:edukasi_pot/providers/homework.dart';
-import 'package:edukasi_pot/providers/homeworks.dart';
-import 'package:edukasi_pot/screens/attendance.dart';
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
+
+import 'package:edukasi_pot/providers/providers.dart';
+import 'package:edukasi_pot/screens/screens.dart';
 
 class HomeworkScreen extends StatelessWidget {
   static const routeName = '/homeworks';

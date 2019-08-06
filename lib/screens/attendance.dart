@@ -1,8 +1,9 @@
-import 'package:edukasi_pot/providers/student.dart';
-import 'package:edukasi_pot/providers/students.dart';
-import 'package:edukasi_pot/screens/subject.dart';
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
+
+import 'package:edukasi_pot/providers/providers.dart';
+import 'package:edukasi_pot/screens/screens.dart';
 
 class AttendanceScreen extends StatelessWidget {
   static const routeName = '/attendance';

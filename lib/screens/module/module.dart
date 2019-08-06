@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:edukasi_pot/models/models.dart';
 
-import './drawer.dart';
-import './sidebar.dart';
-import './tab_view.dart';
+import 'package:edukasi_pot/screens/module/drawer.dart';
+import 'package:edukasi_pot/screens/module/sidebar.dart';
+import 'package:edukasi_pot/screens/module/tab_view.dart';
 
 class ModuleScreen extends StatelessWidget {
   /// Subject screen that show many modules.
