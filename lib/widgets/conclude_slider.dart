@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:edukasi_pot/screens/homeworks.dart';
@@ -16,6 +17,8 @@ class _ConcludeSliderState extends State<ConcludeSlider>
   double _pacmanPosition = 0.0;
   AnimationController pacmanMovementController;
   Animation<double> pacmanAnimation;
+  Color _concudeBg = Color(0xFFEDF1F4);
+  Color _textColor = Color(0xFF858E99);
 
   @override
   void initState() {
@@ -32,15 +35,13 @@ class _ConcludeSliderState extends State<ConcludeSlider>
 
   @override
   Widget build(BuildContext context) {
-    Decoration decoration = BoxDecoration(
-      borderRadius: BorderRadius.all(Radius.circular(30.0)),
-      color: Color(0xFFEDF1F4),
-    );
-
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 24.0),
       height: screenAwareSize(55.0, context),
-      decoration: decoration,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(30.0)),
+        color: _concudeBg,
+      ),
       child: LayoutBuilder(
         builder: (context, constraints) {
           return GestureDetector(
@@ -49,8 +50,6 @@ class _ConcludeSliderState extends State<ConcludeSlider>
             child: Stack(
               alignment: Alignment.centerRight,
               children: <Widget>[
-                // AnimatedDots(),
-                // _drawDotCurtain(decoration, width: constraints.maxWidth),
                 ConstrainedBox(
                   constraints: const BoxConstraints(minWidth: double.infinity),
                   child: Container(
@@ -60,7 +59,7 @@ class _ConcludeSliderState extends State<ConcludeSlider>
                         'Conclude Class',
                         style: TextStyle(
                           fontSize: 18.0,
-                          color: Color(0xFF858E99),
+                          color: _textColor,
                         ),
                       ),
                     ),
@@ -106,9 +105,53 @@ class _ConcludeSliderState extends State<ConcludeSlider>
     return animation;
   }
 
+  void _confirmConclude() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Color(0xFF2E333D),
+          title: Text(
+            "Conclude the class?",
+            style: TextStyle(
+              fontSize: 18.0,
+              color: Color(0xFFE2E3EB),
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text(
+                "No",
+                style: TextStyle(
+                  color: Color(0xFFE2E3EB),
+                ),
+              ),
+              onPressed: () {
+                _resetPacman();
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text(
+                "Yes! Conclude",
+                style: TextStyle(
+                  color: Color(0xFFE2E3EB),
+                ),
+              ),
+              onPressed: () {
+                Navigator.pushReplacementNamed(
+                    context, HomeworkScreen.routeName);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   _onPacmanSubmited() {
     //temporary:
-    Future.delayed(Duration(milliseconds: 500), () => Navigator.pushReplacementNamed(context, HomeworkScreen.routeName));
+    Future.delayed(Duration(milliseconds: 500), () => _confirmConclude());
   }
 
   _onPacmanDrag(double width, DragUpdateDetails details) {
@@ -133,10 +176,20 @@ class _ConcludeSliderState extends State<ConcludeSlider>
   _animatePacmanToEnd({double width}) {
     pacmanMovementController.forward(
         from: _pacmanPosition / _pacmanMaxPosition(width));
+    Timer(const Duration(milliseconds: 300), () {
+      setState(() {
+              _concudeBg = Color(0xFF769ced);
+      _textColor = Colors.white;
+      });
+    });
   }
 
   _resetPacman() {
-    setState(() => _pacmanPosition = _pacmanMinPosition());
+    setState(() {
+      _pacmanPosition = _pacmanMinPosition();
+      _concudeBg = Color(0xFFEDF1F4);
+      _textColor = Color(0xFF858E99);
+    });
   }
 
   double _pacmanMinPosition() =>

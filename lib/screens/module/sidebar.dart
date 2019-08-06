@@ -7,18 +7,21 @@ class SideBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        decoration: BoxDecoration(
-          color: Color(0xFFFBFCFD),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey[300],
-              blurRadius: 2.0,
-              offset: Offset(-3.0, 4.0),
-            )
-          ],
-        ),
-        child: _SidebarContent());
+    return GestureDetector(
+      onTap: () => Scaffold.of(context).openDrawer(),
+      child: Container(
+          decoration: BoxDecoration(
+            color: Color(0xFFFBFCFD),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey[300],
+                blurRadius: 2.0,
+                offset: Offset(-3.0, 4.0),
+              )
+            ],
+          ),
+          child: _SidebarContent()),
+    );
   }
 }
 

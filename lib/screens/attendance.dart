@@ -69,7 +69,7 @@ class _HeaderNav extends StatelessWidget {
               Text(
                 'Student Attendance',
                 style: TextStyle(
-                  fontSize: 40.0,
+                  fontSize: 32.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -77,7 +77,7 @@ class _HeaderNav extends StatelessWidget {
               Text(
                 'Who missed class today?',
                 style: TextStyle(
-                  fontSize: 20.0,
+                  fontSize: 16.0,
                   color: Color(0xFFA29C9D),
                 ),
               )
@@ -91,18 +91,19 @@ class _HeaderNav extends StatelessWidget {
             child: Material(
               color: Colors.transparent,
               child: InkWell(
-                onTap: () => Navigator.pushReplacementNamed(
-                    context, SubjectScreen.routeName),
+                onTap: () => Navigator.pushNamed(
+                    context, NoteScreen.routeName),
                 borderRadius: BorderRadius.circular(16.0),
                 child: Container(
                   padding:
-                      EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+                      EdgeInsets.symmetric(horizontal: 32.0, vertical: 12.0),
                   child: Text(
                     'Continue',
                     style: TextStyle(
-                        fontSize: 20.0,
-                        color: Color(0xFF5771AD),
-                        fontWeight: FontWeight.bold),
+                      fontSize: 16.0,
+                      color: Color(0xFF5771AD),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -123,7 +124,6 @@ class _StudentList extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 50.0),
         child: GridView.builder(
-          physics: NeverScrollableScrollPhysics(),
           itemCount: students.length,
           itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
             value: students[i],
@@ -147,22 +147,21 @@ class _StudentItem extends StatelessWidget {
     final student = Provider.of<Student>(context);
 
     return Container(
-      // color: Colors.grey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
             width: 120.0,
             height: 120.0,
-            child: InkWell(
-              onTap: () {},
-              child: AspectRatio(
-                aspectRatio: 12 / 6,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(32.0),
-                    image: DecorationImage(
-                        fit: BoxFit.cover, image: NetworkImage(student.image)),
+            child: AspectRatio(
+              aspectRatio: 12 / 6,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white, width: 5.0),
+                  borderRadius: BorderRadius.circular(32.0),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(student.image),
                   ),
                 ),
               ),
@@ -172,8 +171,8 @@ class _StudentItem extends StatelessWidget {
           Text(
             student.name,
             style: TextStyle(
+              fontSize: 16.0,
               color: Colors.black,
-              fontSize: 18.0,
             ),
           )
         ],

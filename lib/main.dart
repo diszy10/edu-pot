@@ -14,6 +14,11 @@ void baseMain() {
   AppDatabase _db = AppDatabase();
   Api _api = Api();
 
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+  ]);
+
   SystemChrome.setEnabledSystemUIOverlays([]);
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider<AuthProvider>(

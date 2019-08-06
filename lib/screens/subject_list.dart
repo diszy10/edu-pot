@@ -35,22 +35,56 @@ class _SubjectListScreenState extends State<SubjectListScreen> {
     );
 
     return Scaffold(
-        body: FutureBuilder(
-            future: _listFuture,
-            builder: (context, listSnapshot) {
-              _subjectList = listSnapshot.data;
-              switch (listSnapshot.connectionState) {
-                case ConnectionState.waiting:
-                  return Center(child: CircularProgressIndicator());
-                case ConnectionState.done:
-                  if (listSnapshot.hasError) {
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Welcome back,',
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 24.0,
+              ),
+            ),
+            SizedBox(height: 32.0),
+            FutureBuilder(
+              future: _listFuture,
+              builder: (context, snapshot) {
+                _subjectList = snapshot.data;
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return Center(child: CircularProgressIndicator());
+                  case ConnectionState.done:
+                    if (snapshot.hasError) {
+                      return error;
+                    }
+                    return _SubjectListView(subjectList: snapshot.data);
+                  default:
                     return error;
-                  }
-                  return _SubjectListView(subjectList: _subjectList);
-                default:
-                  return error;
-              }
-            }));
+                }
+              },
+            ),
+            SizedBox(height: 32.0),
+            InkWell(
+              onTap: () async {
+                final authProv =
+                    Provider.of<AuthProvider>(context, listen: false);
+                await authProv.logout();
+              },
+              child: Text(
+                'Log out',
+                style: TextStyle(
+                  color: Colors.black,
+                  // fontWeight: FontWeight.bold,
+                  fontSize: 16.0,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -70,49 +104,48 @@ class _SubjectListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        SizedBox(
-          height: 20,
-        ),
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: _subjectList.length,
-          itemBuilder: (BuildContext context, int index) {
-            Subject subj = _subjectList[index];
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: _subjectList.length,
+      itemBuilder: (BuildContext context, int index) {
+        Subject subj = _subjectList[index];
 
-            String startTime = _formatTime(subj.startTime);
-            String endTime = _formatTime(subj.endTime);
-            String subStr =
-                '${subj.name} ${subj.klass}  ${startTime} ~ ${endTime}';
-            return Center(
-                child: InkWell(
-                  onTap: () {
-                    Navigator.of(context).pushNamed(SubjectScreen.routeName, arguments: subj);
-                  },
-              child: Text(
-                subStr,
-                style: TextStyle(fontSize: 40),
+        String startTime = _formatTime(subj.startTime);
+        String endTime = _formatTime(subj.endTime);
+        String subStr = '${subj.name} ${subj.klass}  ${startTime} ~ ${endTime}';
+        return Container(
+          padding: EdgeInsets.all(8.0),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context)
+                    .pushNamed(SubjectScreen.routeName, arguments: subj);
+              },
+              child: Container(
+                padding: EdgeInsets.all(8.0),
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      subj.name,
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      subj.klass,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ));
-          },
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        InkWell(
-          onTap: () async {
-            final authProv = Provider.of<AuthProvider>(context, listen: false);
-            await authProv.logout();
-          },
-          child: Text('Log out',
-              style: TextStyle(
-                  color: Color(0xFF53A49F),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 32.0)),
-        ),
-      ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

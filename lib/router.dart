@@ -30,6 +30,8 @@ class AppRouter {
         return _buildRoute(HomeworkScreen());
       case AttendanceScreen.routeName:
         return _buildRoute(AttendanceScreen());
+      case NoteScreen.routeName:
+        return _buildRoute(NoteScreen());
       default:
         return _errorRoute(settings.name);
     }

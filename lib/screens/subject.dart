@@ -10,7 +10,7 @@ class SubjectScreen extends StatelessWidget {
 
   final Subject subject;
 
-  const SubjectScreen({Subject this.subject});
+  const SubjectScreen({this.subject});
 
   @override
   Widget build(BuildContext context) {
@@ -42,18 +42,15 @@ class SubjectScreen extends StatelessWidget {
 class _Subject extends StatelessWidget {
   final int subjectId;
 
-  const _Subject({
-    Key key,
-    @required int this.subjectId,
-  }) : super(key: key);
+  const _Subject({@required this.subjectId});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        /// Login button
+        /// Continue
         Container(
-          width: 420.0,
+          width: 300.0,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16.0),
@@ -70,68 +67,69 @@ class _Subject extends StatelessWidget {
             child: InkWell(
               onTap: () => Navigator.pushNamed(context, ModuleScreen.routeName),
               borderRadius: BorderRadius.circular(16.0),
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    width: 80.0,
-                    height: 80.0,
-                    margin:
-                        EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(
-                            'https://image.shutterstock.com/image-photo/headshot-portrait-happy-ginger-girl-260nw-623804987.jpg'),
-                      ),
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Center(
+                  child: Text(
+                    'Continue',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text('Natalia Napitupulu',
-                          style: TextStyle(
-                            color: Color(0xFF2C3235),
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.bold,
-                          )),
-                      SizedBox(
-                        height: 8.0,
-                      ),
-                      Center(
-                        child: Text(
-                          'Continue',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Color(0xFF9AA8AE),
-                            // fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
             ),
           ),
         ),
-        SizedBox(height: 50.0),
-
-        /// Logout
-        Container(
-          child: InkWell(
-            onTap: () async {
-              Navigator.of(context).pop();
-            },
-            child: Text('Back to List',
-                style: TextStyle(
-                    color: Color(0xFF53A49F),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18.0)),
+        SizedBox(
+          height: 50.0,
+          child: Center(
+            child: Text(
+              'or',
+              style: TextStyle(
+                color: Color(0xFF54B9A6),
+              ),
+            ),
           ),
         ),
-        SizedBox(height: 50.0),
-        SizedBox(height: 100.0),
+        // Choose schedules
+        Container(
+          width: 300.0,
+          decoration: BoxDecoration(
+            color: Color(0xFFDBE7F9),
+            borderRadius: BorderRadius.circular(16.0),
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                  color: Colors.black26,
+                  offset: Offset(9.0, 8.0),
+                  blurRadius: 16.0,
+                  spreadRadius: 4.0),
+            ],
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () => showCustomModalBottomSheet(
+                  context: context, builder: (context) => ScheduleModal()),
+              borderRadius: BorderRadius.circular(16.0),
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Center(
+                  child: Text(
+                    'Choose Schedules',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Color(0xFF5771AD),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 50.0)
       ],
     );
   }
@@ -222,6 +220,25 @@ class _ClassBanner extends StatelessWidget {
                 fontWeight: FontWeight.bold),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ScheduleModal extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Color(0xFF737373),
+      height: MediaQuery.of(context).size.height * 8 / 9.5,
+      child: Container(
+        decoration: BoxDecoration(
+            color: Theme.of(context).canvasColor,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10.0),
+              topRight: Radius.circular(10.0),
+            )),
+        child: Text('List'),
       ),
     );
   }
