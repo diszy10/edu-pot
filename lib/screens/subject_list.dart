@@ -1,4 +1,3 @@
-import 'package:edukasi_pot/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -6,25 +5,21 @@ import 'package:provider/provider.dart';
 
 import 'package:edukasi_pot/models/models.dart';
 import 'package:edukasi_pot/providers/providers.dart';
+import 'package:edukasi_pot/screens/screens.dart';
+import 'package:edukasi_pot/widgets/route_argument.dart';
 
 class SubjectListScreen extends StatefulWidget {
   static const routeName = '/subject-list';
+
+  final List<Subject> subjectList;
+
+  const SubjectListScreen({this.subjectList});
+
   @override
   _SubjectListScreenState createState() => _SubjectListScreenState();
 }
 
 class _SubjectListScreenState extends State<SubjectListScreen> {
-  Future<List<Subject>> _listFuture;
-  List<Subject> _subjectList;
-
-  @override
-  void initState() {
-    super.initState();
-    _listFuture = Future.delayed(Duration.zero, () {
-      return Provider.of<SubjectListProvider>(context).subjectList;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     Widget error = Center(
@@ -48,36 +43,44 @@ class _SubjectListScreenState extends State<SubjectListScreen> {
               ),
             ),
             SizedBox(height: 32.0),
-            FutureBuilder(
-              future: _listFuture,
-              builder: (context, snapshot) {
-                _subjectList = snapshot.data;
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return Center(child: CircularProgressIndicator());
-                  case ConnectionState.done:
-                    if (snapshot.hasError) {
-                      return error;
-                    }
-                    return _SubjectListView(subjectList: snapshot.data);
-                  default:
-                    return error;
-                }
-              },
-            ),
+            Container(
+                height: 224.0,
+                child: _SubjectListView(subjectList: widget.subjectList)),
             SizedBox(height: 32.0),
-            InkWell(
-              onTap: () async {
-                final authProv =
-                    Provider.of<AuthProvider>(context, listen: false);
-                await authProv.logout();
-              },
-              child: Text(
-                'Log out',
-                style: TextStyle(
-                  color: Colors.black,
-                  // fontWeight: FontWeight.bold,
-                  fontSize: 16.0,
+            Container(
+              width: 300.0,
+              decoration: BoxDecoration(
+                color: Colors.redAccent,
+                borderRadius: BorderRadius.circular(16.0),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(9.0, 8.0),
+                      blurRadius: 16.0,
+                      spreadRadius: 4.0),
+                ],
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () async {
+                    final authProv =
+                        Provider.of<AuthProvider>(context, listen: false);
+                    await authProv.logout();
+                  },
+                  borderRadius: BorderRadius.circular(16.0),
+                  child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Center(
+                      child: Text(
+                        'Log Out',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -92,10 +95,10 @@ class _SubjectListView extends StatelessWidget {
   const _SubjectListView({
     Key key,
     @required List<Subject> subjectList,
-  })  : _subjectList = subjectList,
+  })  : subjectList = subjectList,
         super(key: key);
 
-  final List<Subject> _subjectList;
+  final List<Subject> subjectList;
 
   String _formatTime(DateTime dT) {
     final _local = dT.toLocal();
@@ -106,37 +109,49 @@ class _SubjectListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: _subjectList.length,
+      itemCount: subjectList.length,
       itemBuilder: (BuildContext context, int index) {
-        Subject subj = _subjectList[index];
+        var subj = subjectList[index];
+        var nameTag = '${subj.id}:${subj.name}';
+        var klassTag = '${subj.id}:${subj.klass}';
 
-        String startTime = _formatTime(subj.startTime);
-        String endTime = _formatTime(subj.endTime);
-        String subStr = '${subj.name} ${subj.klass}  ${startTime} ~ ${endTime}';
         return Container(
           padding: EdgeInsets.all(8.0),
           child: Material(
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
-                Navigator.of(context)
-                    .pushNamed(SubjectScreen.routeName, arguments: subj);
+                Navigator.of(context).pushNamed(SubjectScreen.routeName,
+                    arguments: RouteArgument(
+                        from: SubjectListScreen.routeName, obj: subj));
               },
               child: Container(
                 padding: EdgeInsets.all(8.0),
                 child: Column(
                   children: <Widget>[
-                    Text(
-                      subj.name,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
+                    Hero(
+                      tag: nameTag,
+                      child: Material(
+                        color: Colors.transparent,
+                        child: Text(
+                          subj.name,
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
-                    Text(
-                      subj.klass,
-                      style: TextStyle(
-                        fontSize: 16.0,
+                    Hero(
+                      tag: klassTag,
+                      child: Material(
+                        color: Colors.transparent,
+                        child: Text(
+                          subj.klass,
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
                       ),
                     ),
                   ],

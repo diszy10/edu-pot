@@ -1,4 +1,3 @@
-import 'package:edukasi_pot/screens/attendance.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -6,11 +5,13 @@ import 'package:provider/provider.dart';
 import 'package:edukasi_pot/models/models.dart';
 import 'package:edukasi_pot/providers/providers.dart';
 import 'package:edukasi_pot/screens/screens.dart';
+import 'package:edukasi_pot/widgets/widgets.dart';
+
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // Argumenst when calling with pushNamed
-    final args = settings.arguments;
+    var args = settings.arguments as RouteArgument;
 
     switch (settings.name) {
       case AuthScreen.routeName:
@@ -20,10 +21,21 @@ class AppRouter {
       case LoginScreen.routeName:
         return _buildRoute(LoginScreen());
       case SubjectListScreen.routeName:
-        return _buildRoute(SubjectListScreen());
+        assert(args.obj is List<Subject>);
+
+        var screen = SubjectListScreen(subjectList: args.obj as List<Subject>);
+        if (args.from == SubjectScreen.routeName) {
+          return FadePageRoute(widget: _HigherOrderWidget(screen));
+        }
+        return _buildRoute(screen);
       case SubjectScreen.routeName:
-        assert(args is Subject);
-        return _buildRoute(SubjectScreen(subject: args as Subject));
+        assert(args.obj is Subject);
+
+        var screen = SubjectScreen(subject: args.obj as Subject);
+        if (args.from == SubjectListScreen.routeName) {
+          return FadePageRoute(widget: _HigherOrderWidget(screen));
+        }
+        return _buildRoute(screen);
       case ModuleScreen.routeName:
         return _buildRoute(ModuleScreen());
       case HomeworkScreen.routeName:
@@ -87,13 +99,19 @@ class _HigherOrderWidget extends StatelessWidget {
         child: _screen);
   }
 
-  _onSuccessLogout(BuildContext context) {
-    Provider.of<SubjectListProvider>(context).onLogout().then((_) {
-      Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
-    });
+  _onSuccessLogout(BuildContext context) async {
+    await Provider.of<SubjectProvider>(context).onLogout();
+    Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
   }
 
-  _onSuccessLogin(BuildContext context) {
-    Navigator.of(context).pushReplacementNamed(SubjectListScreen.routeName);
+  _onSuccessLogin(BuildContext context) async {
+    var _subProv = Provider.of<SubjectProvider>(context, listen: false);
+    var _subject = await _subProv.subjectInSession;
+    if (_subject == null) {
+      var _list = await _subProv.subjectList;
+      Navigator.of(context).pushReplacementNamed(SubjectListScreen.routeName, arguments: RouteArgument(obj: _list));
+    } else {
+      Navigator.of(context).pushReplacementNamed(SubjectScreen.routeName, arguments: RouteArgument(obj: _subject));
+    }
   }
 }

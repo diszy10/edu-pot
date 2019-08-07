@@ -1,4 +1,3 @@
-import 'package:edukasi_pot/models/models.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dio/dio.dart';
@@ -7,13 +6,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:edukasi_pot/helpers/helpers.dart';
 import 'package:edukasi_pot/models/models.dart';
 
-class SubjectListProvider
+class SubjectProvider
     with SubjectListPersist, SubjectListService, UserToken, ChangeNotifier {
 
   final AppDatabase _db;
   final Api _api;
 
-  SubjectListProvider(this._db, this._api);
+  SubjectProvider(this._db, this._api);
 
   List<Subject> _subjectList = [];
 
@@ -29,6 +28,22 @@ class SubjectListProvider
     }
     notifyListeners();
     return _subjectList;
+  }
+
+  Future<Subject> get subjectInSession async {
+    var _list = await subjectList;
+    // var now = DateTime.now();
+    var now = DateTime.parse('2019-07-30T08:25:00Z').toLocal(); // For Testing;
+    Subject _subject;
+
+    for (var sub in _list) {
+      if (sub.startTime.isBefore(now) && sub.endTime.isAfter(now)) {
+        _subject = sub;
+        break;
+      }
+    }
+
+    return _subject;
   }
 
   Future<void> onLogout() async {

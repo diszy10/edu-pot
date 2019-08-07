@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import 'package:edukasi_pot/models/models.dart';
+import 'package:edukasi_pot/providers/providers.dart';
 import 'package:edukasi_pot/screens/screens.dart';
 import 'package:edukasi_pot/widgets/widgets.dart';
 
@@ -23,9 +25,11 @@ class SubjectScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               _ClassBanner(
+                subjectId: subject.id,
                 klassName: subject.klass,
               ),
               _SubjectInfo(
+                subjectId: subject.id,
                 subjectName: subject.name,
                 startTime: subject.startTime,
                 endTime: subject.endTime,
@@ -110,8 +114,15 @@ class _Subject extends StatelessWidget {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () => showCustomModalBottomSheet(
-                  context: context, builder: (context) => ScheduleModal()),
+              onTap: () async {
+                var _list =
+                    await Provider.of<SubjectProvider>(context, listen: false)
+                        .subjectList;
+                Navigator.of(context).pushReplacementNamed(
+                    SubjectListScreen.routeName,
+                    arguments: RouteArgument(
+                        from: SubjectScreen.routeName, obj: _list));
+              },
               borderRadius: BorderRadius.circular(16.0),
               child: Padding(
                 padding: EdgeInsets.all(16.0),
@@ -136,16 +147,21 @@ class _Subject extends StatelessWidget {
 }
 
 class _SubjectInfo extends StatelessWidget {
+  final int subjectId;
   final String subjectName;
   final DateTime startTime;
   final DateTime endTime;
 
+  final String nameTag;
+
   const _SubjectInfo(
       {Key key,
+      @required int this.subjectId,
       @required String this.subjectName,
       @required DateTime this.startTime,
       @required DateTime this.endTime})
-      : super(key: key);
+      : nameTag = '$subjectId:$subjectName',
+        super(key: key);
 
   String _time_info() {
     final startHm = DateFormat.Hm().format(startTime);
@@ -172,19 +188,24 @@ class _SubjectInfo extends StatelessWidget {
           SizedBox(height: 24.0),
 
           /// Subject text
-          GradientText(
-            text: subjectName,
-            gradient: LinearGradient(
-              colors: [
-                Color(0xFFE9FCD8),
-                Color(0xFFC6EDF8),
-              ],
-            ),
-            style: TextStyle(
-                color: Color(0xFFE9FCD9),
-                fontSize: 90.0,
-                fontWeight: FontWeight.bold),
-          )
+          Hero(
+              tag: nameTag,
+              child: Material(
+                color: Colors.transparent,
+                child: GradientText(
+                  text: subjectName,
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xFFE9FCD8),
+                      Color(0xFFC6EDF8),
+                    ],
+                  ),
+                  style: TextStyle(
+                      color: Color(0xFFE9FCD9),
+                      fontSize: 90.0,
+                      fontWeight: FontWeight.bold),
+                ),
+              )),
         ],
       ),
     );
@@ -192,10 +213,14 @@ class _SubjectInfo extends StatelessWidget {
 }
 
 class _ClassBanner extends StatelessWidget {
+  final int subjectId;
   final String klassName;
+  final String klassTag;
 
-  const _ClassBanner({Key key, @required String this.klassName})
-      : super(key: key);
+  const _ClassBanner(
+      {Key key, @required this.subjectId, @required String this.klassName})
+      : klassTag = '$subjectId:$klassName',
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -212,12 +237,18 @@ class _ClassBanner extends StatelessWidget {
           ),
         ),
         child: Center(
-          child: Text(
-            klassName,
-            style: TextStyle(
-                fontSize: 24.0,
-                color: Colors.white,
-                fontWeight: FontWeight.bold),
+          child: Hero(
+            tag: klassTag,
+            child: Material(
+              color: Colors.transparent,
+              child: Text(
+                klassName,
+                style: TextStyle(
+                    fontSize: 24.0,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
           ),
         ),
       ),

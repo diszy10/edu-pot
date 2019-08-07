@@ -24,8 +24,8 @@ void baseMain() {
     ChangeNotifierProvider<AuthProvider>(
       builder: (context) => AuthProvider(_db, _api),
     ),
-    ChangeNotifierProvider<SubjectListProvider>(
-      builder: (context) => SubjectListProvider(_db, _api),
+    ChangeNotifierProvider<SubjectProvider>(
+      builder: (context) => SubjectProvider(_db, _api),
     )
   ], child: _MainApp()));
 }
