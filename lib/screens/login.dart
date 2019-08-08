@@ -74,20 +74,14 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      body: ListView(
         children: <Widget>[
-          Flexible(
-            child: AspectRatio(
-              aspectRatio: 4.0,
-              child: Image.asset('assets/graphics/edukasi-logo.png'),
-            ),
-          ),
+          Image.asset('assets/graphics/edukasi-logo.png'),
           Form(
             key: _formKey,
             child: Container(
               padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width / 4),
+                  horizontal: MediaQuery.of(context).size.width / 3),
               child: Column(
                 children: <Widget>[
                   AppTextField(
@@ -102,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       FocusScope.of(context).requestFocus(_passwordFocus);
                     },
                   ),
-                  SizedBox(height: 24.0),
+                  SizedBox(height: 25.0),
                   AppPasswordField(
                     hintText: "Password",
                     focusNode: _passwordFocus,
@@ -113,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       _passwordFocus.unfocus();
                     },
                   ),
-                  SizedBox(height: 24.0),
+                  SizedBox(height: 50.0),
                   Container(
                     decoration: BoxDecoration(
                       color: Color(0xFF5B6CEC),
@@ -126,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(16.0),
                         child: Center(
                           child: Container(
-                            padding: EdgeInsets.all(16.0),
+                            padding: EdgeInsets.symmetric(vertical: 16.0),
                             child: Text(
                               'Login',
                               style: TextStyle(

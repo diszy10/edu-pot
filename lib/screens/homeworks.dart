@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:provider/provider.dart';
 
@@ -16,82 +17,74 @@ class HomeworkScreen extends StatelessWidget {
       value: Homeworks(),
       child: Scaffold(
         backgroundColor: Color(0xFFF9F6F5),
-        body: SafeArea(
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: 60.0),
-                _HeaderNav(),
-                SizedBox(height: 60.0),
-                _HomeworkList()
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _HeaderNav extends StatelessWidget {
-  const _HeaderNav({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 50.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        // crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          SizedBox(width: 150.0),
-          Column(
-            children: <Widget>[
-              Text(
-                'Homeworks',
-                style: TextStyle(
-                  fontSize: 32.0,
-                  fontWeight: FontWeight.bold,
-                ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            // Top navigation, title page
+            Container(
+              margin: EdgeInsets.symmetric(
+                vertical: MediaQuery.of(context).size.height * 0.05,
               ),
-              SizedBox(height: 10.0),
-              Text(
-                'Based on your teaching session',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: Color(0xFFA29C9D),
-                ),
-              )
-            ],
-          ),
-          Container(
-            decoration: BoxDecoration(
-              color: Color(0xFFDBE7F9),
-              borderRadius: BorderRadius.circular(16.0),
-            ),
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: () =>
-                    Navigator.pushNamed(context, AttendanceScreen.routeName),
-                borderRadius: BorderRadius.circular(16.0),
-                child: Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 32.0, vertical: 12.0),
-                  child: Text(
-                    'Continue',
-                    style: TextStyle(
-                        fontSize: 16.0,
-                        color: Color(0xFF5771AD),
-                        fontWeight: FontWeight.bold),
+              padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.05,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  SizedBox(width: 125.0),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'Homeworks',
+                          style: TextStyle(
+                            fontSize: 32.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 16.0),
+                        Text(
+                          'Based on your teaching session',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Color(0xFFA29C9D),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xFFDBE7F9),
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () => Navigator.pushNamed(
+                            context, AttendanceScreen.routeName),
+                        borderRadius: BorderRadius.circular(16.0),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 32.0, vertical: 12.0),
+                          child: Text(
+                            'Continue',
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: Color(0xFF5771AD),
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
-          )
-        ],
+            _HomeworkList()
+          ],
+        ),
       ),
     );
   }
@@ -106,7 +99,7 @@ class _HomeworkList extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 50.0),
         child: GridView.builder(
-          physics: NeverScrollableScrollPhysics(),
+          physics: BouncingScrollPhysics(),
           itemCount: homeworks.length,
           itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
             value: homeworks[i],
@@ -116,7 +109,7 @@ class _HomeworkList extends StatelessWidget {
             crossAxisCount: 3,
             childAspectRatio: 16 / 9,
             crossAxisSpacing: 25,
-            mainAxisSpacing: 25,
+            mainAxisSpacing: 10,
           ),
         ),
       ),
@@ -141,7 +134,7 @@ class _HomeworkCard extends StatelessWidget {
     final Random random = Random();
 
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16.0),
+      margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),
         color: colors[random.nextInt(6)],
@@ -161,20 +154,48 @@ class _HomeworkCard extends StatelessWidget {
             barrierDismissible: true,
             context: context,
             builder: (BuildContext context) =>
-                HomeworkModal(title: homework.title),
+                _HomeworkModal(title: homework.title),
           ),
           borderRadius: BorderRadius.circular(16.0),
           child: Container(
-            padding: EdgeInsets.all(32.0),
-            child: Center(
-              child: Text(
-                homework.title,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0),
-                textAlign: TextAlign.center,
-              ),
+            padding: EdgeInsets.all(14.0),
+            child: Stack(
+              children: <Widget>[
+                //
+                // Homework title
+                //
+                Center(
+                  child: Text(
+                    homework.title,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+
+                //
+                // Distribute indicator
+                //
+                // Align(
+                //   alignment: Alignment.bottomRight,
+                //   child: Container(
+                //     padding: EdgeInsets.all(4.0),
+                //     decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(50.0),
+                //       color: Colors.white,
+                //     ),
+                //     child: Icon(
+                //       Icons.done,
+                //       color: Colors.grey,
+                //     ),
+                //   ),
+                // )
+              ],
             ),
           ),
         ),
@@ -183,10 +204,41 @@ class _HomeworkCard extends StatelessWidget {
   }
 }
 
-class HomeworkModal extends StatelessWidget {
+class _HomeworkModal extends StatefulWidget {
   final String title;
 
-  const HomeworkModal({Key key, this.title}) : super(key: key);
+  const _HomeworkModal({Key key, this.title}) : super(key: key);
+
+  @override
+  _HomeworkModalState createState() => _HomeworkModalState();
+}
+
+class _HomeworkModalState extends State<_HomeworkModal> {
+  // DateTime selectedDate = DateTime.now();
+
+  String _selectedDate = 'Next Session';
+
+  bool isDistribute;
+
+  Future _selectDate() async {
+    final DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now().add(Duration(days: 1)),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2020),
+      builder: (BuildContext context, Widget child) {
+        return Theme(
+          data: ThemeData.dark(),
+          child: child,
+        );
+      },
+    );
+    if (picked != null) {
+      setState(() {
+        _selectedDate = DateFormat("dd MMM yyyy").format(picked).toString();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -220,11 +272,12 @@ class HomeworkModal extends StatelessWidget {
             children: <Widget>[
               Center(
                 child: Text(
-                  title,
+                  widget.title,
                   style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 18.0),
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal,
+                    fontSize: 18.0,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -239,18 +292,7 @@ class HomeworkModal extends StatelessWidget {
                     child: Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: () => showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(2018),
-                          lastDate: DateTime(2030),
-                          builder: (BuildContext context, Widget child) {
-                            return Theme(
-                              data: ThemeData.dark(),
-                              child: child,
-                            );
-                          },
-                        ),
+                        onTap: () => _selectDate(),
                         borderRadius: BorderRadius.circular(50.0),
                         child: Container(
                           padding: EdgeInsets.symmetric(
@@ -260,7 +302,7 @@ class HomeworkModal extends StatelessWidget {
                               Icon(Icons.flag, color: Colors.white),
                               SizedBox(width: 10.0),
                               Text(
-                                'Next Session',
+                                _selectedDate,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16.0,
