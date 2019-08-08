@@ -22,7 +22,7 @@ void baseMain() {
   SystemChrome.setEnabledSystemUIOverlays([]);
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider<AuthProvider>(
-      builder: (context) => AuthProvider(_db, _api),
+      builder: (context) => AuthProvider(_api),
     ),
     ChangeNotifierProvider<SubjectProvider>(
       builder: (context) => SubjectProvider(_db, _api),

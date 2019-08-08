@@ -1,19 +1,10 @@
 import 'package:moor_flutter/moor_flutter.dart';
 
 class Subjects extends Table {
-  @override
   IntColumn get id => integer().customConstraint('UNIQUE')();
-
-  @override
   TextColumn get klass => text()();
-
-  @override
   TextColumn get name => text()();
-
-  @override
   DateTimeColumn get startTime => dateTime()();
-
-  @override
   DateTimeColumn get endTime => dateTime()();
 }
 

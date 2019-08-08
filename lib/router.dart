@@ -71,11 +71,17 @@ class AppRouter {
 ///
 /// This widget hold the authenticated state the entire applications
 /// If authenticated state change, then it will push to a new route accordingly
-class _HigherOrderWidget extends StatelessWidget {
+class _HigherOrderWidget extends StatefulWidget {
   final Widget _screen;
-  bool _isAuth;
 
   _HigherOrderWidget(this._screen);
+
+  @override
+  _HigherOrderWidgetState createState() =>_HigherOrderWidgetState();
+}
+
+class _HigherOrderWidgetState extends State<_HigherOrderWidget> {
+  bool _isAuth;
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +102,7 @@ class _HigherOrderWidget extends StatelessWidget {
           }
           return child;
         },
-        child: _screen);
+        child: widget._screen);
   }
 
   _onSuccessLogout(BuildContext context) async {

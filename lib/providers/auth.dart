@@ -2,13 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import 'package:edukasi_pot/helpers/helpers.dart';
-import 'package:edukasi_pot/models/models.dart';
 
 class AuthProvider with AuthService, UserToken, ChangeNotifier {
-  final AppDatabase _db;
   final Api _api;
 
-  AuthProvider(this._db, this._api);
+  AuthProvider(this._api);
 
   Future<bool> get isUserAuth async {
     final _tok = await getToken();
