@@ -33,7 +33,7 @@ class SubjectProvider
   Future<Subject> get subjectInSession async {
     var _list = await subjectList;
     // var now = DateTime.now();
-    var now = DateTime.parse('2019-07-30T08:25:00Z').toLocal(); // For Testing;
+    var now = DateTime.parse('2019-07-30T13:25:00Z').toLocal(); // For Testing;
     Subject _subject;
 
     for (var sub in _list) {

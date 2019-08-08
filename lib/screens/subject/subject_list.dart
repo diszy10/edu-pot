@@ -1,13 +1,11 @@
-import 'package:edukasi_pot/screens/subject/subject_card.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'package:edukasi_pot/models/models.dart';
 import 'package:edukasi_pot/providers/providers.dart';
-import 'package:edukasi_pot/screens/subject/subject.dart';
-import 'package:edukasi_pot/widgets/route_argument.dart';
+import 'package:edukasi_pot/screens/subject/subject_card.dart';
 
 class SubjectListScreen extends StatefulWidget {
   static const routeName = '/subject-list';
@@ -21,61 +19,49 @@ class SubjectListScreen extends StatefulWidget {
 }
 
 class _SubjectListScreenState extends State<SubjectListScreen> {
+  Subject subject;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      _subjectInSession(context);
+    });
+  }
+
+  Future<void> _subjectInSession(BuildContext context) async {
+    var _subject = await Provider.of<SubjectProvider>(context).subjectInSession;
+
+    setState(() {
+      subject = _subject;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFF9F6F5),
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.only(
-              top: 84.0, left: 88.0, right: 96.0, bottom: 72.0),
+              top: 144.0, left: 88.0, right: 96.0, bottom: 216.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(height: 12.0),
               Center(
-                child: Text('This is your schedules today',
-                    style: TextStyle(color: Colors.black, fontSize: 42.0)),
+                child: Text('Your Schedules Today',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 40.0,
+                        fontWeight: FontWeight.w400)),
               ),
-              SizedBox(height: 42.0),
+              SizedBox(height: 46.0),
+              // TODO (Pradisz): Save scroll position
               Expanded(
-                child: _SubjectListView(subjectList: widget.subjectList),
-              ),
-              Container(
-                width: 320.0,
-                margin: EdgeInsets.only(left: 350.0, top: 64.0, bottom: 18.0),
-                decoration: BoxDecoration(
-                  color: Colors.redAccent,
-                  borderRadius: BorderRadius.circular(16.0),
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                        color: Colors.black12,
-                        offset: Offset(9.0, 8.0),
-                        blurRadius: 16.0,
-                        spreadRadius: 4.0),
-                  ],
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () async {
-                      final authProv =
-                          Provider.of<AuthProvider>(context, listen: false);
-                      await authProv.logout();
-                    },
-                    borderRadius: BorderRadius.circular(16.0),
-                    child: Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Center(
-                        child: Text(
-                          'Log Out',
-                          style: TextStyle(
-                            fontSize: 28.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                child: _SubjectListView(
+                  subjectList: widget.subjectList,
+                  subject: subject,
                 ),
               ),
             ],
@@ -87,12 +73,12 @@ class _SubjectListScreenState extends State<SubjectListScreen> {
 }
 
 class _SubjectListView extends StatelessWidget {
-  const _SubjectListView({
-    Key key,
-    @required this.subjectList,
-  }) : super(key: key);
+  const _SubjectListView(
+      {Key key, @required this.subjectList, @required this.subject})
+      : super(key: key);
 
   final List<Subject> subjectList;
+  final Subject subject;
 
   String _formatTime(DateTime dT) {
     final _local = dT.toLocal();
@@ -114,6 +100,7 @@ class _SubjectListView extends StatelessWidget {
             child: SubjectCard(
               subject: subj,
               setting: SubjectCardSetting.card,
+              selected: subj == subject,
             ),
           );
         },

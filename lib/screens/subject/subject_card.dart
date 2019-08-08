@@ -14,10 +14,12 @@ class SubjectCard extends StatelessWidget {
     Key key,
     @required this.subject,
     @required this.setting,
+    this.selected = false,
   }) : super(key: key);
 
   final Subject subject;
   final SubjectCardSetting setting;
+  final bool selected;
 
   @override
   Widget build(BuildContext context) {
@@ -59,17 +61,20 @@ class SubjectCard extends StatelessWidget {
       ];
 
       child = Container(
-        width: 350.0,
+        width: 420.0,
         margin: EdgeInsets.symmetric(horizontal: 12.0),
         decoration: BoxDecoration(
+          border: selected ? Border.all(
+            color: Color(0xFFFF5B30),
+            width: 6.0,
+          ) : null,
           borderRadius: BorderRadius.circular(16.0),
-          color: Color(0xFF00716B),
+          color: Colors.white,
           boxShadow: <BoxShadow>[
             BoxShadow(
-              color: Colors.black26,
-              offset: Offset(4.0, 8.0),
-              blurRadius: 8.0,
-              spreadRadius: 0.0,
+              color: Colors.black12,
+              offset: Offset(2.0, 8.0),
+              blurRadius: 4.0,
             ),
           ],
         ),
@@ -338,7 +343,7 @@ class _ClassBannerCard extends StatelessWidget {
       child: ClipPath(
         clipper: BannerClipper(),
         child: Container(
-          width: 108,
+          width: 208,
           height: 36,
           decoration: BoxDecoration(
             color: Color(0xFFFF5B30),
@@ -395,7 +400,7 @@ class _SubjectInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 100),
+      padding: EdgeInsets.only(top: 96.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -404,16 +409,10 @@ class _SubjectInfoCard extends StatelessWidget {
             tag: nameTag,
             child: Material(
               color: Colors.transparent,
-              child: GradientText(
-                text: subjectName,
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xFFE9FCD8),
-                    Color(0xFFC6EDF8),
-                  ],
-                ),
+              child: Text(
+                subjectName,
                 style: TextStyle(
-                    color: Color(0xFFE9FCD9),
+                    color: Colors.black,
                     fontSize: 64.0,
                     fontWeight: FontWeight.bold),
               ),
@@ -426,10 +425,7 @@ class _SubjectInfoCard extends StatelessWidget {
               color: Colors.transparent,
               child: Text(
                 _timeInfo(),
-                style: TextStyle(
-                    color: Color(0xFF54B9A6),
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
               ),
             ),
           ),
