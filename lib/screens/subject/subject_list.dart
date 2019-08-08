@@ -26,41 +26,23 @@ class _SubjectListScreenState extends State<SubjectListScreen> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          padding:
-              const EdgeInsets.symmetric(vertical: 144.0, horizontal: 96.0),
+          padding: const EdgeInsets.only(
+              top: 84.0, left: 88.0, right: 96.0, bottom: 72.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Container(
-                decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(
-                      color: Colors.black38,
-                      offset: Offset(5.0, 5.0),
-                      blurRadius: 5.0)
-                ], shape: BoxShape.circle),
-                child: CircleAvatar(
-                  backgroundColor: Colors.blueGrey,
-                ),
+              SizedBox(height: 12.0),
+              Center(
+                child: Text('This is your schedules today',
+                    style: TextStyle(color: Colors.black, fontSize: 42.0)),
               ),
               SizedBox(height: 42.0),
-              Text(
-                'Hello, NAME_HERE',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30.0,
-                ),
+              Expanded(
+                child: _SubjectListView(subjectList: widget.subjectList),
               ),
-              SizedBox(height: 12.0),
-              Text('This is your schedules today',
-                  style: TextStyle(color: Colors.black, fontSize: 21.0)),
-              SizedBox(height: 32.0),
               Container(
-                  height: 224.0,
-                  child: _SubjectListView(subjectList: widget.subjectList)),
-              SizedBox(height: 32.0),
-              Container(
-                width: 300.0,
+                width: 320.0,
+                margin: EdgeInsets.only(left: 350.0, top: 64.0, bottom: 18.0),
                 decoration: BoxDecoration(
                   color: Colors.redAccent,
                   borderRadius: BorderRadius.circular(16.0),
@@ -87,7 +69,7 @@ class _SubjectListScreenState extends State<SubjectListScreen> {
                         child: Text(
                           'Log Out',
                           style: TextStyle(
-                            fontSize: 16.0,
+                            fontSize: 28.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -121,6 +103,7 @@ class _SubjectListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scrollbar(
       child: ListView.builder(
+        padding: EdgeInsets.only(bottom: 20.0),
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
         itemCount: subjectList.length,
@@ -128,17 +111,10 @@ class _SubjectListView extends StatelessWidget {
           var subj = subjectList[index];
           return Container(
             padding: EdgeInsets.all(8.0),
-            child: InkWell(
-                onTap: () {
-                  Navigator.of(context).pushNamed(SubjectScreen.routeName,
-                      arguments: RouteArgument(
-                          from: SubjectListScreen.routeName, obj: subj));
-                },
-                child: SubjectCard(
-                  subject: subj,
-                  heroTag: '${subj.id}',
-                  setting: SubjectCardSetting.card,
-                )),
+            child: SubjectCard(
+              subject: subj,
+              setting: SubjectCardSetting.card,
+            ),
           );
         },
       ),

@@ -13,19 +13,19 @@ class SubjectCard extends StatelessWidget {
   const SubjectCard({
     Key key,
     @required this.subject,
-    @required this.heroTag,
     @required this.setting,
   }) : super(key: key);
 
   final Subject subject;
-  final String heroTag;
   final SubjectCardSetting setting;
 
   @override
   Widget build(BuildContext context) {
-    var widgets = <Widget>[];
+    Widget child;
+    List<Widget> widgets;
+
     if (setting == SubjectCardSetting.screen) {
-      widgets.addAll([
+      widgets = <Widget>[
         _ClassBanner(
           subjectId: subject.id,
           klassName: subject.klass,
@@ -37,9 +37,15 @@ class SubjectCard extends StatelessWidget {
           endTime: subject.endTime,
         ),
         _SubjectButtons(subjectId: subject.id)
-      ]);
+      ];
+
+      child = Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: widgets,
+      );
     } else {
-      widgets.addAll([
+      widgets = <Widget>[
         _ClassBannerCard(
           subjectId: subject.id,
           klassName: subject.klass,
@@ -50,16 +56,40 @@ class SubjectCard extends StatelessWidget {
           startTime: subject.startTime,
           endTime: subject.endTime,
         ),
-      ]);
+      ];
+
+      child = Container(
+        width: 350.0,
+        margin: EdgeInsets.symmetric(horizontal: 12.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16.0),
+          color: Color(0xFF00716B),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: Colors.black26,
+              offset: Offset(4.0, 8.0),
+              blurRadius: 8.0,
+              spreadRadius: 0.0,
+            ),
+          ],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () {
+              Navigator.of(context).pushNamed(SubjectScreen.routeName,
+                  arguments: RouteArgument(
+                      from: SubjectListScreen.routeName, obj: subject));
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: widgets,
+            ),
+          ),
+        ),
+      );
     }
-    return Hero(
-      tag: heroTag,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: widgets,
-      ),
-    );
+    return child;
   }
 }
 
@@ -69,33 +99,39 @@ class _ClassBanner extends StatelessWidget {
   final int subjectId;
   final String klassName;
 
+  final String klassTag;
+
   const _ClassBanner(
       {Key key, @required this.subjectId, @required String this.klassName})
-      : super(key: key);
+      : klassTag = '$subjectId:$klassName',
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ClipPath(
-      clipper: BannerClipper(),
-      child: Container(
-        width: 200,
-        height: 50,
-        decoration: BoxDecoration(
-          color: Color(0xFFFF5B30),
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(16.0),
-            bottomRight: Radius.circular(16.0),
+    return Hero(
+      tag: klassTag,
+      child: ClipPath(
+        clipper: BannerClipper(),
+        child: Container(
+          width: 200,
+          height: 50,
+          decoration: BoxDecoration(
+            color: Color(0xFFFF5B30),
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(16.0),
+              bottomRight: Radius.circular(16.0),
+            ),
           ),
-        ),
-        child: Center(
-          child: Material(
-            color: Colors.transparent,
-            child: Text(
-              klassName,
-              style: TextStyle(
-                  fontSize: 24.0,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
+          child: Center(
+            child: Material(
+              color: Colors.transparent,
+              child: Text(
+                klassName,
+                style: TextStyle(
+                    fontSize: 24.0,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
           ),
         ),
@@ -110,13 +146,18 @@ class _SubjectInfo extends StatelessWidget {
   final DateTime startTime;
   final DateTime endTime;
 
+  final String nameTag;
+  final String timeTag;
+
   const _SubjectInfo(
       {Key key,
       @required this.subjectId,
       @required this.subjectName,
       @required this.startTime,
       @required this.endTime})
-      : super(key: key);
+      : nameTag = '$subjectId:$subjectName',
+        timeTag = '$subjectId:$startTime:$endTime',
+        super(key: key);
 
   String _timeInfo() {
     final startHm = DateFormat.Hm().format(startTime);
@@ -133,30 +174,39 @@ class _SubjectInfo extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           /// Upcoming class text
-          Text(
-            _timeInfo(),
-            style: TextStyle(
-              color: Color(0xFF54B9A6),
-              fontSize: 24.0,
+          Hero(
+            tag: timeTag,
+            child: Material(
+              color: Colors.transparent,
+              child: Text(
+                _timeInfo(),
+                style: TextStyle(
+                  color: Color(0xFF54B9A6),
+                  fontSize: 24.0,
+                ),
+              ),
             ),
           ),
           SizedBox(height: 24.0),
 
           /// Subject text
-          Material(
-            color: Colors.transparent,
-            child: GradientText(
-              text: subjectName,
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xFFE9FCD8),
-                  Color(0xFFC6EDF8),
-                ],
+          Hero(
+            tag: nameTag,
+            child: Material(
+              color: Colors.transparent,
+              child: GradientText(
+                text: subjectName,
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xFFE9FCD8),
+                    Color(0xFFC6EDF8),
+                  ],
+                ),
+                style: TextStyle(
+                    color: Color(0xFFE9FCD9),
+                    fontSize: 90.0,
+                    fontWeight: FontWeight.bold),
               ),
-              style: TextStyle(
-                  color: Color(0xFFE9FCD9),
-                  fontSize: 90.0,
-                  fontWeight: FontWeight.bold),
             ),
           ),
         ],
@@ -274,33 +324,39 @@ class _ClassBannerCard extends StatelessWidget {
   final int subjectId;
   final String klassName;
 
+  final String klassTag;
+
   const _ClassBannerCard(
       {Key key, @required this.subjectId, @required String this.klassName})
-      : super(key: key);
+      : klassTag = '$subjectId:$klassName',
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ClipPath(
-      clipper: BannerClipper(),
-      child: Container(
-        width: 200,
-        height: 50,
-        decoration: BoxDecoration(
-          color: Color(0xFFFF5B30),
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(16.0),
-            bottomRight: Radius.circular(16.0),
+    return Hero(
+      tag: klassTag,
+      child: ClipPath(
+        clipper: BannerClipper(),
+        child: Container(
+          width: 108,
+          height: 36,
+          decoration: BoxDecoration(
+            color: Color(0xFFFF5B30),
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(8.0),
+              bottomRight: Radius.circular(8.0),
+            ),
           ),
-        ),
-        child: Center(
-          child: Material(
-            color: Colors.transparent,
-            child: Text(
-              klassName,
-              style: TextStyle(
-                  fontSize: 24.0,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
+          child: Center(
+            child: Material(
+              color: Colors.transparent,
+              child: Text(
+                klassName,
+                style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
           ),
         ),
@@ -315,13 +371,18 @@ class _SubjectInfoCard extends StatelessWidget {
   final DateTime startTime;
   final DateTime endTime;
 
+  final String nameTag;
+  final String timeTag;
+
   const _SubjectInfoCard(
       {Key key,
       @required this.subjectId,
       @required this.subjectName,
       @required this.startTime,
       @required this.endTime})
-      : super(key: key);
+      : nameTag = '$subjectId:$subjectName',
+        timeTag = '$subjectId:$startTime:$endTime',
+        super(key: key);
 
   String _timeInfo() {
     final startHm = DateFormat.Hm().format(startTime);
@@ -334,36 +395,45 @@ class _SubjectInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(top: 100),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          /// Upcoming class text
-          Text(
-            _timeInfo(),
-            style: TextStyle(
-              color: Color(0xFF54B9A6),
-              fontSize: 24.0,
+          /// Subject text
+          Hero(
+            tag: nameTag,
+            child: Material(
+              color: Colors.transparent,
+              child: GradientText(
+                text: subjectName,
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xFFE9FCD8),
+                    Color(0xFFC6EDF8),
+                  ],
+                ),
+                style: TextStyle(
+                    color: Color(0xFFE9FCD9),
+                    fontSize: 64.0,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
           ),
           SizedBox(height: 24.0),
-
-          /// Subject text
-          Material(
-            color: Colors.transparent,
-            child: GradientText(
-              text: subjectName,
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xFFE9FCD8),
-                  Color(0xFFC6EDF8),
-                ],
+          Hero(
+            tag: timeTag,
+            child: Material(
+              color: Colors.transparent,
+              child: Text(
+                _timeInfo(),
+                style: TextStyle(
+                    color: Color(0xFF54B9A6),
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold),
               ),
-              style: TextStyle(
-                  color: Color(0xFFE9FCD9),
-                  fontSize: 90.0,
-                  fontWeight: FontWeight.bold),
             ),
           ),
+          SizedBox(height: 24.0),
         ],
       ),
     );

@@ -18,7 +18,6 @@ class SubjectScreen extends StatelessWidget {
         child: Center(
           child: SubjectCard(
             subject: subject,
-            heroTag: '${subject.id}',
             setting: SubjectCardSetting.screen,
           ),
         ),
