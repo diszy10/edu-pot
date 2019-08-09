@@ -6,8 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:edukasi_pot/providers/auth.dart';
 import 'package:edukasi_pot/widgets/widgets.dart';
 
-import 'package:edukasi_pot/screens/screens.dart';
-
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
 
@@ -53,15 +51,21 @@ class _LoginScreenState extends State<LoginScreen> {
   void _handleLogin(BuildContext context) async {
     final FormState form = _formKey.currentState;
     final authProv = Provider.of<AuthProvider>(context);
+
+    setState(() {
+      _isLoading = true;
+    });
+
     if (form.validate()) {
       form.save();
-      setState(() {
-        _isLoading = true;
-      });
       try {
         await authProv.login(_email, _password);
       } catch (e) {
         _showInSnackBar(context, "Something's wrong!!");
+
+        setState(() {
+          _isLoading = false;
+        });
       }
     }
   }

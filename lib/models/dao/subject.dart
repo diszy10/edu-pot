@@ -9,6 +9,12 @@ class SubjectsDao extends DatabaseAccessor<AppDatabase>
     with _$SubjectsDaoMixin {
   SubjectsDao(AppDatabase db) : super(db);
 
+  Future<List<Subject>> listAllSortByTime() async {
+    return (select(subjects)
+          ..orderBy([(t) => OrderingTerm(expression: t.startTime)]))
+        .get();
+  }
+
   Future<List<Subject>> listByIds(List<int> ids) async {
     List<Variable> idsVar = [];
     String idsIn = ids.map((id) {

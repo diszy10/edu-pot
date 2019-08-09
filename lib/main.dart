@@ -10,7 +10,7 @@ import 'package:edukasi_pot/providers/providers.dart';
 import 'package:edukasi_pot/router.dart';
 
 void baseMain() {
-  // Initialize
+  // Initialize singleton
   AppDatabase _db = AppDatabase();
   Api _api = Api();
 
@@ -21,6 +21,8 @@ void baseMain() {
 
   SystemChrome.setEnabledSystemUIOverlays([]);
   runApp(MultiProvider(providers: [
+    Provider<Api>.value(value: _api),
+    Provider<AppDatabase>.value(value: _db),
     ChangeNotifierProvider<AuthProvider>(
       builder: (context) => AuthProvider(_api),
     ),

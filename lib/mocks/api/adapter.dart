@@ -13,7 +13,7 @@ class MockAdapter extends HttpClientAdapter {
     switch (uri.path) {
       case AuthService.loginPath:
         return await login(options);
-      case SubjectListService.subjectListPath:
+      case SubjectService.subjectListPath:
         return await subjectList(options);
       default:
         return ResponseBody.fromString('', 404, headers: DioHttpHeaders());

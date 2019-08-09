@@ -14,12 +14,12 @@ class SubjectCard extends StatelessWidget {
     Key key,
     @required this.subject,
     @required this.setting,
-    this.selected = false,
+    this.inSession = false,
   }) : super(key: key);
 
   final Subject subject;
   final SubjectCardSetting setting;
-  final bool selected;
+  final bool inSession;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class SubjectCard extends StatelessWidget {
           startTime: subject.startTime,
           endTime: subject.endTime,
         ),
-        _SubjectButtons(subjectId: subject.id)
+        _SubjectButtons(subject: subject)
       ];
 
       child = Column(
@@ -64,10 +64,12 @@ class SubjectCard extends StatelessWidget {
         width: 420.0,
         margin: EdgeInsets.symmetric(horizontal: 12.0),
         decoration: BoxDecoration(
-          border: selected ? Border.all(
-            color: Color(0xFFFF5B30),
-            width: 6.0,
-          ) : null,
+          border: inSession
+              ? Border.all(
+                  color: Color(0xFFFF5B30),
+                  width: 6.0,
+                )
+              : null,
           borderRadius: BorderRadius.circular(16.0),
           color: Colors.white,
           boxShadow: <BoxShadow>[
@@ -82,9 +84,10 @@ class SubjectCard extends StatelessWidget {
           color: Colors.transparent,
           child: InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed(SubjectScreen.routeName,
+              Navigator.of(context).pushReplacementNamed(
+                  SubjectScreen.routeName,
                   arguments: RouteArgument(
-                      from: SubjectListScreen.routeName, obj: subject));
+                      from: SubjectListScreen.routeName, data: subject));
             },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -107,7 +110,7 @@ class _ClassBanner extends StatelessWidget {
   final String klassTag;
 
   const _ClassBanner(
-      {Key key, @required this.subjectId, @required String this.klassName})
+      {Key key, @required this.subjectId, @required this.klassName})
       : klassTag = '$subjectId:$klassName',
         super(key: key);
 
@@ -221,9 +224,9 @@ class _SubjectInfo extends StatelessWidget {
 }
 
 class _SubjectButtons extends StatelessWidget {
-  final int subjectId;
+  final Subject subject;
 
-  const _SubjectButtons({@required this.subjectId});
+  const _SubjectButtons({@required this.subject});
 
   @override
   Widget build(BuildContext context) {
@@ -297,8 +300,10 @@ class _SubjectButtons extends StatelessWidget {
                         .subjectList;
                 Navigator.of(context).pushReplacementNamed(
                     SubjectListScreen.routeName,
-                    arguments: RouteArgument(
-                        from: SubjectScreen.routeName, obj: _list));
+                    arguments: SubjectListArgument(
+                        from: SubjectScreen.routeName,
+                        data: _list,
+                        subject: subject));
               },
               borderRadius: BorderRadius.circular(16.0),
               child: Padding(
@@ -332,7 +337,7 @@ class _ClassBannerCard extends StatelessWidget {
   final String klassTag;
 
   const _ClassBannerCard(
-      {Key key, @required this.subjectId, @required String this.klassName})
+      {Key key, @required this.subjectId, @required this.klassName})
       : klassTag = '$subjectId:$klassName',
         super(key: key);
 
