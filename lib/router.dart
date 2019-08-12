@@ -1,4 +1,3 @@
-import 'package:edukasi_pot/screens/attendance.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -6,11 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:edukasi_pot/models/models.dart';
 import 'package:edukasi_pot/providers/providers.dart';
 import 'package:edukasi_pot/screens/screens.dart';
+import 'package:edukasi_pot/widgets/widgets.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // Argumenst when calling with pushNamed
-    final args = settings.arguments;
+    var args = settings.arguments as RouteArgument;
 
     switch (settings.name) {
       case AuthScreen.routeName:
@@ -20,10 +20,26 @@ class AppRouter {
       case LoginScreen.routeName:
         return _buildRoute(LoginScreen());
       case SubjectListScreen.routeName:
-        return _buildRoute(SubjectListScreen());
+        assert(args.data is List<Subject>);
+        var subjListArgs = args as SubjectListArgument;
+
+        var screen = SubjectListScreen(
+          subjectList: args.data as List<Subject>,
+          subjectSelected: subjListArgs.subject,
+        );
+
+        if (args.from == SubjectScreen.routeName) {
+          return FadePageRoute(widget: _AuthWidget(screen));
+        }
+        return _buildRoute(screen);
       case SubjectScreen.routeName:
-        assert(args is Subject);
-        return _buildRoute(SubjectScreen(subject: args as Subject));
+        assert(args.data is Subject);
+
+        var screen = SubjectScreen(subject: args.data as Subject);
+        if (args.from == SubjectListScreen.routeName) {
+          return FadePageRoute(widget: _AuthWidget(screen));
+        }
+        return _buildRoute(screen);
       case ModuleScreen.routeName:
         return _buildRoute(ModuleScreen());
       case HomeworkScreen.routeName:
@@ -38,7 +54,7 @@ class AppRouter {
   }
 
   static MaterialPageRoute<dynamic> _buildRoute<T extends Widget>(T screen) {
-    return MaterialPageRoute(builder: (context) => _HigherOrderWidget(screen));
+    return MaterialPageRoute(builder: (context) => _AuthWidget(screen));
   }
 
   static Route<dynamic> _errorRoute(String name) {
@@ -59,20 +75,26 @@ class AppRouter {
 ///
 /// This widget hold the authenticated state the entire applications
 /// If authenticated state change, then it will push to a new route accordingly
-class _HigherOrderWidget extends StatelessWidget {
+class _AuthWidget extends StatefulWidget {
   final Widget _screen;
-  bool _isAuth;
 
-  _HigherOrderWidget(this._screen);
+  _AuthWidget(this._screen);
+
+  @override
+  _AuthWidgetState createState() => _AuthWidgetState();
+}
+
+class _AuthWidgetState extends State<_AuthWidget> {
+  bool _isAuth;
 
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(
-        builder: (context, value, child) {
+        builder: (context, authProv, child) {
           if (_isAuth == null) {
-            value.isUserAuth.then((value) => _isAuth = value);
+            authProv.isUserAuth.then((value) => _isAuth = value);
           } else {
-            value.isUserAuth.then((value) {
+            authProv.isUserAuth.then((value) {
               if (_isAuth != value) {
                 if (value == false) {
                   _onSuccessLogout(context);
@@ -84,16 +106,24 @@ class _HigherOrderWidget extends StatelessWidget {
           }
           return child;
         },
-        child: _screen);
+        child: widget._screen);
   }
 
-  _onSuccessLogout(BuildContext context) {
-    Provider.of<SubjectListProvider>(context).onLogout().then((_) {
-      Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
-    });
+  _onSuccessLogout(BuildContext context) async {
+    await Provider.of<SubjectProvider>(context).onLogout();
+    Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
   }
 
-  _onSuccessLogin(BuildContext context) {
-    Navigator.of(context).pushReplacementNamed(SubjectListScreen.routeName);
+  _onSuccessLogin(BuildContext context) async {
+    var _subProv = Provider.of<SubjectProvider>(context, listen: false);
+    var _subject = await _subProv.subjectInSession;
+    if (_subject == null) {
+      var _list = await _subProv.subjectList;
+      Navigator.of(context).pushReplacementNamed(SubjectListScreen.routeName,
+          arguments: SubjectListArgument(data: _list));
+    } else {
+      Navigator.of(context).pushReplacementNamed(SubjectScreen.routeName,
+          arguments: RouteArgument(data: _subject));
+    }
   }
 }

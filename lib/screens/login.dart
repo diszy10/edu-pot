@@ -6,8 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:edukasi_pot/providers/auth.dart';
 import 'package:edukasi_pot/widgets/widgets.dart';
 
-import 'package:edukasi_pot/screens/screens.dart';
-
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
 
@@ -17,7 +15,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
@@ -34,21 +31,19 @@ class _LoginScreenState extends State<LoginScreen> {
     RegExp regex = new RegExp(pattern);
     if (value == '')
       return 'Email must not be empty';
-    else if (!regex.hasMatch(value))
-      return 'Enter Valid Email';
+    else if (!regex.hasMatch(value)) return 'Enter Valid Email';
     return null;
   }
 
   String _validatePassword(String value) {
-    if (value == '')
-      return 'Passowrd must not be empty';
+    if (value == '') return 'Passowrd must not be empty';
     // TODO: Implement password validation
     return null;
   }
 
   // Logic
-  void _showInSnackBar(String value) {
-    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+  void _showInSnackBar(BuildContext context, String value) {
+    Scaffold.of(context).showSnackBar(new SnackBar(
       content: new Text(value),
     ));
   }
@@ -56,15 +51,21 @@ class _LoginScreenState extends State<LoginScreen> {
   void _handleLogin(BuildContext context) async {
     final FormState form = _formKey.currentState;
     final authProv = Provider.of<AuthProvider>(context);
+
+    setState(() {
+      _isLoading = true;
+    });
+
     if (form.validate()) {
       form.save();
-      setState(() {
-        _isLoading = true;
-      });
       try {
         await authProv.login(_email, _password);
       } catch (e) {
-        _showInSnackBar("Something's wrong!!");
+        _showInSnackBar(context, "Something's wrong!!");
+
+        setState(() {
+          _isLoading = false;
+        });
       }
     }
   }
@@ -72,7 +73,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
       backgroundColor: Colors.white,
       body: ListView(
         children: <Widget>[

@@ -69,7 +69,6 @@ class _AnimatedFutureBuilderState<T> extends State<AnimatedFutureBuilder<T>> {
   /// or after widget reconfiguration to a new Future.
   Object _activeCallbackIdentity;
   AsyncSnapshot<T> _snapshot;
-  Widget _screen;
 
   @override
   void initState() {
