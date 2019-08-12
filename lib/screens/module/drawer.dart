@@ -157,7 +157,7 @@ class _ModuleList extends StatelessWidget {
           itemCount: modules.length,
           itemBuilder: (context, index) {
             Module module = modules[index];
-            int no = index;
+            int no = index + 1;
             return InkWell(
               onTap: () {},
               child: Container(

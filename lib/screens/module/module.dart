@@ -89,6 +89,7 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Color(0xFFF2F4F6),
       automaticallyImplyLeading: false,
       flexibleSpace: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           SizedBox(height: 68.0),
 
