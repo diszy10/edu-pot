@@ -22,6 +22,7 @@ class AuthProvider with AuthService, UserToken, ChangeNotifier {
   }
 
   Future<void> logout() async {
+    _api.dispose();
     await delToken();
     notifyListeners();
   }

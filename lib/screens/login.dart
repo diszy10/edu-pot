@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'package:provider/provider.dart';
-
-import 'package:edukasi_pot/providers/auth.dart';
+import 'package:edukasi_pot/helpers/helpers.dart';
 import 'package:edukasi_pot/widgets/widgets.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -50,7 +48,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _handleLogin(BuildContext context) async {
     final FormState form = _formKey.currentState;
-    final authProv = Provider.of<AuthProvider>(context);
 
     setState(() {
       _isLoading = true;
@@ -59,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (form.validate()) {
       form.save();
       try {
-        await authProv.login(_email, _password);
+        await login(context, _email, _password);
       } catch (e) {
         _showInSnackBar(context, "Something's wrong!!");
 
