@@ -1,5 +1,7 @@
-import 'package:edukasi_pot/screens/screens.dart';
 import 'package:flutter/material.dart';
+
+import 'package:edukasi_pot/screens/screens.dart';
+import 'package:edukasi_pot/helpers/helpers.dart';
 
 // class NoteScreen extends StatelessWidget {
 //   static const routeName = '/note';
@@ -286,13 +288,9 @@ class NoteScreen extends StatelessWidget {
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  onTap: () => Navigator.pushReplacementNamed(
-                      context, SubjectListScreen.routeName),
-                  // onTap: () async {
-                  //   final authProv =
-                  //       Provider.of<AuthProvider>(context, listen: false);
-                  //   await authProv.logout();
-                  // },
+                  onTap: () async {
+                    await logout(context);
+                  },
                   child: Center(
                     child: Text(
                       '👋🏼  Save and Logout',

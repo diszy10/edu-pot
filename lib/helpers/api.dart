@@ -12,14 +12,15 @@ class Api {
 
   Api._internal();
 
-  static Dio _dio;
+  Dio _dio;
 
   Dio get dio {
     if (_dio != null) {
       return _dio;
+    } else {
+      _dio = _initDio();
+      return _dio;
     }
-    _dio = _initDio();
-    return _dio;
   }
 
   _initDio() {
@@ -31,11 +32,15 @@ class Api {
       }
     );
 
-    Dio dio = Dio(options);
+    final dio = Dio(options);
 
     if (Config().get(Config.env) == Env.MOCK) {
       dio.httpClientAdapter = MockAdapter();
     }
     return dio;
+  }
+
+  dispose() {
+    _dio = null;
   }
 }
