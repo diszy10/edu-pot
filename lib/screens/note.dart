@@ -250,28 +250,28 @@ class NoteScreen extends StatelessWidget {
           //
           // Link
           //
-          Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * 0.16),
-            child: GestureDetector(
-              onTap: () {},
-              child: Row(
-                children: <Widget>[
-                  Icon(Icons.local_library, color: Colors.grey),
-                  SizedBox(width: 8.0),
-                  Text(
-                    'View today\'s class summary',
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.normal,
-                      color: Color(0xFF5B87EC),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          SizedBox(height: 100.0),
+          // Padding(
+          //   padding: EdgeInsets.symmetric(
+          //       horizontal: MediaQuery.of(context).size.width * 0.16),
+          //   child: GestureDetector(
+          //     onTap: () {},
+          //     child: Row(
+          //       children: <Widget>[
+          //         Icon(Icons.local_library, color: Colors.grey),
+          //         SizedBox(width: 8.0),
+          //         Text(
+          //           'View today\'s class summary',
+          //           style: TextStyle(
+          //             fontSize: 18.0,
+          //             fontWeight: FontWeight.normal,
+          //             color: Color(0xFF5B87EC),
+          //           ),
+          //         )
+          //       ],
+          //     ),
+          //   ),
+          // ),
+          // SizedBox(height: 100.0),
 
           //
           // Continue Button
@@ -293,7 +293,7 @@ class NoteScreen extends StatelessWidget {
                   },
                   child: Center(
                     child: Text(
-                      '👋🏼  Save and Logout',
+                      'Save and Logout',
                       style: TextStyle(
                         fontSize: 20.0,
                         color: Colors.white,

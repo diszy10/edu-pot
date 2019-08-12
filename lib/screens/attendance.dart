@@ -197,111 +197,76 @@ class ActionModal extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.3,
-          height: MediaQuery.of(context).size.height * 0.18,
+          width: MediaQuery.of(context).size.width * 0.2,
+          height: MediaQuery.of(context).size.height * 0.2,
           padding: EdgeInsets.all(16.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.0),
             color: Color(0xFFF9F6F5),
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              //
-              // Close button
-              //
-              // Align(
-              //   alignment: Alignment.topRight,
-              //   child: Container(
-              //     margin: EdgeInsets.only(bottom: 32.0),
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.circular(50.0),
-              //       color: Colors.black26,
-              //     ),
-              //     child: Material(
-              //       color: Colors.transparent,
-              //       child: InkWell(
-              //         onTap: () => Navigator.pop(context),
-              //         borderRadius: BorderRadius.circular(50.0),
-              //         child: Container(
-              //           padding: EdgeInsets.all(5.0),
-              //           child: Icon(Icons.close, color: Colors.white),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              
-              //
-              // Actions button
-              //
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50.0),
-                      color: Colors.red[300],
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () => Navigator.pop(context),
-                        borderRadius: BorderRadius.circular(50.0),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 16.0, horizontal: 24.0),
-                          child: Row(
-                            children: <Widget>[
-                              Icon(Icons.calendar_today, color: Colors.white),
-                              SizedBox(width: 10.0),
-                              Text(
-                                'Absent',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.0),
+                  border: Border.all(color: Colors.black45),
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () => Navigator.pop(context),
+                    borderRadius: BorderRadius.circular(16.0),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 16.0, horizontal: 24.0),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.calendar_today),
+                          SizedBox(width: 10.0),
+                          Text(
+                            'Absent',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50.0),
-                      color: Colors.teal[300],
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () => Navigator.pop(context),
-                        borderRadius: BorderRadius.circular(50.0),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 16.0, horizontal: 24.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              Icon(Icons.check, color: Colors.white),
-                              SizedBox(width: 10.0),
-                              Text(
-                                'Attend',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
+                ),
+              ),
+              SizedBox(height: 8.0),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.0),
+                  border: Border.all(color: Colors.black45),
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () => Navigator.pop(context),
+                    borderRadius: BorderRadius.circular(50.0),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 16.0, horizontal: 24.0),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.check),
+                          SizedBox(width: 10.0),
+                          Text(
+                            'Attend',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   ),
-                ],
+                ),
               ),
             ],
           ),
