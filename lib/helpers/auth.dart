@@ -31,7 +31,8 @@ Future<void> logout(BuildContext context) async {
     await authProv.logout();
 
     await Provider.of<SubjectProvider>(context).onLogout();
-    Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+    Navigator.of(context).pushNamedAndRemoveUntil(
+        LoginScreen.routeName, (Route<dynamic> route) => false);
   } catch (e) {
     rethrow;
   }

@@ -221,6 +221,7 @@ class ActionModal extends StatelessWidget {
                       padding: EdgeInsets.symmetric(
                           vertical: 16.0, horizontal: 24.0),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Icon(Icons.calendar_today),
                           SizedBox(width: 10.0),
@@ -237,7 +238,6 @@ class ActionModal extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 8.0),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16.0),
@@ -247,11 +247,12 @@ class ActionModal extends StatelessWidget {
                   color: Colors.transparent,
                   child: InkWell(
                     onTap: () => Navigator.pop(context),
-                    borderRadius: BorderRadius.circular(50.0),
+                    borderRadius: BorderRadius.circular(16.0),
                     child: Container(
                       padding: EdgeInsets.symmetric(
                           vertical: 16.0, horizontal: 24.0),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Icon(Icons.check),
                           SizedBox(width: 10.0),
