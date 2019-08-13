@@ -62,7 +62,7 @@ class SubjectCard extends StatelessWidget {
       ];
 
       child = Container(
-        width: 420.0,
+        width: 380.0,
         margin: EdgeInsets.symmetric(horizontal: 12.0),
         decoration: BoxDecoration(
           border: inSession
@@ -76,8 +76,8 @@ class SubjectCard extends StatelessWidget {
           boxShadow: <BoxShadow>[
             BoxShadow(
               color: Colors.black12,
-              offset: Offset(2.0, 8.0),
-              blurRadius: 4.0,
+              offset: Offset(4.0, 8.0),
+              blurRadius: 8.0,
             ),
           ],
         ),
@@ -213,9 +213,10 @@ class _SubjectInfo extends StatelessWidget {
                   ],
                 ),
                 style: TextStyle(
-                    color: Color(0xFFE9FCD9),
-                    fontSize: 90.0,
-                    fontWeight: FontWeight.bold),
+                  color: Color(0xFFE9FCD9),
+                  fontSize: 90.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
@@ -254,7 +255,7 @@ class _SubjectButtons extends StatelessWidget {
               onTap: () => Navigator.pushNamed(context, ModuleScreen.routeName),
               borderRadius: BorderRadius.circular(16.0),
               child: Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
                 child: Center(
                   child: Text(
                     'Continue',
@@ -268,30 +269,13 @@ class _SubjectButtons extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
-          height: 50.0,
-          child: Center(
-            child: Text(
-              'or',
-              style: TextStyle(
-                color: Color(0xFF54B9A6),
-              ),
-            ),
-          ),
-        ),
+        SizedBox(height: 40.0),
         // Choose schedules
         Container(
           width: 300.0,
           decoration: BoxDecoration(
-            color: Color(0xFFDBE7F9),
             borderRadius: BorderRadius.circular(16.0),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: Colors.black26,
-                  offset: Offset(9.0, 8.0),
-                  blurRadius: 16.0,
-                  spreadRadius: 4.0),
-            ],
+            border: Border.all(color: Colors.white30),
           ),
           child: Material(
             color: Colors.transparent,
@@ -312,10 +296,10 @@ class _SubjectButtons extends StatelessWidget {
                 padding: EdgeInsets.all(16.0),
                 child: Center(
                   child: Text(
-                    'Choose Schedules',
+                    'Or Choose Your Schedules',
                     style: TextStyle(
                       fontSize: 16.0,
-                      color: Color(0xFF5771AD),
+                      color: Colors.white54,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -350,13 +334,13 @@ class _ClassBannerCard extends StatelessWidget {
       child: ClipPath(
         clipper: BannerClipper(),
         child: Container(
-          width: 208,
-          height: 36,
+          width: 150,
+          height: 45,
           decoration: BoxDecoration(
             color: Color(0xFFFF5B30),
             borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(8.0),
-              bottomRight: Radius.circular(8.0),
+              bottomLeft: Radius.circular(16.0),
+              bottomRight: Radius.circular(16.0),
             ),
           ),
           child: Center(
@@ -365,7 +349,7 @@ class _ClassBannerCard extends StatelessWidget {
               child: Text(
                 klassName,
                 style: TextStyle(
-                    fontSize: 16.0,
+                    fontSize: 18.0,
                     color: Colors.white,
                     fontWeight: FontWeight.bold),
               ),
@@ -401,7 +385,7 @@ class _SubjectInfoCard extends StatelessWidget {
     final endHm = DateFormat.Hm().format(endTime);
 
     final diffMin = endTime.difference(startTime).inMinutes;
-    return '$startHm ~ $endHm ($diffMin Mins)';
+    return '$startHm - $endHm ($diffMin MINS)';
   }
 
   @override
@@ -409,6 +393,7 @@ class _SubjectInfoCard extends StatelessWidget {
     return Container(
       // padding: EdgeInsets.only(top: 96.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           /// Subject text
@@ -419,20 +404,27 @@ class _SubjectInfoCard extends StatelessWidget {
               child: Text(
                 subjectName,
                 style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 64.0,
-                    fontWeight: FontWeight.bold),
+                  color: Colors.black,
+                  fontSize: 32.0,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
               ),
             ),
           ),
-          // SizedBox(height: 24.0),
+          SizedBox(height: 12.0),
           Hero(
             tag: timeTag,
             child: Material(
               color: Colors.transparent,
               child: Text(
                 _timeInfo(),
-                style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff494F55),
+                  letterSpacing: 1.5,
+                ),
               ),
             ),
           ),

@@ -151,22 +151,51 @@ class _StudentItem extends StatelessWidget {
           Container(
             width: 120.0,
             height: 120.0,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white, width: 5.0),
-              borderRadius: BorderRadius.circular(32.0),
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(student.image),
-              ),
-            ),
+            decoration: student.isAbsent == true
+                ? BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 5.0),
+                    borderRadius: BorderRadius.circular(32.0),
+                    color: Colors.red[100],
+                    image: DecorationImage(
+                      colorFilter: ColorFilter.mode(
+                          Colors.black.withOpacity(0.3), BlendMode.dstATop),
+                      fit: BoxFit.cover,
+                      image: NetworkImage(student.image),
+                    ),
+                  )
+                : student.isAttend == true
+                    ? BoxDecoration(
+                        border: Border.all(color: Colors.white, width: 5.0),
+                        borderRadius: BorderRadius.circular(32.0),
+                        color: Colors.green[100],
+                        image: DecorationImage(
+                          colorFilter: ColorFilter.mode(
+                              Colors.black.withOpacity(0.3), BlendMode.dstATop),
+                          fit: BoxFit.cover,
+                          image: NetworkImage(student.image),
+                        ),
+                      )
+                    : BoxDecoration(
+                        border: Border.all(color: Colors.white, width: 5.0),
+                        borderRadius: BorderRadius.circular(32.0),
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(student.image),
+                        ),
+                      ),
             child: AspectRatio(
               aspectRatio: 12 / 6,
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
                   onTap: () => showDialog(
-                      context: context,
-                      builder: (BuildContext context) => ActionModal()),
+                    context: context,
+                    builder: (BuildContext context) =>
+                        ChangeNotifierProvider.value(
+                      value: student,
+                      child: ActionModal(),
+                    ),
+                  ),
                   borderRadius: BorderRadius.circular(32.0),
                   child: SizedBox(),
                 ),
@@ -190,6 +219,8 @@ class _StudentItem extends StatelessWidget {
 class ActionModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final student = Provider.of<Student>(context);
+
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
@@ -198,14 +229,14 @@ class ActionModal extends StatelessWidget {
         color: Colors.transparent,
         child: Container(
           width: MediaQuery.of(context).size.width * 0.2,
-          height: MediaQuery.of(context).size.height * 0.2,
+          height: MediaQuery.of(context).size.height * 0.215,
           padding: EdgeInsets.all(16.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.0),
             color: Color(0xFFF9F6F5),
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Container(
                 decoration: BoxDecoration(
@@ -215,7 +246,10 @@ class ActionModal extends StatelessWidget {
                 child: Material(
                   color: Colors.transparent,
                   child: InkWell(
-                    onTap: () => Navigator.pop(context),
+                    onTap: () {
+                      student.toggleAbsent();
+                      Navigator.pop(context);
+                    },
                     borderRadius: BorderRadius.circular(16.0),
                     child: Container(
                       padding: EdgeInsets.symmetric(
@@ -246,7 +280,10 @@ class ActionModal extends StatelessWidget {
                 child: Material(
                   color: Colors.transparent,
                   child: InkWell(
-                    onTap: () => Navigator.pop(context),
+                    onTap: () {
+                      student.toggleAttend();
+                      Navigator.pop(context);
+                    },
                     borderRadius: BorderRadius.circular(16.0),
                     child: Container(
                       padding: EdgeInsets.symmetric(

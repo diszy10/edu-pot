@@ -37,23 +37,29 @@ class _SubjectListScreenState extends State<SubjectListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF9F6F5),
+      backgroundColor: Color(0xFFF6F8F9),
       body: SafeArea(
         child: Container(
           // padding: const EdgeInsets.only(
           //     top: 144.0, left: 88.0, right: 96.0, bottom: 216.0),
-          padding: const EdgeInsets.only(
-              top: 144.0, left: 88.0, right: 96.0, bottom: 180.0),
+          // padding: const EdgeInsets.only(
+          //     top: 144.0, left: 88.0, right: 96.0, bottom: 180.0),
+          padding: EdgeInsets.symmetric(
+              horizontal: 32.0,
+              vertical: MediaQuery.of(context).size.height * 0.25),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(height: 12.0),
               Center(
-                child: Text('Your Schedules Today',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 40.0,
-                        fontWeight: FontWeight.w400)),
+                child: Text(
+                  'YOUR SCHEDULE TODAY',
+                  style: TextStyle(
+                      color: Color(0xff323232),
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5),
+                ),
               ),
               SizedBox(height: 50.0),
               _SubjectListView(
@@ -127,7 +133,7 @@ class _SubjectListViewState extends State<_SubjectListView>
           itemBuilder: (BuildContext context, int index) {
             var subj = widget.subjectList[index];
             return Container(
-              padding: EdgeInsets.all(8.0),
+              // padding: EdgeInsets.all(8.0),
               child: SubjectCard(
                 subject: subj,
                 setting: SubjectCardSetting.card,

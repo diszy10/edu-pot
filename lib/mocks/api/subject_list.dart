@@ -7,7 +7,7 @@ var _subjectList = {
   'teacher1': [
     {
       'id': 20,
-      'name': 'Math',
+      'name': 'Math & Logic',
       'klass': 'Class VIII - B',
       'startTime': '2019-07-30T10:00:00Z',
       'endTime': '2019-07-30T10:45:00Z'
@@ -21,7 +21,7 @@ var _subjectList = {
     },
     {
       'id': 12,
-      'name': 'Math',
+      'name': 'Math & Logic',
       'klass': 'Class VII - B',
       'startTime': '2019-07-30T13:15:00Z',
       'endTime': '2019-07-30T14:00:00Z'
@@ -42,7 +42,7 @@ var _subjectList = {
     },
     {
       'id': 9,
-      'name': 'Math',
+      'name': 'Math & Logic',
       'klass': 'Class VII - B',
       'startTime': '2019-07-30T11:00:00Z',
       'endTime': '2019-07-30T11:45:00Z'

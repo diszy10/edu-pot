@@ -153,8 +153,10 @@ class _HomeworkCard extends StatelessWidget {
           onTap: () => showDialog(
             barrierDismissible: true,
             context: context,
-            builder: (BuildContext context) =>
-                _HomeworkModal(title: homework.title),
+            builder: (BuildContext context) => ChangeNotifierProvider.value(
+              value: homework,
+              child: _HomeworkModal(),
+            ),
           ),
           borderRadius: BorderRadius.circular(16.0),
           child: Container(
@@ -181,20 +183,21 @@ class _HomeworkCard extends StatelessWidget {
                 //
                 // Distribute indicator
                 //
-                // Align(
-                //   alignment: Alignment.bottomRight,
-                //   child: Container(
-                //     padding: EdgeInsets.all(4.0),
-                //     decoration: BoxDecoration(
-                //       borderRadius: BorderRadius.circular(50.0),
-                //       color: Colors.white,
-                //     ),
-                //     child: Icon(
-                //       Icons.done,
-                //       color: Colors.grey,
-                //     ),
-                //   ),
-                // )
+                if (homework.isDistribute == true)
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Container(
+                      padding: EdgeInsets.all(4.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.0),
+                        color: Colors.white,
+                      ),
+                      child: Icon(
+                        Icons.done,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  )
               ],
             ),
           ),
@@ -205,10 +208,6 @@ class _HomeworkCard extends StatelessWidget {
 }
 
 class _HomeworkModal extends StatefulWidget {
-  final String title;
-
-  const _HomeworkModal({Key key, this.title}) : super(key: key);
-
   @override
   _HomeworkModalState createState() => _HomeworkModalState();
 }
@@ -217,8 +216,6 @@ class _HomeworkModalState extends State<_HomeworkModal> {
   // DateTime selectedDate = DateTime.now();
 
   String _selectedDate = 'Next Session';
-
-  bool isDistribute;
 
   Future _selectDate() async {
     final DateTime picked = await showDatePicker(
@@ -242,6 +239,8 @@ class _HomeworkModalState extends State<_HomeworkModal> {
 
   @override
   Widget build(BuildContext context) {
+    final homework = Provider.of<Homework>(context);
+
     final List<Color> colors = [
       Color(0xFF007789),
       Color(0xFF3D85D3),
@@ -272,7 +271,7 @@ class _HomeworkModalState extends State<_HomeworkModal> {
             children: <Widget>[
               Center(
                 child: Text(
-                  widget.title,
+                  homework.title,
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.normal,
@@ -323,7 +322,10 @@ class _HomeworkModalState extends State<_HomeworkModal> {
                     child: Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: () => Navigator.pop(context),
+                        onTap: () {
+                          homework.toggleDistribute();
+                          Navigator.pop(context);
+                        },
                         borderRadius: BorderRadius.circular(50.0),
                         child: Container(
                           padding: EdgeInsets.symmetric(
