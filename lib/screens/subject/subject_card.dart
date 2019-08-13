@@ -58,6 +58,7 @@ class SubjectCard extends StatelessWidget {
           startTime: subject.startTime,
           endTime: subject.endTime,
         ),
+        SizedBox(height: 32.0),
       ];
 
       child = Container(
@@ -91,6 +92,7 @@ class SubjectCard extends StatelessWidget {
             },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: widgets,
             ),
           ),
@@ -405,7 +407,7 @@ class _SubjectInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 96.0),
+      // padding: EdgeInsets.only(top: 96.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -423,7 +425,7 @@ class _SubjectInfoCard extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 24.0),
+          // SizedBox(height: 24.0),
           Hero(
             tag: timeTag,
             child: Material(
@@ -434,7 +436,7 @@ class _SubjectInfoCard extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 24.0),
+          // SizedBox(height: 24.0),
         ],
       ),
     );

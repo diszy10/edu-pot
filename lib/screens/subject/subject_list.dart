@@ -40,8 +40,10 @@ class _SubjectListScreenState extends State<SubjectListScreen> {
       backgroundColor: Color(0xFFF9F6F5),
       body: SafeArea(
         child: Container(
+          // padding: const EdgeInsets.only(
+          //     top: 144.0, left: 88.0, right: 96.0, bottom: 216.0),
           padding: const EdgeInsets.only(
-              top: 144.0, left: 88.0, right: 96.0, bottom: 216.0),
+              top: 144.0, left: 88.0, right: 96.0, bottom: 180.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -53,7 +55,7 @@ class _SubjectListScreenState extends State<SubjectListScreen> {
                         fontSize: 40.0,
                         fontWeight: FontWeight.w400)),
               ),
-              SizedBox(height: 46.0),
+              SizedBox(height: 50.0),
               _SubjectListView(
                 subjectList: widget.subjectList,
                 subjectSelected: widget.subjectSelected,
