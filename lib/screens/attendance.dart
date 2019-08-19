@@ -145,7 +145,7 @@ class StudentItem extends StatelessWidget {
                       colorFilter: ColorFilter.mode(
                           Colors.black.withOpacity(0.3), BlendMode.dstATop),
                       fit: BoxFit.cover,
-                      image: NetworkImage(student.image),
+                      image: AssetImage(student.image),
                     ),
                   )
                 : BoxDecoration(
@@ -153,7 +153,7 @@ class StudentItem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(32.0),
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(student.image),
+                      image: AssetImage(student.image),
                     ),
                   ),
             child: AspectRatio(

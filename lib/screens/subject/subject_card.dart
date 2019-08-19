@@ -336,8 +336,7 @@ class _SubjectButtons extends StatelessWidget {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(
-                          'https://suaratangsel.com/wp-content/uploads/2017/01/airin.jpg'),
+                      image: AssetImage('assets/graphics/airin.jpg'),
                     ),
                   ),
                 ),
