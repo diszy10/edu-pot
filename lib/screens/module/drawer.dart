@@ -4,13 +4,14 @@ import 'package:edukasi_pot/models/models.dart';
 import 'package:edukasi_pot/widgets/widgets.dart';
 
 class ModuleDrawer extends StatelessWidget {
-  const ModuleDrawer({
-    Key key,
-    @required List<Module> moduleList,
-  })  : _moduleList = moduleList,
-        super(key: key);
-
-  final List<Module> _moduleList;
+  final _moduleList = [
+    Module(title: 'Decimal fractions and place value patterns'),
+    Module(title: 'Decimal fractions and place value patterns'),
+    Module(title: 'Decimal fractions and place value patterns'),
+    Module(title: 'Decimal fractions and place value patterns'),
+    Module(title: 'Decimal fractions and place value patterns'),
+    Module(title: 'Decimal fractions and place value patterns'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -30,33 +31,9 @@ class ModuleDrawer extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   /// User menu
-                  Row(
-                    children: <Widget>[
-                      /// Username text
-                      Text(
-                        'Deprito',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-
-                      /// Expanded button
-                      Container(
-                        margin: EdgeInsets.only(top: 4.0, left: 4.0),
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () {},
-                            borderRadius: BorderRadius.circular(16.0),
-                            child: Container(
-                              child: Icon(
-                                Icons.keyboard_arrow_down,
-                                size: 20.0,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                  Text(
+                    'Airin Rachmi',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
 
                   /// Close drawer button
@@ -64,7 +41,7 @@ class ModuleDrawer extends StatelessWidget {
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () => Navigator.pop(context),
-                      borderRadius: BorderRadius.circular(16.0),
+                      borderRadius: BorderRadius.circular(32.0),
                       child: Container(
                         padding: EdgeInsets.all(8.0),
                         child: Icon(
@@ -88,7 +65,7 @@ class ModuleDrawer extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    /// Notes text
+                    /// Notes section
                     Row(
                       children: <Widget>[
                         Icon(Icons.note, color: Colors.blue),
@@ -116,7 +93,7 @@ class ModuleDrawer extends StatelessWidget {
 
             SizedBox(height: 24.0),
 
-            /// Modules section
+            /// Module section
             Container(
               margin: EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 16.0),
               child: Text(

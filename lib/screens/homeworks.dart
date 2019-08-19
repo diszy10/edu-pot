@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:edukasi_pot/shared/shared.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -16,22 +17,16 @@ class HomeworkScreen extends StatelessWidget {
     return ChangeNotifierProvider.value(
       value: Homeworks(),
       child: Scaffold(
-        backgroundColor: Color(0xFFF9F6F5),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            // Top navigation, title page
             Container(
-              margin: EdgeInsets.symmetric(
-                vertical: MediaQuery.of(context).size.height * 0.05,
-              ),
-              padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * 0.05,
-              ),
+              padding: edgeSymmetric(context, 7, 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  SizedBox(width: 125.0),
+                  horizontalSpaceSmall(context),
+                  horizontalSpaceLarge(context),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -43,12 +38,12 @@ class HomeworkScreen extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 16.0),
+                        verticalSpaceSmall(context),
                         Text(
                           'Based on your teaching session',
                           style: TextStyle(
-                            fontSize: 16.0,
                             color: Color(0xFFA29C9D),
+                            fontSize: 18.0,
                           ),
                         )
                       ],
@@ -65,15 +60,15 @@ class HomeworkScreen extends StatelessWidget {
                         onTap: () => Navigator.pushNamed(
                             context, AttendanceScreen.routeName),
                         borderRadius: BorderRadius.circular(16.0),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 32.0, vertical: 12.0),
+                        child: Padding(
+                          padding: edgeSymmetric(context, 3, 1.5),
                           child: Text(
                             'Continue',
                             style: TextStyle(
-                                fontSize: 16.0,
-                                color: Color(0xFF5771AD),
-                                fontWeight: FontWeight.bold),
+                              color: Color(0xFF5771AD),
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
@@ -82,7 +77,7 @@ class HomeworkScreen extends StatelessWidget {
                 ],
               ),
             ),
-            _HomeworkList()
+            HomeworkList()
           ],
         ),
       ),
@@ -90,34 +85,33 @@ class HomeworkScreen extends StatelessWidget {
   }
 }
 
-class _HomeworkList extends StatelessWidget {
+class HomeworkList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loadedHomeworks = Provider.of<Homeworks>(context);
     final homeworks = loadedHomeworks.item;
-    return Expanded(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 50.0),
-        child: GridView.builder(
-          physics: BouncingScrollPhysics(),
-          itemCount: homeworks.length,
-          itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
-            value: homeworks[i],
-            child: _HomeworkCard(),
-          ),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            childAspectRatio: 16 / 9,
-            crossAxisSpacing: 25,
-            mainAxisSpacing: 10,
-          ),
+    return Padding(
+      padding: edgeHorizontal(context, 5),
+      child: GridView.builder(
+        physics: BouncingScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: homeworks.length,
+        itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+          value: homeworks[i],
+          child: HomeworkItem(),
+        ),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          childAspectRatio: 16 / 9,
+          crossAxisSpacing: 0,
+          mainAxisSpacing: 0,
         ),
       ),
     );
   }
 }
 
-class _HomeworkCard extends StatelessWidget {
+class HomeworkItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homework = Provider.of<Homework>(context);
@@ -134,7 +128,7 @@ class _HomeworkCard extends StatelessWidget {
     final Random random = Random();
 
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+      margin: edgeSymmetric(context, 2, 2),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),
         color: colors[random.nextInt(6)],
@@ -155,7 +149,7 @@ class _HomeworkCard extends StatelessWidget {
             context: context,
             builder: (BuildContext context) => ChangeNotifierProvider.value(
               value: homework,
-              child: _HomeworkModal(),
+              child: _ActionModal(),
             ),
           ),
           borderRadius: BorderRadius.circular(16.0),
@@ -163,9 +157,7 @@ class _HomeworkCard extends StatelessWidget {
             padding: EdgeInsets.all(14.0),
             child: Stack(
               children: <Widget>[
-                //
-                // Homework title
-                //
+                /// Homework title
                 Center(
                   child: Text(
                     homework.title,
@@ -180,9 +172,7 @@ class _HomeworkCard extends StatelessWidget {
                   ),
                 ),
 
-                //
-                // Distribute indicator
-                //
+                /// Distribute indicator
                 if (homework.isDistribute == true)
                   Align(
                     alignment: Alignment.bottomRight,
@@ -207,14 +197,12 @@ class _HomeworkCard extends StatelessWidget {
   }
 }
 
-class _HomeworkModal extends StatefulWidget {
+class _ActionModal extends StatefulWidget {
   @override
-  _HomeworkModalState createState() => _HomeworkModalState();
+  _ActionModalState createState() => _ActionModalState();
 }
 
-class _HomeworkModalState extends State<_HomeworkModal> {
-  // DateTime selectedDate = DateTime.now();
-
+class _ActionModalState extends State<_ActionModal> {
   String _selectedDate = 'Next Session';
 
   Future _selectDate() async {
@@ -269,17 +257,20 @@ class _HomeworkModalState extends State<_HomeworkModal> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
+              /// Homework title
               Center(
                 child: Text(
                   homework.title,
                   style: TextStyle(
                     color: Colors.white,
-                    fontWeight: FontWeight.normal,
+                    fontWeight: FontWeight.bold,
                     fontSize: 18.0,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
+
+              /// Action buttons
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[

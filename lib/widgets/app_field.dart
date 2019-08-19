@@ -1,3 +1,4 @@
+import 'package:edukasi_pot/shared/ui_helper.dart';
 import 'package:flutter/material.dart';
 
 class AppTextField extends StatefulWidget {
@@ -49,6 +50,8 @@ class _AppTextFieldState extends State<AppTextField> {
       validator: widget.validator,
       onFieldSubmitted: widget.onFieldSubmitted,
       decoration: InputDecoration(
+        fillColor: Colors.white,
+        contentPadding: edgeSymmetric(context, 2, 3),
         border: InputBorder.none,
         filled: true,
         hintText: widget.hintText,

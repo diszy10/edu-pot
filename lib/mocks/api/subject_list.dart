@@ -8,42 +8,42 @@ var _subjectList = {
     {
       'id': 20,
       'name': 'Math & Logic',
-      'klass': 'Class VIII - B',
+      'klass': 'Class 5A',
       'startTime': '2019-07-30T10:00:00Z',
       'endTime': '2019-07-30T10:45:00Z'
     },
     {
       'id': 25,
-      'name': 'Physics',
-      'klass': 'Class VII - C',
+      'name': 'Math & Logic',
+      'klass': 'Class 5A',
       'startTime': '2019-07-30T08:00:00Z',
       'endTime': '2019-07-30T08:45:00Z'
     },
     {
       'id': 12,
       'name': 'Math & Logic',
-      'klass': 'Class VII - B',
+      'klass': 'Class 5B',
       'startTime': '2019-07-30T13:15:00Z',
       'endTime': '2019-07-30T14:00:00Z'
     },
     {
       'id': 23,
       'name': 'Physics',
-      'klass': 'Class VI - A',
+      'klass': 'Class 6A',
       'startTime': '2019-07-30T14:15:00Z',
       'endTime': '2019-07-30T15:00:00Z'
     },
     {
       'id': 14,
       'name': 'Physics',
-      'klass': 'Class VII - A',
+      'klass': 'Class 5B',
       'startTime': '2019-07-30T15:15:00Z',
       'endTime': '2019-07-30T16:00:00Z'
     },
     {
       'id': 9,
       'name': 'Math & Logic',
-      'klass': 'Class VII - B',
+      'klass': 'Class 5C',
       'startTime': '2019-07-30T11:00:00Z',
       'endTime': '2019-07-30T11:45:00Z'
     }
@@ -51,21 +51,21 @@ var _subjectList = {
   'teacher2': [{
       'id': 15,
       'name': 'History',
-      'klass': 'Class V - B',
+      'klass': 'Class 6B',
       'startTime': '2019-07-30T09:00:00Z',
       'endTime': '2019-07-30T09:45:00Z'
     },
     {
       'id': 22,
       'name': 'History',
-      'klass': 'Class IV - C',
+      'klass': 'Class 6C',
       'startTime': '2019-07-30T10:00:00Z',
       'endTime': '2019-07-30T10:45:00Z'
     },
     {
       'id': 8,
       'name': 'Geography',
-      'klass': 'Class V - A',
+      'klass': 'Class 5A',
       'startTime': '2019-07-30T13:15:00Z',
       'endTime': '2019-07-30T14:00:00Z'
     }]

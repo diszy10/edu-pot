@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SideBar extends StatelessWidget {
-  const SideBar({
-    Key key,
-  }) : super(key: key);
-
+class Sidebar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -15,8 +11,8 @@ class SideBar extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: Colors.grey[300],
-                blurRadius: 2.0,
-                offset: Offset(-3.0, 4.0),
+                blurRadius: 32.0,
+                offset: Offset(-3.0, 2.0),
               )
             ],
           ),

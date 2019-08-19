@@ -1,5 +1,6 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:edukasi_pot/providers/providers.dart';
+import 'package:edukasi_pot/shared/shared.dart';
 import 'package:flutter/material.dart';
 
 import 'package:edukasi_pot/models/models.dart';
@@ -39,37 +40,59 @@ class _SubjectListScreenState extends State<SubjectListScreen> {
     return Scaffold(
       backgroundColor: Color(0xFFF6F8F9),
       body: SafeArea(
-        child: Container(
-          // padding: const EdgeInsets.only(
-          //     top: 144.0, left: 88.0, right: 96.0, bottom: 216.0),
-          // padding: const EdgeInsets.only(
-          //     top: 144.0, left: 88.0, right: 96.0, bottom: 180.0),
-          padding: EdgeInsets.symmetric(
-              horizontal: 32.0,
-              vertical: MediaQuery.of(context).size.height * 0.25),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(height: 12.0),
-              Center(
-                child: Text(
-                  'YOUR SCHEDULE TODAY',
-                  style: TextStyle(
-                      color: Color(0xff323232),
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.5),
-                ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'YOUR SCHEDULE TODAY',
+              style: TextStyle(
+                color: Color(0xff3D3D3D),
+                fontSize: 26.0,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.8,
               ),
-              SizedBox(height: 50.0),
-              _SubjectListView(
-                subjectList: widget.subjectList,
-                subjectSelected: widget.subjectSelected,
-                subjectInSession: subjectInSession,
-              ),
-            ],
-          ),
+              textAlign: TextAlign.center,
+            ),
+            verticalSpaceMedium(context),
+            _SubjectListView(
+              subjectList: widget.subjectList,
+              subjectSelected: widget.subjectSelected,
+              subjectInSession: subjectInSession,
+            ),
+          ],
         ),
+        // child: Container(
+        //   // padding: const EdgeInsets.only(
+        //   //     top: 144.0, left: 88.0, right: 96.0, bottom: 216.0),
+        //   // padding: const EdgeInsets.only(
+        //   //     top: 144.0, left: 88.0, right: 96.0, bottom: 180.0),
+        //   // padding: EdgeInsets.symmetric(
+        //   //     horizontal: 32.0,
+        //   //     vertical: MediaQuery.of(context).size.height * 0.25),
+        //   child: Column(
+        //     crossAxisAlignment: CrossAxisAlignment.end,
+        //     children: <Widget>[
+        //       SizedBox(height: 12.0),
+        //       Text(
+        //         'YOUR SCHEDULE TODAY',
+        //         style: TextStyle(
+        //           color: Color(0xff323232),
+        //           fontSize: 24.0,
+        //           fontWeight: FontWeight.bold,
+        //           letterSpacing: 1.5,
+        //         ),
+        //         textAlign: TextAlign.center,
+        //       ),
+        //       SizedBox(height: 50.0),
+        //       // _SubjectListView(
+        //       //   subjectList: widget.subjectList,
+        //       //   subjectSelected: widget.subjectSelected,
+        //       //   subjectInSession: subjectInSession,
+        //       // ),
+        //     ],
+        //   ),
+        // ),
       ),
     );
   }
@@ -122,26 +145,26 @@ class _SubjectListViewState extends State<_SubjectListView>
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Scrollbar(
-        child: ListView.builder(
-          padding: EdgeInsets.only(bottom: 20.0),
-          scrollDirection: Axis.horizontal,
-          shrinkWrap: true,
-          itemCount: widget.subjectList.length,
-          controller: _controller,
-          itemBuilder: (BuildContext context, int index) {
-            var subj = widget.subjectList[index];
-            return Container(
-              // padding: EdgeInsets.all(8.0),
-              child: SubjectCard(
-                subject: subj,
-                setting: SubjectCardSetting.card,
-                inSession: subj == widget.subjectInSession,
-              ),
-            );
-          },
-        ),
+    return Container(
+      margin: edgeLeft(context, 2),
+      height: widthBox(context, 25),
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        physics: BouncingScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: widget.subjectList.length,
+        controller: _controller,
+        itemBuilder: (BuildContext context, int index) {
+          var subj = widget.subjectList[index];
+          return Container(
+            padding: edgeSymmetric(context, 1, 2),
+            child: SubjectCard(
+              subject: subj,
+              setting: SubjectCardSetting.card,
+              inSession: subj == widget.subjectInSession,
+            ),
+          );
+        },
       ),
     );
   }

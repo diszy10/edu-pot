@@ -1,3 +1,4 @@
+import 'package:edukasi_pot/shared/ui_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,148 +15,132 @@ class AttendanceScreen extends StatelessWidget {
     return ChangeNotifierProvider.value(
       value: Students(),
       child: Scaffold(
-        backgroundColor: Color(0xFFF9F6F5),
-        body: SafeArea(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                // Top navigation, title page
-                Container(
-                  margin: EdgeInsets.symmetric(
-                    vertical: MediaQuery.of(context).size.height * 0.05,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              padding: edgeSymmetric(context, 7, 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50.0),
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () => Navigator.pop(context),
+                        borderRadius: BorderRadius.circular(50.0),
+                        child: Container(
+                          padding: EdgeInsets.all(32.0),
+                          child: Icon(
+                            Icons.arrow_back,
+                            size: 28.0,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.05,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      // SizedBox(width: 125.0),
-                      Container(
-                        margin: EdgeInsets.only(left: 50.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50.0),
-                        ),
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () => Navigator.pop(context),
-                            borderRadius: BorderRadius.circular(50.0),
-                            child: Container(
-                              padding: EdgeInsets.all(8.0),
-                              child: Icon(
-                                Icons.arrow_back,
-                                size: 28.0,
-                              ),
-                            ),
-                          ),
+                      Text(
+                        'Student Attendance',
+                        style: TextStyle(
+                          fontSize: 32.0,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              'Attendances',
-                              style: TextStyle(
-                                fontSize: 32.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 16.0),
-                            Text(
-                              'Who missed class today ?',
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                color: Color(0xFFA29C9D),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Color(0xFFDBE7F9),
-                          borderRadius: BorderRadius.circular(16.0),
-                        ),
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () => Navigator.pushNamed(
-                                context, NoteScreen.routeName),
-                            borderRadius: BorderRadius.circular(16.0),
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 32.0, vertical: 12.0),
-                              child: Text(
-                                'Continue',
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Color(0xFF5771AD),
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
+                      verticalSpaceSmall(context),
+                      Text(
+                        'Who missed class today ?',
+                        style: TextStyle(
+                          color: Color(0xFFA29C9D),
+                          fontSize: 18.0,
                         ),
                       )
                     ],
                   ),
-                ),
-                _StudentList()
-              ],
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xFFDBE7F9),
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () =>
+                            Navigator.pushNamed(context, NoteScreen.routeName),
+                        borderRadius: BorderRadius.circular(16.0),
+                        child: Padding(
+                          padding: edgeSymmetric(context, 3, 1.5),
+                          child: Text(
+                            'Continue',
+                            style: TextStyle(
+                              color: Color(0xFF5771AD),
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
+            StudentList()
+          ],
         ),
       ),
     );
   }
 }
 
-class _StudentList extends StatelessWidget {
+class StudentList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loadedStudent = Provider.of<Students>(context);
     final students = loadedStudent.items;
-    return Expanded(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 50.0),
-        child: GridView.builder(
-          physics: BouncingScrollPhysics(),
-          itemCount: students.length,
-          itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
-            value: students[i],
-            child: _StudentItem(),
-          ),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4,
-            childAspectRatio: 1.25,
-            crossAxisSpacing: 25,
-            mainAxisSpacing: 0,
-          ),
+    return Padding(
+      padding: edgeHorizontal(context, 5),
+      child: GridView.builder(
+        physics: BouncingScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: students.length,
+        itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+          value: students[i],
+          child: StudentItem(),
+        ),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 4,
+          childAspectRatio: 1.15,
+          crossAxisSpacing: 25,
+          mainAxisSpacing: 0,
         ),
       ),
     );
   }
 }
 
-class _StudentItem extends StatelessWidget {
+class StudentItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final student = Provider.of<Student>(context);
     return Container(
+      margin: edgeSymmetric(context, 2, 2),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
-            width: 120.0,
-            height: 120.0,
+            width: MediaQuery.of(context).size.width * 0.10,
+            height: MediaQuery.of(context).size.width * 0.10,
             decoration: student.isAbsent == true
                 ? BoxDecoration(
                     border: Border.all(color: Colors.white, width: 5.0),
                     borderRadius: BorderRadius.circular(32.0),
-                    color: Colors.red[100],
+                    color: Color(0xFFFF5B33).withOpacity(0.8),
                     image: DecorationImage(
                       colorFilter: ColorFilter.mode(
                           Colors.black.withOpacity(0.3), BlendMode.dstATop),
@@ -163,152 +148,44 @@ class _StudentItem extends StatelessWidget {
                       image: NetworkImage(student.image),
                     ),
                   )
-                : student.isAttend == true
-                    ? BoxDecoration(
-                        border: Border.all(color: Colors.white, width: 5.0),
-                        borderRadius: BorderRadius.circular(32.0),
-                        color: Colors.green[100],
-                        image: DecorationImage(
-                          colorFilter: ColorFilter.mode(
-                              Colors.black.withOpacity(0.3), BlendMode.dstATop),
-                          fit: BoxFit.cover,
-                          image: NetworkImage(student.image),
-                        ),
-                      )
-                    : BoxDecoration(
-                        border: Border.all(color: Colors.white, width: 5.0),
-                        borderRadius: BorderRadius.circular(32.0),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(student.image),
-                        ),
-                      ),
+                : BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 5.0),
+                    borderRadius: BorderRadius.circular(32.0),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(student.image),
+                    ),
+                  ),
             child: AspectRatio(
               aspectRatio: 12 / 6,
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  onTap: () => showDialog(
-                    context: context,
-                    builder: (BuildContext context) =>
-                        ChangeNotifierProvider.value(
-                      value: student,
-                      child: ActionModal(),
-                    ),
-                  ),
+                  onTap: () => student.toggleAbsent(),
+                  // onTap: () => showDialog(
+                  //   context: context,
+                  //   builder: (BuildContext context) =>
+                  //       ChangeNotifierProvider.value(
+                  //     value: student,
+                  //     child: _ActionModal(),
+                  //   ),
+                  // ),
                   borderRadius: BorderRadius.circular(32.0),
                   child: SizedBox(),
                 ),
               ),
             ),
           ),
-          SizedBox(height: 10.0),
+          verticalSpaceSmall(context),
           Text(
             student.name,
             style: TextStyle(
-              fontSize: 16.0,
               color: Colors.black,
+              fontSize: 18.0,
             ),
+            textAlign: TextAlign.center,
           )
         ],
-      ),
-    );
-  }
-}
-
-class ActionModal extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final student = Provider.of<Student>(context);
-
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: Container(
-          width: MediaQuery.of(context).size.width * 0.2,
-          height: MediaQuery.of(context).size.height * 0.215,
-          padding: EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16.0),
-            color: Color(0xFFF9F6F5),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16.0),
-                  border: Border.all(color: Colors.black45),
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () {
-                      student.toggleAbsent();
-                      Navigator.pop(context);
-                    },
-                    borderRadius: BorderRadius.circular(16.0),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 16.0, horizontal: 24.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(Icons.calendar_today),
-                          SizedBox(width: 10.0),
-                          Text(
-                            'Absent',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16.0),
-                  border: Border.all(color: Colors.black45),
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () {
-                      student.toggleAttend();
-                      Navigator.pop(context);
-                    },
-                    borderRadius: BorderRadius.circular(16.0),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 16.0, horizontal: 24.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(Icons.check),
-                          SizedBox(width: 10.0),
-                          Text(
-                            'Attend',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
