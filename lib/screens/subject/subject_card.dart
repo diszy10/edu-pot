@@ -1,3 +1,5 @@
+import 'package:edukasi_pot/helpers/helpers.dart';
+import 'package:edukasi_pot/shared/ui_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -28,9 +30,52 @@ class SubjectCard extends StatelessWidget {
 
     if (setting == SubjectCardSetting.screen) {
       widgets = <Widget>[
-        _ClassBanner(
-          subjectId: subject.id,
-          klassName: subject.klass,
+        Container(
+          height: heightBox(context, 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              horizontalSpace(context, 20),
+              _ClassBanner(
+                subjectId: subject.id,
+                klassName: subject.klass,
+              ),
+              Container(
+                margin: edgeSymmetric(context, 4, 2),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () async {
+                      await logout(context);
+                    },
+                    borderRadius: BorderRadius.circular(32.0),
+                    child: Container(
+                      padding: edgeSymmetric(context, 1, 1),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.exit_to_app,
+                            color: Colors.white,
+                          ),
+                          SizedBox(width: 8.0),
+                          Text(
+                            'Logout',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.0,
+                              // fontWeight: FontWeight.bold,
+                              letterSpacing: 1.2,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
         _SubjectInfo(
           subjectId: subject.id,
@@ -41,10 +86,16 @@ class SubjectCard extends StatelessWidget {
         _SubjectButtons(subject: subject)
       ];
 
-      child = Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: widgets,
+      child = SingleChildScrollView(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: widgets,
+          ),
+        ),
       );
     } else {
       widgets = <Widget>[
@@ -58,12 +109,11 @@ class SubjectCard extends StatelessWidget {
           startTime: subject.startTime,
           endTime: subject.endTime,
         ),
-        SizedBox(height: 32.0),
+        // SizedBox(height: 32.0),
       ];
 
       child = Container(
-        width: 380.0,
-        margin: EdgeInsets.symmetric(horizontal: 12.0),
+        width: widthSmall(context),
         decoration: BoxDecoration(
           border: inSession
               ? Border.all(
@@ -77,7 +127,7 @@ class SubjectCard extends StatelessWidget {
             BoxShadow(
               color: Colors.black12,
               offset: Offset(4.0, 8.0),
-              blurRadius: 8.0,
+              blurRadius: 16.0,
             ),
           ],
         ),
@@ -90,6 +140,7 @@ class SubjectCard extends StatelessWidget {
                   arguments: RouteArgument(
                       from: SubjectListScreen.routeName, data: subject));
             },
+            borderRadius: BorderRadius.circular(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -123,8 +174,8 @@ class _ClassBanner extends StatelessWidget {
       child: ClipPath(
         clipper: BannerClipper(),
         child: Container(
-          width: 200,
-          height: 50,
+          width: widthBox(context, 16),
+          height: heightBox(context, 7),
           decoration: BoxDecoration(
             color: Color(0xFFFF5B30),
             borderRadius: BorderRadius.only(
@@ -133,14 +184,13 @@ class _ClassBanner extends StatelessWidget {
             ),
           ),
           child: Center(
-            child: Material(
-              color: Colors.transparent,
-              child: Text(
-                klassName,
-                style: TextStyle(
-                    fontSize: 24.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
+            child: Text(
+              klassName,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 28.0,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.5,
               ),
             ),
           ),
@@ -171,10 +221,10 @@ class _SubjectInfo extends StatelessWidget {
 
   String _timeInfo() {
     final startHm = DateFormat.Hm().format(startTime);
-    final endHm = DateFormat.Hm().format(endTime);
+    // final endHm = DateFormat.Hm().format(endTime);
 
     final diffMin = endTime.difference(startTime).inMinutes;
-    return '$startHm ~ $endHm ($diffMin Mins)';
+    return 'UPCOMING CLASS / $startHm ($diffMin MINS)';
   }
 
   @override
@@ -183,7 +233,6 @@ class _SubjectInfo extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          /// Upcoming class text
           Hero(
             tag: timeTag,
             child: Material(
@@ -193,30 +242,27 @@ class _SubjectInfo extends StatelessWidget {
                 style: TextStyle(
                   color: Color(0xFF54B9A6),
                   fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 2,
                 ),
               ),
             ),
           ),
-          SizedBox(height: 24.0),
-
-          /// Subject text
+          verticalSpace(context, 2),
           Hero(
             tag: nameTag,
-            child: Material(
-              color: Colors.transparent,
-              child: GradientText(
-                text: subjectName,
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xFFE9FCD8),
-                    Color(0xFFC6EDF8),
-                  ],
-                ),
-                style: TextStyle(
-                  color: Color(0xFFE9FCD9),
-                  fontSize: 90.0,
-                  fontWeight: FontWeight.bold,
-                ),
+            child: GradientText(
+              text: subjectName,
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFFE9FCD8),
+                  Color(0xFFC6EDF8),
+                ],
+              ),
+              style: TextStyle(
+                color: Color(0xFFE9FCD9),
+                fontSize: 90.0,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
@@ -235,47 +281,75 @@ class _SubjectButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        /// Continue
         Container(
-          width: 300.0,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16.0),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: Colors.black26,
-                  offset: Offset(9.0, 8.0),
-                  blurRadius: 16.0,
-                  spreadRadius: 4.0),
-            ],
-          ),
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: () => Navigator.pushNamed(context, ModuleScreen.routeName),
-              borderRadius: BorderRadius.circular(16.0),
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
-                child: Center(
-                  child: Text(
-                    'Continue',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
+          height: heightBox(context, 16.5),
+          child: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  width: widthBox(context, 35),
+                  height: heightBox(context, 12),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16.0),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.black26,
+                        offset: Offset(9.0, 8.0),
+                        blurRadius: 16.0,
+                        spreadRadius: 4.0,
+                      ),
+                    ],
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () =>
+                          Navigator.pushReplacementNamed(context, ModuleScreen.routeName),
+                      borderRadius: BorderRadius.circular(16.0),
+                      child: Padding(
+                        padding: edgeSymmetric(context, 4, 3),
+                        child: Center(
+                          child: Text(
+                            'Continue as Mrs. Airin Rachmi',
+                            style: TextStyle(
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
+              Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  width: 70.0,
+                  height: 70.0,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 4.0),
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/graphics/airin.jpg'),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-        SizedBox(height: 40.0),
-        // Choose schedules
+        verticalSpaceMedium(context),
         Container(
-          width: 300.0,
+          width: widthBox(context, 35),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.0),
-            border: Border.all(color: Colors.white30),
+            border: Border.all(color: Colors.white),
           ),
           child: Material(
             color: Colors.transparent,
@@ -293,12 +367,12 @@ class _SubjectButtons extends StatelessWidget {
               },
               borderRadius: BorderRadius.circular(16.0),
               child: Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: edgeSymmetric(context, 4, 2.5),
                 child: Center(
                   child: Text(
-                    'Or Choose Your Schedules',
+                    'Or Choose Your Schedule',
                     style: TextStyle(
-                      fontSize: 16.0,
+                      fontSize: 20.0,
                       color: Colors.white54,
                       fontWeight: FontWeight.bold,
                     ),
@@ -308,7 +382,7 @@ class _SubjectButtons extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 50.0)
+        verticalSpaceLarge(context),
       ],
     );
   }
@@ -334,8 +408,8 @@ class _ClassBannerCard extends StatelessWidget {
       child: ClipPath(
         clipper: BannerClipper(),
         child: Container(
-          width: 150,
-          height: 45,
+          width: widthBox(context, 12),
+          height: heightBox(context, 5),
           decoration: BoxDecoration(
             color: Color(0xFFFF5B30),
             borderRadius: BorderRadius.only(
@@ -344,14 +418,13 @@ class _ClassBannerCard extends StatelessWidget {
             ),
           ),
           child: Center(
-            child: Material(
-              color: Colors.transparent,
-              child: Text(
-                klassName,
-                style: TextStyle(
-                    fontSize: 18.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
+            child: Text(
+              klassName,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.5,
               ),
             ),
           ),
@@ -390,13 +463,11 @@ class _SubjectInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // padding: EdgeInsets.only(top: 96.0),
+    return Expanded(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          /// Subject text
           Hero(
             tag: nameTag,
             child: Material(
@@ -412,7 +483,7 @@ class _SubjectInfoCard extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 12.0),
+          verticalSpace(context, 1.5),
           Hero(
             tag: timeTag,
             child: Material(
@@ -420,15 +491,15 @@ class _SubjectInfoCard extends StatelessWidget {
               child: Text(
                 _timeInfo(),
                 style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
                   color: Color(0xff494F55),
-                  letterSpacing: 1.5,
+                  fontSize: 22.0,
+                  fontWeight: FontWeight.bold,
+                  // letterSpacing: 1.5,
                 ),
+                textAlign: TextAlign.center,
               ),
             ),
           ),
-          // SizedBox(height: 24.0),
         ],
       ),
     );

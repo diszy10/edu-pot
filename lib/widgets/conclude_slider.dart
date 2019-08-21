@@ -114,7 +114,7 @@ class _ConcludeSliderState extends State<ConcludeSlider>
           title: Text(
             "Conclude the class?",
             style: TextStyle(
-              fontSize: 18.0,
+              fontSize: 20.0,
               color: Color(0xFFE2E3EB),
             ),
           ),
@@ -124,6 +124,7 @@ class _ConcludeSliderState extends State<ConcludeSlider>
                 "No",
                 style: TextStyle(
                   color: Color(0xFFE2E3EB),
+                  fontSize: 18.0,
                 ),
               ),
               onPressed: () {
@@ -136,9 +137,11 @@ class _ConcludeSliderState extends State<ConcludeSlider>
                 "Yes! Conclude",
                 style: TextStyle(
                   color: Color(0xFFE2E3EB),
+                  fontSize: 18.0,
                 ),
               ),
               onPressed: () {
+                Navigator.pop(context);
                 Navigator.pushReplacementNamed(
                     context, HomeworkScreen.routeName);
               },

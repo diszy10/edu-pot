@@ -43,6 +43,10 @@ class _MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: Config().getString(Config.appName),
       onGenerateRoute: AppRouter.generateRoute,
+      theme: ThemeData(
+        primaryColor: Color(0xFF5B6CEC),
+        scaffoldBackgroundColor: Color(0xFFF9F6F5),
+      ),
     );
   }
 }
