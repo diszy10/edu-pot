@@ -13,7 +13,7 @@ class LoginModel extends BaseModel {
   Future<void> login(
       BuildContext context, String email, String password) async {
     try {
-      setState(ViewState.Authentication);
+      setState(ViewState.Authenticate);
 
       /// Login service
       await _authService.authenticate(email, password);

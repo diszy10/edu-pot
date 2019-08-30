@@ -184,7 +184,7 @@ class MockApi implements Api {
   Future<List<Student>> getStudentsForSubject(String subjectId) async {
     await Future.delayed(Duration(seconds: 1));
 
-    List<String> subjectIds = ['1', '2'];
+    List<String> subjectIds = ['1', '2', '3', '4'];
 
     if (subjectIds.contains(subjectId)) {
       return [

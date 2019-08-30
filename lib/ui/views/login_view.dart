@@ -131,7 +131,7 @@ class LoginView extends StatelessWidget {
                                             BorderRadius.circular(4.0),
                                         child: Center(
                                           child: model.state ==
-                                                  ViewState.Authentication
+                                                  ViewState.Authenticate
                                               ? Container(
                                                   padding: Platform.isIOS
                                                       ? edgeVertical(context, 3)
