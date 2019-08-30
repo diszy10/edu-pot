@@ -80,23 +80,41 @@ class HomeworkView extends StatelessWidget {
             /// Homework list
             model.state == ViewState.Busy
                 ? Loader()
-                : Padding(
-                    padding: edgeHorizontal(context, 5),
-                    child: GridView.builder(
-                      physics: BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: model.homeworks.length,
-                      itemBuilder: (ctx, i) => new _HomeworkItem(
-                          homework: model.homeworks[i], model: model),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        childAspectRatio: 16 / 9,
-                        crossAxisSpacing: 0,
-                        mainAxisSpacing: 0,
+                : model.homeworks != null
+                    ? _HomeworkList(model: model)
+                    : Center(
+                        child: Text(
+                          'No data found.',
+                          style: TextStyle(fontSize: 16.0),
+                        ),
                       ),
-                    ),
-                  ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _HomeworkList extends StatelessWidget {
+  final HomeworkModel model;
+
+  const _HomeworkList({Key key, this.model}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: edgeHorizontal(context, 5),
+      child: GridView.builder(
+        physics: BouncingScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: model.homeworks.length,
+        itemBuilder: (ctx, i) =>
+            new _HomeworkItem(homework: model.homeworks[i], model: model),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          childAspectRatio: 16 / 9,
+          crossAxisSpacing: 0,
+          mainAxisSpacing: 0,
         ),
       ),
     );

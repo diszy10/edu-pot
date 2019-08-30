@@ -59,7 +59,7 @@ class MockApi implements Api {
         Subject(
           id: '4',
           title: 'Science',
-          klass: '3B',
+          klass: '4B',
           startTime: DateTime.parse('2019-07-31T12:30:00Z'),
           endTime: DateTime.parse('2019-07-31T14:00:00Z'),
         ),
@@ -70,10 +70,10 @@ class MockApi implements Api {
   }
 
   @override
-  Future<List<Module>> getModulesForSubject(String topicId) async {
+  Future<List<Module>> getModulesForSubject(String subjectId) async {
     await Future.delayed(Duration(seconds: 1));
 
-    if (topicId == '1') {
+    if (subjectId == '1') {
       return [
         Module(id: '1', title: 'Decimal fractions and place value patterns'),
         Module(id: '2', title: 'Multi-digit whole number place value concepts'),
@@ -83,7 +83,7 @@ class MockApi implements Api {
       ];
     }
 
-    if (topicId == '2') {
+    if (subjectId == '2') {
       return [
         Module(id: '1', title: 'Place value and rounding'),
         Module(id: '2', title: 'Writing whole numbers in expanded form'),
@@ -96,6 +96,33 @@ class MockApi implements Api {
             title: 'Adding and subtracting fractions with like denominators'),
         Module(id: '8', title: 'Fractions with denominators of 10 and 100'),
         Module(id: '9', title: 'Multiplying whole numbers and fractions'),
+      ];
+    }
+
+    if (subjectId == '3') {
+      return [
+        Module(id: '1', title: 'Classify fruits and vegetables as plant parts'),
+        Module(id: '2', title: 'Identify plant parts and their functions'),
+        Module(id: '3', title: 'How do plants make food?'),
+        Module(
+            id: '4',
+            title: 'Read and construct flowering plant life cycle diagrams'),
+        Module(id: '5', title: 'How do flowering plants make new plants?'),
+      ];
+    }
+
+    if (subjectId == '4') {
+      return [
+        Module(id: '6', title: 'Read animal life cycle diagrams'),
+        Module(id: '7', title: 'Construct animal life cycle diagrams'),
+        Module(id: '8', title: 'Compare stages of an animal\'s life cycle'),
+        Module(id: '9', title: 'Compare different animals\' life cycle'),
+        Module(
+            id: '10',
+            title: 'Benefits of group behavior: North American caribou'),
+        Module(
+            id: '11', title: 'Benefits of group behavior: African wild dogs'),
+        Module(id: '12', title: 'Benefits of group behavior: leaf-cutter ants'),
       ];
     }
 
@@ -121,6 +148,35 @@ class MockApi implements Api {
       ];
     }
 
+    if (subjectId == '3') {
+      return [
+        Homework(
+            id: '1', title: 'Classify fruits and vegetables as plant parts'),
+        Homework(id: '2', title: 'Identify plant parts and their functions'),
+        Homework(id: '3', title: 'How do plants make food?'),
+        Homework(
+            id: '4',
+            title: 'Read and construct flowering plant life cycle diagrams'),
+        Homework(id: '5', title: 'How do flowering plants make new plants?'),
+      ];
+    }
+
+    if (subjectId == '4') {
+      return [
+        Homework(id: '6', title: 'Read animal life cycle diagrams'),
+        Homework(id: '7', title: 'Construct animal life cycle diagrams'),
+        Homework(id: '8', title: 'Compare stages of an animal\'s life cycle'),
+        Homework(id: '9', title: 'Compare different animals\' life cycle'),
+        Homework(
+            id: '10',
+            title: 'Benefits of group behavior: North American caribou'),
+        Homework(
+            id: '11', title: 'Benefits of group behavior: African wild dogs'),
+        Homework(
+            id: '12', title: 'Benefits of group behavior: leaf-cutter ants'),
+      ];
+    }
+
     return null;
   }
 
@@ -134,23 +190,43 @@ class MockApi implements Api {
       return [
         Student(
           id: '1',
-          name: 'Azka',
-          imageUrl: 'assets/graphics/student1.jpeg',
+          name: 'Alano Nilles',
+          imageUrl: 'assets/graphics/alano.jpeg',
         ),
         Student(
           id: '2',
-          name: 'Jenifer',
-          imageUrl: 'assets/graphics/student2.jpeg',
+          name: 'Dennis Kusuma',
+          imageUrl: 'assets/graphics/dennis.jpeg',
         ),
         Student(
           id: '3',
-          name: 'Rayuko',
-          imageUrl: 'assets/graphics/student3.jpeg',
+          name: 'Gina Ulva Pratiwi',
+          imageUrl: 'assets/graphics/gina.jpeg',
         ),
         Student(
           id: '4',
-          name: 'Sheri',
-          imageUrl: 'assets/graphics/student4.jpeg',
+          name: 'Jenifer Prastuti',
+          imageUrl: 'assets/graphics/jennifer.jpeg',
+        ),
+        Student(
+          id: '5',
+          name: 'Lisa Savina',
+          imageUrl: 'assets/graphics/lisa.jpeg',
+        ),
+        Student(
+          id: '6',
+          name: 'Olumide Adegoke',
+          imageUrl: 'assets/graphics/olumide.jpeg',
+        ),
+        Student(
+          id: '7',
+          name: 'Rayuko Inoue',
+          imageUrl: 'assets/graphics/rayuko.jpeg',
+        ),
+        Student(
+          id: '8',
+          name: 'Sheri Tami Riyanti',
+          imageUrl: 'assets/graphics/sheri.jpeg',
         ),
       ];
     }

@@ -90,10 +90,13 @@ class AttendanceView extends StatelessWidget {
             ),
             model.state == ViewState.Busy
                 ? Loader()
-                : model.isHasStudents
+                : model.students != null
                     ? _StudentList(students: model.students)
                     : Center(
-                        child: Text('No data found.'),
+                        child: Text(
+                          'No data found.',
+                          style: TextStyle(fontSize: 16.0),
+                        ),
                       )
           ],
         ),
@@ -136,7 +139,7 @@ class _StudentItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<AttendanceModel>(
       builder: (context, model, child) => Container(
-        margin: edgeSymmetric(context, 2, 2),
+        // margin: edgeSymmetric(context, 2, 2),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[

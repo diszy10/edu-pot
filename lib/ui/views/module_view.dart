@@ -73,7 +73,7 @@ class _ModuleViewState extends State<ModuleView> with TickerProviderStateMixin {
                             ),
                             horizontalSpace(context, 0.8),
                             Text(
-                              'TOPIC 8',
+                              'TOPIC 1',
                               style: TextStyle(
                                 color: Color(0xFF25C431),
                                 fontSize: 24.0,
@@ -92,7 +92,7 @@ class _ModuleViewState extends State<ModuleView> with TickerProviderStateMixin {
                               widget.module.title,
                               style: TextStyle(
                                 color: Color(0xFF323232),
-                                fontSize: 74.0,
+                                fontSize: 70.0,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1.5,
                               ),
