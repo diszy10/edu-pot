@@ -123,14 +123,17 @@ class _SubjectItem extends StatelessWidget {
                         bottomRight: Radius.circular(16.0),
                       ),
                     ),
-                    child: Center(
-                      child: Text(
-                        'Class ' + subject.klass,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
+                    child: Material(
+                      color: Colors.transparent,
+                      child: Center(
+                        child: Text(
+                          'Class ' + subject.klass,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.5,
+                          ),
                         ),
                       ),
                     ),

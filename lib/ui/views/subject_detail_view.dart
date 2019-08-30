@@ -65,14 +65,17 @@ class SubjectDetailView extends StatelessWidget {
                                     bottomRight: Radius.circular(16.0),
                                   ),
                                 ),
-                                child: Center(
-                                  child: Text(
-                                    'Class ' + subject.klass,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 28.0,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 1.5,
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: Center(
+                                    child: Text(
+                                      'Class ' + subject.klass,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 28.0,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 1.5,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -156,10 +159,11 @@ class SubjectDetailView extends StatelessWidget {
                       children: <Widget>[
                         /// Continue button
                         Container(
-                          height: heightBox(context, 16.5),
+                          height: heightBox(context, 17),
                           child: Stack(
                             fit: StackFit.expand,
                             children: <Widget>[
+                              /// Button
                               Align(
                                 alignment: Alignment.bottomCenter,
                                 child: Container(
@@ -189,17 +193,15 @@ class SubjectDetailView extends StatelessWidget {
                                                 arguments: model.modules[0]),
                                         borderRadius:
                                             BorderRadius.circular(16.0),
-                                        child: Padding(
-                                          padding: edgeSymmetric(context, 4, 3),
-                                          child: Center(
-                                            child: Text(
-                                              'Continue as ${Provider.of<User>(context).name}',
-                                              style: TextStyle(
-                                                fontSize: 24.0,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              textAlign: TextAlign.center,
+                                        child: Center(
+                                          child: Text(
+                                            'Continue as ${Provider.of<User>(context).name}',
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontWeight: FontWeight.bold,
                                             ),
+                                            textAlign: TextAlign.center,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
                                       ),
@@ -207,6 +209,8 @@ class SubjectDetailView extends StatelessWidget {
                                   ),
                                 ),
                               ),
+
+                              /// User image
                               Align(
                                 alignment: Alignment.topCenter,
                                 child: Container(
