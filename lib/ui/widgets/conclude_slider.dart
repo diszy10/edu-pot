@@ -7,9 +7,9 @@ const double _concludeWidth = 21.0;
 const double _sliderHorizontalMargin = 0.0;
 
 class ConcludeSlider extends StatefulWidget {
-  final Function onPressed;
+  final Function onConclude;
 
-  const ConcludeSlider({@required this.onPressed});
+  const ConcludeSlider({@required this.onConclude});
 
   @override
   _ConcludeSliderState createState() => _ConcludeSliderState();
@@ -100,7 +100,7 @@ class _ConcludeSliderState extends State<ConcludeSlider>
                 ),
                 onPressed: () {
                   _cancelConclude();
-                  Navigator.of(context).pop();
+                  Navigator.pop(context);
                 },
               ),
               FlatButton(
@@ -111,7 +111,7 @@ class _ConcludeSliderState extends State<ConcludeSlider>
                     fontSize: 16.0,
                   ),
                 ),
-                onPressed: widget.onPressed,
+                onPressed: widget.onConclude,
               ),
             ],
           );

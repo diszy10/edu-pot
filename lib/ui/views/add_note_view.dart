@@ -72,8 +72,8 @@ class AddNoteView extends StatelessWidget {
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      onTap: () async {
-                        await model.logout(context);
+                      onTap: () {
+                        model.logout();
                       },
                       child: Center(
                         child: Text(

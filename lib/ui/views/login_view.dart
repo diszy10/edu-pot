@@ -36,7 +36,7 @@ class LoginView extends StatelessWidget {
     if (form.validate()) {
       form.save();
       try {
-        await model.login(context, _email, _password);
+        await model.login(_email, _password);
       } catch (e) {
         showDialog(
           context: context,

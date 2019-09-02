@@ -28,7 +28,7 @@ class AttendanceView extends StatelessWidget {
                     child: Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: () => Navigator.pop(context),
+                        onTap: () => model.navigateBack(),
                         borderRadius: BorderRadius.circular(50.0),
                         child: Container(
                           padding: EdgeInsets.all(32.0),
@@ -68,8 +68,7 @@ class AttendanceView extends StatelessWidget {
                     child: Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: () =>
-                            Navigator.pushReplacementNamed(context, 'add-note'),
+                        onTap: () => model.navigateToAddNote(),
                         borderRadius: BorderRadius.circular(16.0),
                         child: Padding(
                           padding: edgeSymmetric(context, 3, 1.5),

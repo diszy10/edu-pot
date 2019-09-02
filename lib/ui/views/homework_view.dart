@@ -57,7 +57,7 @@ class HomeworkView extends StatelessWidget {
                     child: Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: () => Navigator.pushNamed(context, 'attendance'),
+                        onTap: () => model.navigateToAttendance(),
                         borderRadius: BorderRadius.circular(16.0),
                         child: Padding(
                           padding: edgeSymmetric(context, 3, 1.5),
@@ -144,12 +144,18 @@ class _HomeworkItem extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),
         color: colors[random.nextInt(6)],
+        // color: Colors.white,
         boxShadow: <BoxShadow>[
+          // BoxShadow(
+          //   color: Colors.black26,
+          //   offset: Offset(4.0, 8.0),
+          //   blurRadius: 8.0,
+          //   spreadRadius: 0.0,
+          // ),
           BoxShadow(
-            color: Colors.black26,
+            color: Colors.black12,
             offset: Offset(4.0, 8.0),
-            blurRadius: 8.0,
-            spreadRadius: 0.0,
+            blurRadius: 16.0,
           ),
         ],
       ),
@@ -159,7 +165,7 @@ class _HomeworkItem extends StatelessWidget {
           onTap: () => showDialog(
             barrierDismissible: true,
             context: context,
-            builder: (BuildContext context) => new _ActionModal(
+            builder: (BuildContext context) => _ActionModal(
                 colors: colors,
                 random: random,
                 homework: homework,
@@ -167,21 +173,24 @@ class _HomeworkItem extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(16.0),
           child: Container(
-            padding: EdgeInsets.all(14.0),
+            padding: EdgeInsets.all(16.0),
             child: Stack(
               children: <Widget>[
                 /// Homework title
                 Center(
-                  child: Text(
-                    homework.title,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      homework.title,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    textAlign: TextAlign.center,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
 

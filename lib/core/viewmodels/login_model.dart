@@ -1,17 +1,19 @@
+import 'package:edukasi_pot/core/constants/route_paths.dart' as routes;
 import 'package:edukasi_pot/core/enums/viewstate.dart';
 import 'package:edukasi_pot/core/services/auth_service.dart';
+import 'package:edukasi_pot/core/services/navigation_service.dart';
 import 'package:edukasi_pot/core/services/subject_service.dart';
 import 'package:edukasi_pot/core/viewmodels/base_model.dart';
 import 'package:edukasi_pot/locator.dart';
-import 'package:flutter/material.dart';
 
 class LoginModel extends BaseModel {
+  NavigationService _navigationService = locator<NavigationService>();
+
   AuthService _authService = locator<AuthService>();
 
   SubjectService _subjectsService = locator<SubjectService>();
 
-  Future<void> login(
-      BuildContext context, String email, String password) async {
+  Future<void> login(String email, String password) async {
     try {
       setState(ViewState.Authenticate);
 
@@ -26,10 +28,10 @@ class LoginModel extends BaseModel {
 
       var subjectInSession = _subjectsService.subjectInSession;
       if (subjectInSession != null) {
-        Navigator.pushReplacementNamed(context, 'subject',
+        _navigationService.navigateToReplacement(routes.SubjectDetail,
             arguments: subjectInSession);
       } else {
-        Navigator.pushReplacementNamed(context, 'subject-list');
+        _navigationService.navigateToReplacement(routes.SubjectList);
       }
     } catch (e) {
       setState(ViewState.Idle);
@@ -37,12 +39,7 @@ class LoginModel extends BaseModel {
     }
   }
 
-  Future<void> logout(BuildContext context) async {
-    try {
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil('login', (Route<dynamic> route) => false);
-    } catch (e) {
-      throw (e);
-    }
+  void logout() {
+    _navigationService.logout();
   }
 }

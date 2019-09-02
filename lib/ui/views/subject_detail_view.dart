@@ -90,8 +90,8 @@ class SubjectDetailView extends StatelessWidget {
                               color: Colors.transparent,
                               child: BaseView<LoginModel>(
                                 builder: (context, model, child) => InkWell(
-                                  onTap: () async {
-                                    await model.logout(context);
+                                  onTap: () {
+                                    model.logout();
                                   },
                                   borderRadius: BorderRadius.circular(32.0),
                                   child: Container(
@@ -183,26 +183,30 @@ class SubjectDetailView extends StatelessWidget {
                                   ),
                                   child: Material(
                                     color: Colors.transparent,
-                                    child: BaseView<ModuleModel>(
-                                      onModelReady: (model) =>
-                                          model.getModules(subject.id),
-                                      builder: (context, model, _) => InkWell(
-                                        onTap: () =>
-                                            Navigator.pushReplacementNamed(
-                                                context, 'module-detail',
-                                                arguments: model.modules[0]),
-                                        borderRadius:
-                                            BorderRadius.circular(16.0),
-                                        child: Center(
-                                          child: Text(
-                                            'Continue as ${Provider.of<User>(context).name}',
-                                            style: TextStyle(
-                                              fontSize: 24.0,
-                                              fontWeight: FontWeight.bold,
+                                    child: InkWell(
+                                      onTap: () async {
+                                        try {
+                                          await model.getModules(subject.id);
+                                        } catch (e) {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                AlertDialog(
+                                              content: Text(e.toString()),
                                             ),
-                                            textAlign: TextAlign.center,
-                                            overflow: TextOverflow.ellipsis,
+                                          );
+                                        }
+                                      },
+                                      borderRadius: BorderRadius.circular(16.0),
+                                      child: Center(
+                                        child: Text(
+                                          'Continue as ${Provider.of<User>(context).name}',
+                                          style: TextStyle(
+                                            fontSize: 24.0,
+                                            fontWeight: FontWeight.bold,
                                           ),
+                                          textAlign: TextAlign.center,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                     ),

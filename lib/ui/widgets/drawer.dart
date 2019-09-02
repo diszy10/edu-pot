@@ -105,9 +105,14 @@ class ModuleDrawer extends StatelessWidget {
             verticalSpaceSmall(context),
 
             /// Slider conclude class
-            ConcludeSlider(
-                onPressed: () =>
-                    Navigator.pushReplacementNamed(context, 'homework')),
+            BaseView<ModuleModel>(
+              builder: (context, model, _) => ConcludeSlider(
+                onConclude: () {
+                  model.hideDrawer();
+                  model.navigateToHomework();
+                },
+              ),
+            ),
             verticalSpaceSmall(context)
           ],
         ),
@@ -132,9 +137,7 @@ class ModuleList extends StatelessWidget {
             int no = index + 1;
             return InkWell(
               onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, 'module-detail',
-                    arguments: module);
+                model.navigateToModuleDetail(arguments: module);
               },
               child: Container(
                 margin: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),

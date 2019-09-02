@@ -54,9 +54,9 @@ class SubjectListView extends StatelessWidget {
                         padding: edgeSymmetric(context, 1, 2),
                         child: _SubjectItem(
                           subject: subject,
-                          onTap: () => Navigator.pushReplacementNamed(
-                              context, 'subject',
-                              arguments: subject),
+                          onTap: () {
+                            model.navigateToSubjectDetail(arguments: subject);
+                          },
                         ),
                       );
                     },

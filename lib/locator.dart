@@ -10,6 +10,7 @@ const bool USE_MOCK_IMPLEMENTATION = true;
 GetIt locator = GetIt.I;
 
 void setupLocator() {
+  locator.registerLazySingleton(() => NavigationService());
   locator.registerLazySingleton<Api>(
       () => USE_MOCK_IMPLEMENTATION ? MockApi() : HttpApi());
   locator.registerLazySingleton(() => AuthService());

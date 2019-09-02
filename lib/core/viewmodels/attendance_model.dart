@@ -1,10 +1,14 @@
+import 'package:edukasi_pot/core/constants/route_paths.dart' as routes;
 import 'package:edukasi_pot/core/enums/viewstate.dart';
 import 'package:edukasi_pot/core/services/api/models.dart';
 import 'package:edukasi_pot/core/services/attendance_service.dart';
+import 'package:edukasi_pot/core/services/navigation_service.dart';
 import 'package:edukasi_pot/core/viewmodels/base_model.dart';
 import 'package:edukasi_pot/locator.dart';
 
 class AttendanceModel extends BaseModel {
+  NavigationService _navigationService = locator<NavigationService>();
+  
   AttendanceService _attendancesService = locator<AttendanceService>();
 
   List<Student> get students => _attendancesService.students;
@@ -23,5 +27,13 @@ class AttendanceModel extends BaseModel {
   void toggleAttend(String studentId) {
     _attendancesService.setAttend(studentId);
     notifyListeners();
+  }
+
+  void navigateToAddNote() {
+    _navigationService.navigateTo(routes.AddNote);
+  }
+
+  void navigateBack() {
+    _navigationService.navigateBack();
   }
 }
