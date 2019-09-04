@@ -19,6 +19,11 @@ class HomeworkModel extends BaseModel {
     setState(ViewState.Idle);
   }
 
+  void setDeadline(String homeworkId, DateTime deadlineDate) {
+    _homeworksService.setDeadline(homeworkId, deadlineDate);
+    notifyListeners();
+  }
+
   void setDistribute(String homeworkId) {
     _homeworksService.setDistribute(homeworkId);
     notifyListeners();
@@ -26,6 +31,7 @@ class HomeworkModel extends BaseModel {
 
   void unDistribute(String homeworkId) {
     _homeworksService.unDistribute(homeworkId);
+    _homeworksService.resetDeadline(homeworkId);
     notifyListeners();
   }
 

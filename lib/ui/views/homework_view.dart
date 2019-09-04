@@ -6,6 +6,8 @@ import 'package:edukasi_pot/core/viewmodels/viewmodels.dart';
 import 'package:edukasi_pot/ui/shared/shared.dart';
 import 'package:edukasi_pot/ui/views/base_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_calendar_carousel/classes/event.dart';
+import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -237,24 +239,69 @@ class _ActionModal extends StatefulWidget {
 class __ActionModalState extends State<_ActionModal> {
   String _selectedDate = 'Next Session';
 
-  Future _selectDate() async {
-    final DateTime picked = await showDatePicker(
+  Future<void> _selectDate({@required String homeworkId}) async {
+    return showDialog(
       context: context,
-      initialDate: DateTime.now().add(Duration(days: 1)),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2020),
-      builder: (BuildContext context, Widget child) {
-        return Theme(
-          data: ThemeData.dark(),
-          child: child,
-        );
-      },
+      builder: (BuildContext context) => Dialog(
+        backgroundColor: Color(0xFF222930),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 24.0),
+            child: BaseView<HomeworkModel>(
+              builder: (context, model, _) => CalendarCarousel<Event>(
+                width: MediaQuery.of(context).size.width * 0.35,
+                height: MediaQuery.of(context).size.height * 0.510,
+                onDayPressed: (DateTime date, _) {
+                  this.setState(() {
+                    _selectedDate =
+                        DateFormat("dd MMM yyyy").format(date).toString();
+                    model.setDeadline(homeworkId, date);
+                    Navigator.pop(context);
+                  });
+                },
+                selectedDateTime: widget.homework.deadline,
+                selectedDayButtonColor: Color(0xFF25c431),
+                selectedDayBorderColor: Color(0xFF25c431),
+                selectedDayTextStyle: TextStyle(
+                  color: Colors.white,
+                ),
+                showHeaderButton: false,
+                headerTextStyle: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+                headerMargin: EdgeInsets.only(bottom: 32.0),
+                weekendTextStyle: TextStyle(
+                  color: Colors.deepOrange,
+                ),
+                // todayButtonColor: Colors.blue,
+                // todayBorderColor: Colors.blue,
+                todayTextStyle: TextStyle(
+                  color: Colors.black,
+                ),
+                daysTextStyle: TextStyle(
+                  color: Colors.white,
+                ),
+                weekFormat: false,
+                daysHaveCircularBorder: false,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
-    if (picked != null) {
-      setState(() {
-        _selectedDate = DateFormat("dd MMM yyyy").format(picked).toString();
-      });
-    }
+  }
+
+  void _handleDistribute() {
+    widget.homework.isDistribute == false
+        ? widget.model.setDistribute(widget.homework.id)
+        : widget.model.unDistribute(widget.homework.id);
+    Navigator.pop(context);
   }
 
   @override
@@ -301,7 +348,8 @@ class __ActionModalState extends State<_ActionModal> {
                     child: Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: () => _selectDate(),
+                        onTap: () =>
+                            _selectDate(homeworkId: widget.homework.id),
                         borderRadius: BorderRadius.circular(50.0),
                         child: Container(
                           padding: EdgeInsets.symmetric(
@@ -311,7 +359,11 @@ class __ActionModalState extends State<_ActionModal> {
                               Icon(Icons.flag, color: Colors.white),
                               SizedBox(width: 10.0),
                               Text(
-                                _selectedDate,
+                                widget.homework.deadline == null
+                                    ? _selectedDate
+                                    : DateFormat("dd MMM yyyy")
+                                        .format(widget.homework.deadline)
+                                        .toString(),
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16.0,
@@ -332,12 +384,7 @@ class __ActionModalState extends State<_ActionModal> {
                     child: Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: () {
-                          widget.homework.isDistribute == false
-                              ? widget.model.setDistribute(widget.homework.id)
-                              : widget.model.unDistribute(widget.homework.id);
-                          Navigator.pop(context);
-                        },
+                        onTap: _handleDistribute,
                         borderRadius: BorderRadius.circular(50.0),
                         child: Container(
                           padding: EdgeInsets.symmetric(

@@ -25,9 +25,10 @@ class Exercise {
 
 class Homework {
   final String id, title;
+  DateTime deadline;
   bool isDistribute;
 
-  Homework({this.id, this.title, this.isDistribute = false});
+  Homework({this.id, this.title, this.deadline, this.isDistribute = false});
 }
 
 class Student {

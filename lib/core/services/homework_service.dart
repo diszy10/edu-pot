@@ -14,6 +14,16 @@ class HomeworkService {
     _homeworks = await _api.getHomeworksForSubject(subjectId);
   }
 
+  void setDeadline(String homeworkId, DateTime deadlineDate) {
+    _homeworks.firstWhere((homework) => homework.id == homeworkId).deadline =
+        deadlineDate;
+  }
+
+  void resetDeadline(String homeworkId) {
+    _homeworks.firstWhere((homework) => homework.id == homeworkId).deadline =
+        null;
+  }
+
   void setDistribute(String homeworkId) {
     _homeworks
         .firstWhere((homework) => homework.id == homeworkId)
