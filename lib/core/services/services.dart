@@ -1,3 +1,4 @@
+export './connectivity_service.dart';
 export './navigation_service.dart';
 export './auth_service.dart';
 export './subject_service.dart';

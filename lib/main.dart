@@ -27,6 +27,9 @@ class MyApp extends StatelessWidget {
             builder: (context) => locator<AuthService>().userController),
         StreamProvider<Subject>.controller(
             builder: (context) => locator<SubjectService>().subjectController),
+        StreamProvider<ConnectivityStatus>.controller(
+            builder: (context) =>
+                locator<ConnectivityService>().connectionStatusController),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
