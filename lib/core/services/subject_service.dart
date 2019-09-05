@@ -22,7 +22,7 @@ class SubjectService {
   Future getSubjectInSession() async {
     DateTime now = DateTime.parse('2019-07-30T07:45:00Z').toLocal();
 
-    for (var subject in subjects) {
+    for (var subject in _subjects) {
       if (subject.startTime.isBefore(now) && subject.endTime.isAfter(now)) {
         _subjectInSession = subject;
         break;
@@ -32,5 +32,9 @@ class SubjectService {
 
   void addSubjectToStream(Subject subject) {
     subjectController.add(subject);
+  }
+
+  void clearSubjectInSession() {
+    _subjectInSession = null;
   }
 }

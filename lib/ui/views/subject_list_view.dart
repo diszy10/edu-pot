@@ -8,15 +8,13 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class SubjectListView extends StatelessWidget {
-  final Subject subjectInSession;
-
-  const SubjectListView({Key key, this.subjectInSession}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BaseView<SubjectModel>(
-      onModelReady: (model) =>
-          model.getSubjects(Provider.of<User>(context, listen: false).id),
+      onModelReady: (model) {
+        model.getSubjects(Provider.of<User>(context).id);
+        model.getSubjectInSession();
+      },
       builder: (context, model, child) => Scaffold(
         backgroundColor: Color(0xFFF6F8F9),
         body: SafeArea(
@@ -54,6 +52,7 @@ class SubjectListView extends StatelessWidget {
                         padding: edgeSymmetric(context, 1, 2),
                         child: _SubjectItem(
                           subject: subject,
+                          subjectInSession: subject == model.subjectInSession,
                           onTap: () {
                             model.navigateToSubjectDetail(arguments: subject);
                           },
@@ -74,11 +73,13 @@ class SubjectListView extends StatelessWidget {
 /// Subject Card
 class _SubjectItem extends StatelessWidget {
   final Subject subject;
+  final bool subjectInSession;
   final Function onTap;
 
   const _SubjectItem({
     @required this.subject,
     @required this.onTap,
+    this.subjectInSession,
   });
 
   @override
@@ -90,6 +91,8 @@ class _SubjectItem extends StatelessWidget {
     return Container(
       width: widthSmall(context),
       decoration: BoxDecoration(
+        border:
+            subjectInSession ? Border.all(color: Colors.red, width: 4.0) : null,
         borderRadius: BorderRadius.circular(16.0),
         color: Colors.white,
         boxShadow: <BoxShadow>[

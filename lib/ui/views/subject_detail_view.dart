@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:edukasi_pot/core/enums/viewstate.dart';
 import 'package:edukasi_pot/core/services/api/models.dart';
 import 'package:edukasi_pot/core/viewmodels/viewmodels.dart';
 import 'package:edukasi_pot/ui/shared/shared.dart';
@@ -88,7 +91,7 @@ class SubjectDetailView extends StatelessWidget {
                             margin: edgeSymmetric(context, 4, 2),
                             child: Material(
                               color: Colors.transparent,
-                              child: BaseView<LoginModel>(
+                              child: BaseView<AuthModel>(
                                 builder: (context, model, child) => InkWell(
                                   onTap: () {
                                     model.logout();
@@ -184,9 +187,9 @@ class SubjectDetailView extends StatelessWidget {
                                   child: Material(
                                     color: Colors.transparent,
                                     child: InkWell(
-                                      onTap: () async {
+                                      onTap: () {
                                         try {
-                                          await model.getModules(subject.id);
+                                          model.getModules(subject.id);
                                         } catch (e) {
                                           showDialog(
                                             context: context,
@@ -199,15 +202,23 @@ class SubjectDetailView extends StatelessWidget {
                                       },
                                       borderRadius: BorderRadius.circular(16.0),
                                       child: Center(
-                                        child: Text(
-                                          'Continue as ${Provider.of<User>(context).name}',
-                                          style: TextStyle(
-                                            fontSize: 24.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
+                                        child: model.state == ViewState.Busy
+                                            ? Container(
+                                                padding: Platform.isIOS
+                                                    ? edgeVertical(context, 3)
+                                                    : edgeVertical(
+                                                        context, 2.15),
+                                                child: Loader(),
+                                              )
+                                            : Text(
+                                                'Continue as ${Provider.of<User>(context).name}',
+                                                style: TextStyle(
+                                                  fontSize: 24.0,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
                                       ),
                                     ),
                                   ),
@@ -248,8 +259,7 @@ class SubjectDetailView extends StatelessWidget {
                             color: Colors.transparent,
                             child: InkWell(
                               onTap: () {
-                                Navigator.pushReplacementNamed(
-                                    context, 'subject-list');
+                                model.navigateToSubjectList();
                               },
                               borderRadius: BorderRadius.circular(16.0),
                               child: Padding(

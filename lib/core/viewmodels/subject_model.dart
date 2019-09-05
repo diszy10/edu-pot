@@ -1,4 +1,5 @@
 import 'package:edukasi_pot/core/constants/route_paths.dart' as routes;
+import 'package:edukasi_pot/core/enums/viewstate.dart';
 import 'package:edukasi_pot/core/services/api/models.dart';
 import 'package:edukasi_pot/core/services/module_service.dart';
 import 'package:edukasi_pot/core/services/navigation_service.dart';
@@ -10,19 +11,23 @@ class SubjectModel extends BaseModel {
   NavigationService _navigationService = locator<NavigationService>();
 
   SubjectService _subjectsService = locator<SubjectService>();
-
   ModuleService _modulesService = locator<ModuleService>();
 
   List<Subject> get subjects => _subjectsService.subjects;
-
   Subject get subjectInSession => _subjectsService.subjectInSession;
 
   Future getSubjects(String userId) async {
     await _subjectsService.getSubjects(userId);
   }
 
+  Future<void> getSubjectInSession() async {
+    await _subjectsService.getSubjectInSession();
+  }
+
   Future getModules(String subjectId) async {
+    setState(ViewState.Busy);
     await _modulesService.getModules(subjectId);
+
     navigateToModuleDetail();
   }
 
@@ -32,6 +37,11 @@ class SubjectModel extends BaseModel {
 
   void navigateToSubjectDetail({dynamic arguments}) {
     _navigationService.navigateToReplacement(routes.SubjectDetail,
+        arguments: arguments);
+  }
+
+  void navigateToSubjectList({dynamic arguments}) async {
+    _navigationService.navigateToReplacement(routes.SubjectList,
         arguments: arguments);
   }
 

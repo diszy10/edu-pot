@@ -30,7 +30,7 @@ class LoginView extends StatelessWidget {
     return null;
   }
 
-  void _handleLogin(BuildContext context, LoginModel model) async {
+  void _handleLogin(BuildContext context, AuthModel model) async {
     final FormState form = _formKey.currentState;
 
     if (form.validate()) {
@@ -50,7 +50,7 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<LoginModel>(
+    return BaseView<AuthModel>(
       builder: (context, model, child) => Scaffold(
         body: model.state == ViewState.Busy
             ? SplashScreen()

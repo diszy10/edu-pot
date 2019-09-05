@@ -6,7 +6,7 @@ import 'package:edukasi_pot/core/services/subject_service.dart';
 import 'package:edukasi_pot/core/viewmodels/base_model.dart';
 import 'package:edukasi_pot/locator.dart';
 
-class LoginModel extends BaseModel {
+class AuthModel extends BaseModel {
   NavigationService _navigationService = locator<NavigationService>();
 
   AuthService _authService = locator<AuthService>();
@@ -39,7 +39,12 @@ class LoginModel extends BaseModel {
     }
   }
 
-  void logout() {
+  Future<void> logout() async {
+    setState(ViewState.Busy);
+    await Future.delayed(Duration(milliseconds: 600));
+    _subjectsService.clearSubjectInSession();
+
+    setState(ViewState.Idle);
     _navigationService.logout();
   }
 }

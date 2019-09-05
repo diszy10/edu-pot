@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:edukasi_pot/core/enums/viewstate.dart';
 import 'package:edukasi_pot/core/viewmodels/viewmodels.dart';
 import 'package:edukasi_pot/ui/shared/shared.dart';
 import 'package:edukasi_pot/ui/views/base_view.dart';
@@ -64,7 +67,7 @@ class AddNoteView extends StatelessWidget {
               verticalSpaceLarge(context),
 
               /// Save and logout button
-              BaseView<LoginModel>(
+              BaseView<AuthModel>(
                 builder: (context, model, _) => Container(
                   width: double.infinity,
                   height: 70.0,
@@ -76,14 +79,24 @@ class AddNoteView extends StatelessWidget {
                         model.logout();
                       },
                       child: Center(
-                        child: Text(
-                          '👋🏼 Save and Logout',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        child: model.state == ViewState.Busy
+                            ? Container(
+                                padding: Platform.isIOS
+                                    ? edgeVertical(context, 3)
+                                    : edgeVertical(context, 2.15),
+                                child: Loader(
+                                  loaderColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white),
+                                ),
+                              )
+                            : Text(
+                                '👋🏼 Save and Logout',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                       ),
                     ),
                   ),

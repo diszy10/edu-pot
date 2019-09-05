@@ -20,7 +20,7 @@ void setupLocator() {
   locator.registerLazySingleton(() => HomeworkService());
   locator.registerLazySingleton(() => AttendanceService());
 
-  locator.registerFactory(() => LoginModel());
+  locator.registerFactory(() => AuthModel());
   locator.registerFactory(() => SubjectModel());
   locator.registerFactory(() => ModuleModel());
   locator.registerFactory(() => HomeworkModel());
