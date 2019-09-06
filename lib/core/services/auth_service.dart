@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:edukasi_pot/core/services/api/api.dart';
 import 'package:edukasi_pot/core/services/api/models.dart';
+import 'package:edukasi_pot/core/services/stoppable_service.dart';
 import 'package:edukasi_pot/core/services/subject_service.dart';
 import 'package:edukasi_pot/locator.dart';
 
-class AuthService {
+class AuthService implements StoppableService {
   Api _api = locator<Api>();
 
   StreamController<User> userController = StreamController<User>();
@@ -27,4 +28,13 @@ class AuthService {
 
     return hasUser;
   }
+
+  @override
+  bool get serviceStopped => null;
+
+  @override
+  void start() {}
+
+  @override
+  void stop() {}
 }

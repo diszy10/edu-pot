@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:edukasi_pot/core/services/api/api.dart';
 import 'package:edukasi_pot/core/services/api/models.dart';
+import 'package:edukasi_pot/core/services/stoppable_service.dart';
 import 'package:edukasi_pot/locator.dart';
 
-class HomeworkService {
+class HomeworkService implements StoppableService {
   Api _api = locator<Api>();
 
   List<Homework> _homeworks;
@@ -34,5 +35,16 @@ class HomeworkService {
     _homeworks
         .firstWhere((homework) => homework.id == homeworkId)
         .isDistribute = false;
+  }
+
+  @override
+  bool get serviceStopped => null;
+
+  @override
+  void start() {
+  }
+
+  @override
+  void stop() {
   }
 }

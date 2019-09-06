@@ -1,6 +1,7 @@
 import 'package:edukasi_pot/core/constants/route_paths.dart' as routes;
 import 'package:edukasi_pot/core/services/api/models.dart';
 import 'package:edukasi_pot/core/services/services.dart';
+import 'package:edukasi_pot/lifecycle_manager.dart';
 import 'package:edukasi_pot/locator.dart';
 import 'package:edukasi_pot/ui/router.dart' as router;
 import 'package:flutter/material.dart';
@@ -31,12 +32,14 @@ class MyApp extends StatelessWidget {
             builder: (context) =>
                 locator<ConnectivityService>().connectionStatusController),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Edukasi POT',
-        initialRoute: routes.Login,
-        onGenerateRoute: router.generateRoute,
-        navigatorKey: locator<NavigationService>().navigatorKey,
+      child: LifecycleManager(
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Edukasi POT',
+          initialRoute: routes.Login,
+          onGenerateRoute: router.generateRoute,
+          navigatorKey: locator<NavigationService>().navigatorKey,
+        ),
       ),
     );
   }
