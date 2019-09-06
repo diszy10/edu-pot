@@ -10,14 +10,14 @@ class MockApi implements Api {
       return User(
         id: '1',
         name: 'Airin Rachmi',
-        imageUrl: 'assets/graphics/airin.jpg',
+        imageUrl: 'assets/images/airin.jpg',
       );
     }
     if (email == 'user2@test.com' && password == 'test') {
       return User(
         id: '2',
         name: 'Indah Putri',
-        imageUrl: 'assets/graphics/indah.jpeg',
+        imageUrl: 'assets/images/indah.jpeg',
       );
     } else {
       throw ('Authentication failed');
@@ -191,42 +191,42 @@ class MockApi implements Api {
         Student(
           id: '1',
           name: 'Alano Nilles',
-          imageUrl: 'assets/graphics/alano.jpeg',
+          imageUrl: 'assets/images/alano.jpeg',
         ),
         Student(
           id: '2',
           name: 'Dennis Kusuma',
-          imageUrl: 'assets/graphics/dennis.jpeg',
+          imageUrl: 'assets/images/dennis.jpeg',
         ),
         Student(
           id: '3',
           name: 'Gina Ulva Pratiwi',
-          imageUrl: 'assets/graphics/gina.jpeg',
+          imageUrl: 'assets/images/gina.jpeg',
         ),
         Student(
           id: '4',
           name: 'Jenifer Prastuti',
-          imageUrl: 'assets/graphics/jennifer.jpeg',
+          imageUrl: 'assets/images/jennifer.jpeg',
         ),
         Student(
           id: '5',
           name: 'Lisa Savina',
-          imageUrl: 'assets/graphics/lisa.jpeg',
+          imageUrl: 'assets/images/lisa.jpeg',
         ),
         Student(
           id: '6',
           name: 'Olumide Adegoke',
-          imageUrl: 'assets/graphics/olumide.jpeg',
+          imageUrl: 'assets/images/olumide.jpeg',
         ),
         Student(
           id: '7',
           name: 'Rayuko Inoue',
-          imageUrl: 'assets/graphics/rayuko.jpeg',
+          imageUrl: 'assets/images/rayuko.jpeg',
         ),
         Student(
           id: '8',
           name: 'Sheri Tami Riyanti',
-          imageUrl: 'assets/graphics/sheri.jpeg',
+          imageUrl: 'assets/images/sheri.jpeg',
         ),
       ];
     }

@@ -30,7 +30,7 @@ class SubjectDetailView extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/graphics/bg-subject.png'),
+                    image: AssetImage('assets/images/bg-subject.png'),
                     fit: BoxFit.cover,
                   ),
                 ),

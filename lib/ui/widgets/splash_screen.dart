@@ -21,7 +21,7 @@ class SplashScreen extends StatelessWidget {
         Center(
           child: AspectRatio(
             aspectRatio: 4.0,
-            child: Image.asset('assets/graphics/edukasi-mark.png'),
+            child: Image.asset('assets/images/edukasi-mark.png'),
           ),
         ),
       ],

@@ -79,7 +79,7 @@ class LoginView extends StatelessWidget {
                         children: <Widget>[
                           Container(
                             child:
-                                Image.asset('assets/graphics/edukasi-logo.png'),
+                                Image.asset('assets/images/edukasi-logo.png'),
                           ),
                           verticalSpaceLarge(context),
                           Container(

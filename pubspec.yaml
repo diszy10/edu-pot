@@ -34,10 +34,10 @@ dev_dependencies:
 flutter_icons:
   android: true 
   ios: false
-  image_path: "assets/graphics/edukasi-mark.png"  
+  image_path: "assets/images/edukasi-mark.png"  
 
 flutter:
   uses-material-design: true
 
   assets:
-   - assets/graphics/
+   - assets/images/
