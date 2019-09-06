@@ -54,7 +54,7 @@ class ModuleDrawer extends StatelessWidget {
             Divider(color: Colors.grey, height: 1.0),
             verticalSpace(context, 1),
 
-            /// Notes
+            /// moduleIndextes
             InkWell(
               onTap: () {},
               child: Container(
@@ -62,7 +62,7 @@ class ModuleDrawer extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    /// Notes section
+                    /// moduleIndextes section
                     Row(
                       children: <Widget>[
                         Icon(Icons.note, color: Colors.blue),
@@ -71,7 +71,7 @@ class ModuleDrawer extends StatelessWidget {
                       ],
                     ),
 
-                    /// Notes indicator
+                    /// moduleIndextes indicator
                     Container(
                       padding:
                           EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
@@ -125,6 +125,7 @@ class ModuleList extends StatelessWidget {
   final Subject subject;
 
   const ModuleList({@required this.subject});
+
   @override
   Widget build(BuildContext context) {
     return BaseView<ModuleModel>(
@@ -134,21 +135,37 @@ class ModuleList extends StatelessWidget {
           itemCount: model.modules.length,
           itemBuilder: (context, index) {
             Module module = model.modules[index];
-            int no = index + 1;
+            int moduleIndex = index + 1;
+            int selectedModule = model.moduleIndex;
             return InkWell(
               onTap: () {
+                model.setActiveModule(moduleIndex);
                 model.navigateToModuleDetail(arguments: module);
               },
               child: Container(
-                margin: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+                padding: EdgeInsets.symmetric(
+                  vertical: 16.0,
+                  horizontal: selectedModule == moduleIndex ? 18.0 : 24.0,
+                ),
+                decoration: selectedModule == moduleIndex
+                    ? BoxDecoration(
+                        border: Border(
+                            left: BorderSide(
+                                color: Color(0xFF5B87EC), width: 5.0)),
+                        color: Color(0xFFF4F7F8))
+                    : null,
                 child: Row(
                   children: <Widget>[
-                    Icon(Icons.folder, color: Color(0xFF90CFE8)),
-                    SizedBox(width: 12.0),
+                    selectedModule == moduleIndex
+                        ? Icon(Icons.folder_open, color: Color(0xFF25C431))
+                        : Icon(Icons.folder, color: Color(0xFF90CFE8)),
+                    SizedBox(
+                      width: 12.0,
+                    ),
                     Expanded(
                       child: Text(
-                        'Module ' + no.toString() + " " + module.title,
-                        style: no == 0
+                        'Module ' + moduleIndex.toString() + " " + module.title,
+                        style: selectedModule == moduleIndex
                             ? TextStyle(
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.bold,

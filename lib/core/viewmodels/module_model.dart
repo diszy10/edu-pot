@@ -28,4 +28,10 @@ class ModuleModel extends BaseModel {
   void hideDrawer() {
     _navigationService.navigateBack();
   }
+
+  int get moduleIndex => _modulesService.moduleIndex;
+
+  void setActiveModule(int index) {
+    _modulesService.setActiveModule(index);
+  }
 }
