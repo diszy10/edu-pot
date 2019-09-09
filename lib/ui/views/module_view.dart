@@ -4,7 +4,6 @@ import 'package:edukasi_pot/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:html/dom.dart' as dom;
-import 'package:provider/provider.dart';
 
 class ModuleView extends StatefulWidget {
   final Module module;
