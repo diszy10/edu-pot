@@ -104,6 +104,7 @@ class _ModuleViewState extends State<ModuleView> with TickerProviderStateMixin {
 
                         /// Tabbar
                         Container(
+                          height: heightBox(context, 8),
                           decoration: BoxDecoration(
                             border: Border(
                               bottom: BorderSide(color: Color(0xFFCAD0D3)),
@@ -157,7 +158,13 @@ class _ModuleTabView extends StatelessWidget {
   }
 }
 
-class _DescriptionTabView extends StatelessWidget {
+class _DescriptionTabView extends StatefulWidget {
+  @override
+  __DescriptionTabViewState createState() => __DescriptionTabViewState();
+}
+
+class __DescriptionTabViewState extends State<_DescriptionTabView>
+    with TickerProviderStateMixin {
   static String html = '''
 <p style="font-size: 40px;">The lesson is alligned to the Common Core State Standards for Mathematics - 5MD.4 Geometric Measurement - Measure
     volumes by counting "unit cubes", using cubic cm, cuibc in, cubic ft.</p>
@@ -207,25 +214,52 @@ class _DescriptionTabView extends StatelessWidget {
 </table>
   ''';
 
+  AnimationController _controller;
+  Animation<double> _descriptionAnimation;
+
+  @override
+  void initState() {
+    _controller = AnimationController(
+        duration: Duration(milliseconds: 1500), vsync: this);
+    _descriptionAnimation = Tween(begin: 0.0, end: 1.0)
+        .animate(CurvedAnimation(parent: _controller, curve: Interval(0.3, 0.5)));
+
+    _controller.addListener(() {
+      setState(() {});
+    });
+    _controller.forward();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-          margin: EdgeInsets.symmetric(vertical: 50.0, horizontal: 4.0),
-          child: Html(
-            data: html,
-            customTextStyle: (dom.Node node, TextStyle baseStyle) {
-              if (node is dom.Element) {
-                switch (node.localName) {
-                  case "p":
-                    return baseStyle.merge(TextStyle(fontSize: 20.0, height: 1.5));
-                  case "td":
-                    return baseStyle.merge(TextStyle(fontSize: 20.0, height: 1.5));
+        margin: EdgeInsets.symmetric(vertical: 16.0, horizontal: 4.0),
+        child: Transform.translate(
+          offset: Offset(0.0, 30 * (1 - _descriptionAnimation.value)),
+          child: Opacity(
+            opacity: _descriptionAnimation.value,
+            child: Html(
+              data: html,
+              customTextStyle: (dom.Node node, TextStyle baseStyle) {
+                if (node is dom.Element) {
+                  switch (node.localName) {
+                    case "p":
+                      return baseStyle
+                          .merge(TextStyle(fontSize: 20.0, height: 1.5));
+                    case "td":
+                      return baseStyle
+                          .merge(TextStyle(fontSize: 20.0, height: 1.5));
+                  }
                 }
-              }
-              return baseStyle;
-            },
-          )),
+                return baseStyle;
+              },
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
