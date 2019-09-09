@@ -33,14 +33,14 @@ class MockApi implements Api {
         Subject(
           id: '1',
           title: 'Math & Logic',
-          klass: '3A',
+          klass: '5A',
           startTime: DateTime.parse('2019-07-30T07:30:00Z'),
           endTime: DateTime.parse('2019-07-30T09:00:00Z'),
         ),
         Subject(
           id: '2',
           title: 'Math & Logic',
-          klass: '4A',
+          klass: '5B',
           startTime: DateTime.parse('2019-07-30T09:30:00Z'),
           endTime: DateTime.parse('2019-07-30T11:00:00Z'),
         ),

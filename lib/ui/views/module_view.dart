@@ -2,6 +2,8 @@ import 'package:edukasi_pot/core/services/api/models.dart';
 import 'package:edukasi_pot/ui/shared/shared.dart';
 import 'package:edukasi_pot/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:html/dom.dart' as dom;
 import 'package:provider/provider.dart';
 
 class ModuleView extends StatefulWidget {
@@ -157,143 +159,74 @@ class _ModuleTabView extends StatelessWidget {
 }
 
 class _DescriptionTabView extends StatelessWidget {
+  static String html = '''
+<p style="font-size: 40px;">The lesson is alligned to the Common Core State Standards for Mathematics - 5MD.4 Geometric Measurement - Measure
+    volumes by counting "unit cubes", using cubic cm, cuibc in, cubic ft.</p>
+
+<h1>Suggested Lesson Structure</h1>
+<table>
+    <tr>
+        <td> - Fluency Practice</td>
+        <td>(12 minutes)</td>
+    </tr>
+    <tr>
+        <td> - Application Problem</td>
+        <td>(8 minutes)</td>
+    </tr>
+    <tr>
+        <td> - Concept Development</td>
+        <td>(30 minutes)</td>
+    </tr>
+    <tr>
+        <td> - Student Debrief</td>
+        <td>(10 minutes)</td>
+    </tr>
+    <tr>
+        <td>
+            <strong>Total Time</strong>
+        </td>
+        <td>
+            <strong>(60 minutes)</strong>
+        </td>
+    </tr>
+</table>
+
+<h1>Fluency Practice (12 minutes)</h1>
+<table>
+    <tr>
+        <td>Sprint: Multiply by 10</td>
+        <td>(8 minutes)</td>
+    </tr>
+    <tr>
+        <td>Rename the Units - Choral</td>
+        <td>(2 minutes)</td>
+    </tr>
+    <tr>
+        <td>Decimal Place Value 5</td>
+        <td>(2 minutes)</td>
+    </tr>
+</table>
+  ''';
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 32.0, horizontal: 4.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              'The lesson is aligned to the Common Core State Standards for Mathematics - 5MD.4 Geometric Measurement - Measure volumes by counting "unit cubes", using cubic cm, cubic in, cubic ft.',
-              style: TextStyle(fontSize: 18.0, height: 1.2),
-            ),
-            SizedBox(height: 32.0),
-            Text(
-              'Suggested lesson structure',
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 16.0),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      '- Fluency Practice',
-                      style: TextStyle(fontSize: 18.0),
-                    ),
-                    SizedBox(height: 8.0),
-                    Text(
-                      '- Application Problem',
-                      style: TextStyle(fontSize: 18.0),
-                    ),
-                    SizedBox(height: 8.0),
-                    Text(
-                      '- Concept Development',
-                      style: TextStyle(fontSize: 18.0),
-                    ),
-                    SizedBox(height: 8.0),
-                    Text(
-                      '- Student Debrief',
-                      style: TextStyle(fontSize: 18.0),
-                    ),
-                    SizedBox(height: 8.0),
-                    Text(
-                      '  Total Time',
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                SizedBox(width: 50.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      '(12 minutes)',
-                      style: TextStyle(fontSize: 18.0),
-                    ),
-                    SizedBox(height: 8.0),
-                    Text(
-                      '(8 minutes)',
-                      style: TextStyle(fontSize: 18.0),
-                    ),
-                    SizedBox(height: 8.0),
-                    Text(
-                      '(30 minutes)',
-                      style: TextStyle(fontSize: 18.0),
-                    ),
-                    SizedBox(height: 8.0),
-                    Text(
-                      '(10 minutes)',
-                      style: TextStyle(fontSize: 18.0),
-                    ),
-                    SizedBox(height: 8.0),
-                    Text(
-                      '(60 minutes)',
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                )
-              ],
-            ),
-            SizedBox(height: 32.0),
-            Text(
-              'Fluency Practice (12 minutes)',
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 16.0),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'Sprint: Multiply by 10',
-                      style: TextStyle(fontSize: 18.0),
-                    ),
-                    SizedBox(height: 4.0),
-                    Text(
-                      'Rename the Units---Choral',
-                      style: TextStyle(fontSize: 18.0),
-                    ),
-                    SizedBox(height: 4.0),
-                    Text(
-                      'Decimal Place Value 4',
-                      style: TextStyle(fontSize: 18.0),
-                    ),
-                  ],
-                ),
-                SizedBox(width: 50.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      '(8 minutes)',
-                      style: TextStyle(fontSize: 18.0),
-                    ),
-                    SizedBox(height: 4.0),
-                    Text(
-                      '(2 minutes)',
-                      style: TextStyle(fontSize: 18.0),
-                    ),
-                    SizedBox(height: 4.0),
-                    Text(
-                      '(2 minutes)',
-                      style: TextStyle(fontSize: 18.0),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ],
-        ),
-      ),
+          margin: EdgeInsets.symmetric(vertical: 50.0, horizontal: 4.0),
+          child: Html(
+            data: html,
+            customTextStyle: (dom.Node node, TextStyle baseStyle) {
+              if (node is dom.Element) {
+                switch (node.localName) {
+                  case "p":
+                    return baseStyle.merge(TextStyle(fontSize: 20.0, height: 1.5));
+                  case "td":
+                    return baseStyle.merge(TextStyle(fontSize: 20.0, height: 1.5));
+                }
+              }
+              return baseStyle;
+            },
+          )),
     );
   }
 }
