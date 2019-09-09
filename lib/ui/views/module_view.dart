@@ -38,7 +38,7 @@ class _ModuleViewState extends State<ModuleView> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF2F4F6),
-      drawer: ModuleDrawer(subject: Provider.of<Subject>(context)),
+      drawer: ModuleDrawer(),
       body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
