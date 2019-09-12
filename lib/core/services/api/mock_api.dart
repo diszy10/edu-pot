@@ -113,16 +113,15 @@ class MockApi implements Api {
 
     if (subjectId == '4') {
       return [
-        Module(id: '6', title: 'Read animal life cycle diagrams'),
-        Module(id: '7', title: 'Construct animal life cycle diagrams'),
-        Module(id: '8', title: 'Compare stages of an animal\'s life cycle'),
-        Module(id: '9', title: 'Compare different animals\' life cycle'),
+        Module(id: '1', title: 'Read animal life cycle diagrams'),
+        Module(id: '2', title: 'Construct animal life cycle diagrams'),
+        Module(id: '3', title: 'Compare stages of an animal\'s life cycle'),
+        Module(id: '4', title: 'Compare different animals\' life cycle'),
         Module(
-            id: '10',
+            id: '5',
             title: 'Benefits of group behavior: North American caribou'),
-        Module(
-            id: '11', title: 'Benefits of group behavior: African wild dogs'),
-        Module(id: '12', title: 'Benefits of group behavior: leaf-cutter ants'),
+        Module(id: '6', title: 'Benefits of group behavior: African wild dogs'),
+        Module(id: '7', title: 'Benefits of group behavior: leaf-cutter ants'),
       ];
     }
 

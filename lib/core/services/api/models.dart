@@ -1,7 +1,21 @@
 class User {
-  final String id, name, imageUrl;
+  String id, name, imageUrl;
 
   User({this.id, this.name, this.imageUrl});
+
+  User.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    imageUrl = json['imageUrl'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['imageUrl'] = this.imageUrl;
+    return data;
+  }
 }
 
 class Subject {

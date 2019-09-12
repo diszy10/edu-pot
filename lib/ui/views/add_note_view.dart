@@ -1,14 +1,17 @@
 import 'dart:io';
 
 import 'package:edukasi_pot/core/enums/viewstate.dart';
+import 'package:edukasi_pot/core/services/api/models.dart';
 import 'package:edukasi_pot/core/viewmodels/viewmodels.dart';
 import 'package:edukasi_pot/ui/shared/shared.dart';
 import 'package:edukasi_pot/ui/views/base_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AddNoteView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print('From note view: ${Provider.of<User>(context).name}');
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
