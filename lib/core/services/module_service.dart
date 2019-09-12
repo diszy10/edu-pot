@@ -6,11 +6,11 @@ import 'package:edukasi_pot/locator.dart';
 class ModuleService implements StoppableService{
   Api _api = locator<Api>();
 
-  List<Module> _module;
-  List<Module> get modules => _module;
+  List<Module> _modules;
+  List<Module> get modules => _modules;
 
   Future getModules(String subjectId) async {
-    _module = await _api.getModulesForSubject(subjectId);
+    _modules = await _api.getModulesForSubject(subjectId);
   }
 
   int _selectedModule = 1;

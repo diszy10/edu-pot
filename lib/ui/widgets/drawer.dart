@@ -17,19 +17,19 @@ class ModuleDrawer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            /// User and close drawer button
+            // User name and close drawer button
             Container(
               margin: EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  /// User
+                  // User name
                   Text(
                     '${Provider.of<User>(context).name}',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
 
-                  /// Close drawer button
+                  // Close drawer button
                   Material(
                     color: Colors.transparent,
                     child: InkWell(
@@ -50,7 +50,7 @@ class ModuleDrawer extends StatelessWidget {
             Divider(color: Colors.grey, height: 1.0),
             verticalSpace(context, 1),
 
-            /// moduleIndextes
+            // Notes
             InkWell(
               onTap: () {},
               child: Container(
@@ -58,7 +58,6 @@ class ModuleDrawer extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    /// moduleIndextes section
                     Row(
                       children: <Widget>[
                         Icon(Icons.note, color: Colors.blue),
@@ -67,7 +66,7 @@ class ModuleDrawer extends StatelessWidget {
                       ],
                     ),
 
-                    /// moduleIndextes indicator
+                    // Notes indicator
                     Container(
                       padding:
                           EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
@@ -85,7 +84,7 @@ class ModuleDrawer extends StatelessWidget {
             ),
             verticalSpace(context, 1),
 
-            /// Module list
+            // Module list
             Container(
               margin: edgeSymmetric(context, 2, 2),
               child: Text(
@@ -100,7 +99,7 @@ class ModuleDrawer extends StatelessWidget {
             Divider(color: Colors.grey[300], height: 1.0),
             verticalSpaceSmall(context),
 
-            /// Slider conclude class
+            // Slider conclude class
             BaseView<ModuleModel>(
               builder: (context, model, _) => ConcludeSlider(
                 onConclude: () {
@@ -131,19 +130,19 @@ class ModuleList extends StatelessWidget {
           itemCount: model.modules.length,
           itemBuilder: (context, index) {
             Module module = model.modules[index];
-            int moduleIndex = index + 1;
+            int moduleId = int.parse(module.id);
             int selectedModule = model.moduleIndex;
             return InkWell(
               onTap: () {
-                model.setActiveModule(moduleIndex);
+                model.setActiveModule(moduleId);
                 model.navigateToModuleDetail(arguments: module);
               },
               child: Container(
                 padding: EdgeInsets.symmetric(
                   vertical: 16.0,
-                  horizontal: selectedModule == moduleIndex ? 18.0 : 24.0,
+                  horizontal: selectedModule == moduleId ? 18.0 : 24.0,
                 ),
-                decoration: selectedModule == moduleIndex
+                decoration: selectedModule == moduleId
                     ? BoxDecoration(
                         border: Border(
                             left: BorderSide(
@@ -152,7 +151,7 @@ class ModuleList extends StatelessWidget {
                     : null,
                 child: Row(
                   children: <Widget>[
-                    selectedModule == moduleIndex
+                    selectedModule == moduleId
                         ? Icon(Icons.folder_open, color: Color(0xFF25C431))
                         : Icon(Icons.folder, color: Color(0xFF90CFE8)),
                     SizedBox(
@@ -160,8 +159,8 @@ class ModuleList extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        'Module ' + moduleIndex.toString() + " " + module.title,
-                        style: selectedModule == moduleIndex
+                        'Module ' + module.id + " " + module.title,
+                        style: selectedModule == moduleId
                             ? TextStyle(
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.bold,

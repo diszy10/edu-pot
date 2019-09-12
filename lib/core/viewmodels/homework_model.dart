@@ -13,7 +13,7 @@ class HomeworkModel extends BaseModel {
 
   List<Homework> get homeworks => _homeworksService.homeworks;
 
-  Future getHomeworksForSubject(String subjectId) async {
+  Future<void> getHomeworksForSubject(String subjectId) async {
     setState(ViewState.Busy);
     await _homeworksService.getHomeworks(subjectId);
     setState(ViewState.Idle);

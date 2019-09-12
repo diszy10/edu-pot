@@ -13,7 +13,7 @@ class AuthService implements StoppableService {
 
   SubjectService _subjectsService = locator<SubjectService>();
 
-  Future<bool> authenticate(String email, String password) async {
+  Future<void> authenticate(String email, String password) async {
     var fetchedUser = await _api.getUser(email, password);
 
     var hasUser = fetchedUser != null;
@@ -25,8 +25,6 @@ class AuthService implements StoppableService {
       /// Add userData to StreamController
       userController.add(fetchedUser);
     }
-
-    return hasUser;
   }
 
   @override

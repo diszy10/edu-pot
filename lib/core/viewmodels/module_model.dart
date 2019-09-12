@@ -12,7 +12,7 @@ class ModuleModel extends BaseModel {
 
   List<Module> get modules => _modulesService.modules;
 
-  Future getModules(String subjectId) async {
+  Future<void> getModules(String subjectId) async {
     await _modulesService.getModules(subjectId);
   }
 

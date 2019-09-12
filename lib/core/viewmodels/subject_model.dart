@@ -16,7 +16,7 @@ class SubjectModel extends BaseModel {
   List<Subject> get subjects => _subjectsService.subjects;
   Subject get subjectInSession => _subjectsService.subjectInSession;
 
-  Future getSubjects(String userId) async {
+  Future<void> getSubjects(String userId) async {
     await _subjectsService.getSubjects(userId);
   }
 
@@ -24,11 +24,12 @@ class SubjectModel extends BaseModel {
     await _subjectsService.getSubjectInSession();
   }
 
-  Future getModules(String subjectId) async {
+  Future<void> getModules(String subjectId) async {
     setState(ViewState.Busy);
     await _modulesService.getModules(subjectId);
 
     navigateToModuleDetail();
+    setState(ViewState.Idle);
   }
 
   void addSubjectToStream(Subject subject) {

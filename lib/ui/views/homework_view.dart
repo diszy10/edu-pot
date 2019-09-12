@@ -104,19 +104,21 @@ class _HomeworkList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: edgeHorizontal(context, 5),
-      child: GridView.builder(
-        physics: BouncingScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: model.homeworks.length,
-        itemBuilder: (ctx, i) =>
-            new _HomeworkItem(homework: model.homeworks[i], model: model),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          childAspectRatio: 16 / 9,
-          crossAxisSpacing: 0,
-          mainAxisSpacing: 0,
+    return Expanded(
+      child: Padding(
+        padding: edgeHorizontal(context, 5),
+        child: GridView.builder(
+          physics: BouncingScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: model.homeworks.length,
+          itemBuilder: (ctx, i) =>
+              new _HomeworkItem(homework: model.homeworks[i], model: model),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            childAspectRatio: 16 / 9,
+            crossAxisSpacing: 0,
+            mainAxisSpacing: 0,
+          ),
         ),
       ),
     );

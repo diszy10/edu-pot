@@ -120,7 +120,8 @@ class LoginView extends StatelessWidget {
                                   Container(
                                     decoration: BoxDecoration(
                                       color: Color(0xFF5B6CEC),
-                                      borderRadius: BorderRadius.circular(4.0),
+                                      borderRadius:
+                                          BorderRadius.circular(4.0),
                                     ),
                                     child: Material(
                                       color: Colors.transparent,
@@ -134,7 +135,8 @@ class LoginView extends StatelessWidget {
                                                   ViewState.Authenticate
                                               ? Container(
                                                   padding: Platform.isIOS
-                                                      ? edgeVertical(context, 3)
+                                                      ? edgeVertical(
+                                                          context, 3)
                                                       : edgeVertical(
                                                           context, 2.15),
                                                   child: Loader(
@@ -145,8 +147,8 @@ class LoginView extends StatelessWidget {
                                                   ),
                                                 )
                                               : Container(
-                                                  padding:
-                                                      edgeVertical(context, 3),
+                                                  padding: edgeVertical(
+                                                      context, 3),
                                                   child: Text(
                                                     'Log in',
                                                     style: TextStyle(

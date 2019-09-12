@@ -8,7 +8,7 @@ class HttpApi implements Api {
   }
 
   @override
-  Future<List<Module>> getModulesForSubject(String topicId) {
+  Future<List<Module>> getModulesForSubject(String subjectId) {
     return null;
   }
 
