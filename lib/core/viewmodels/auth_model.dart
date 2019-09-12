@@ -1,17 +1,20 @@
 import 'package:edukasi_pot/core/constants/route_paths.dart' as routes;
 import 'package:edukasi_pot/core/enums/viewstate.dart';
+import 'package:edukasi_pot/core/services/api/models.dart';
 import 'package:edukasi_pot/core/services/auth_service.dart';
 import 'package:edukasi_pot/core/services/navigation_service.dart';
 import 'package:edukasi_pot/core/services/subject_service.dart';
 import 'package:edukasi_pot/core/viewmodels/base_model.dart';
 import 'package:edukasi_pot/locator.dart';
 
-class LoginModel extends BaseModel {
+class AuthModel extends BaseModel {
   NavigationService _navigationService = locator<NavigationService>();
 
   AuthService _authService = locator<AuthService>();
-
   SubjectService _subjectsService = locator<SubjectService>();
+
+  bool get isAuth => _authService.isAuth;
+  Subject get subjectInSession => _subjectsService.subjectInSession;
 
   Future<void> login(String email, String password) async {
     try {
@@ -39,7 +42,16 @@ class LoginModel extends BaseModel {
     }
   }
 
-  void logout() {
+  Future<void> tryAutoLogin() async {
+    await _authService.tryAutoLogin();
+  }
+
+  Future<void> logout() async {
+    setState(ViewState.Busy);
+    await Future.delayed(Duration(milliseconds: 600));
+    _authService.logout();
+
+    setState(ViewState.Idle);
     _navigationService.logout();
   }
 }

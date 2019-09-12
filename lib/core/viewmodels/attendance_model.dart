@@ -13,7 +13,7 @@ class AttendanceModel extends BaseModel {
 
   List<Student> get students => _attendancesService.students;
 
-  Future getStudentsForSubject(String subjectId) async {
+  Future<void> getStudentsForSubject(String subjectId) async {
     setState(ViewState.Busy);
     await _attendancesService.getStudents(subjectId);
     setState(ViewState.Idle);

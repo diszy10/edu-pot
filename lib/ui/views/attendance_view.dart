@@ -90,7 +90,7 @@ class AttendanceView extends StatelessWidget {
             model.state == ViewState.Busy
                 ? Loader()
                 : model.students != null
-                    ? _StudentList(students: model.students)
+                    ? _StudentList(students: model.students, model: model)
                     : Center(
                         child: Text(
                           'No data found.',
@@ -106,23 +106,26 @@ class AttendanceView extends StatelessWidget {
 
 class _StudentList extends StatelessWidget {
   final List<Student> students;
+  final AttendanceModel model;
 
-  const _StudentList({this.students});
+  const _StudentList({this.students, this.model});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: edgeHorizontal(context, 5),
-      child: GridView.builder(
-        physics: BouncingScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: students.length,
-        itemBuilder: (ctx, i) => _StudentItem(student: students[i]),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4,
-          childAspectRatio: 1.15,
-          crossAxisSpacing: 25,
-          mainAxisSpacing: 0,
+    return Expanded(
+      child: Padding(
+        padding: edgeHorizontal(context, 5),
+        child: GridView.builder(
+          physics: BouncingScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: students.length,
+          itemBuilder: (ctx, i) => _StudentItem(student: students[i]),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4,
+            childAspectRatio: 1.15,
+            crossAxisSpacing: 25,
+            mainAxisSpacing: 0,
+          ),
         ),
       ),
     );

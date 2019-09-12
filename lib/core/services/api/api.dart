@@ -5,7 +5,7 @@ abstract class Api {
 
   Future<List<Subject>> getSubjectsForUser(String userId);
 
-  Future<List<Module>> getModulesForSubject(String topicId);
+  Future<List<Module>> getModulesForSubject(String subjectId);
 
   Future<List<Homework>> getHomeworksForSubject(String subjectId);
 

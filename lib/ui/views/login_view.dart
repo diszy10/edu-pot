@@ -30,7 +30,7 @@ class LoginView extends StatelessWidget {
     return null;
   }
 
-  void _handleLogin(BuildContext context, LoginModel model) async {
+  void _handleLogin(BuildContext context, AuthModel model) async {
     final FormState form = _formKey.currentState;
 
     if (form.validate()) {
@@ -50,7 +50,7 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<LoginModel>(
+    return BaseView<AuthModel>(
       builder: (context, model, child) => Scaffold(
         body: model.state == ViewState.Busy
             ? SplashScreen()
@@ -79,7 +79,7 @@ class LoginView extends StatelessWidget {
                         children: <Widget>[
                           Container(
                             child:
-                                Image.asset('assets/graphics/edukasi-logo.png'),
+                                Image.asset('assets/images/edukasi-logo.png'),
                           ),
                           verticalSpaceLarge(context),
                           Container(
@@ -120,7 +120,8 @@ class LoginView extends StatelessWidget {
                                   Container(
                                     decoration: BoxDecoration(
                                       color: Color(0xFF5B6CEC),
-                                      borderRadius: BorderRadius.circular(4.0),
+                                      borderRadius:
+                                          BorderRadius.circular(4.0),
                                     ),
                                     child: Material(
                                       color: Colors.transparent,
@@ -134,7 +135,8 @@ class LoginView extends StatelessWidget {
                                                   ViewState.Authenticate
                                               ? Container(
                                                   padding: Platform.isIOS
-                                                      ? edgeVertical(context, 3)
+                                                      ? edgeVertical(
+                                                          context, 3)
                                                       : edgeVertical(
                                                           context, 2.15),
                                                   child: Loader(
@@ -145,8 +147,8 @@ class LoginView extends StatelessWidget {
                                                   ),
                                                 )
                                               : Container(
-                                                  padding:
-                                                      edgeVertical(context, 3),
+                                                  padding: edgeVertical(
+                                                      context, 3),
                                                   child: Text(
                                                     'Log in',
                                                     style: TextStyle(

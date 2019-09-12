@@ -1,21 +1,17 @@
-# edukasi_pot
+# Edukasi PoT
+Edukasi Point of Teaching.
 
-Edukasi Point of Teaching
 
 ## Getting Started
 
-Install depedencies with
-```bash
+
+### Install depedencies
+```sh
 flutter pub get
 ```
 
-### Generating .g.dart file
-To build once, run
-```bash
-flutter pub run build_runner build
-```
+### Run the app
 
-To watch and build every file change, run
-```bash
-flutter pub run build_runner watch
+```sh
+flutter run
 ```

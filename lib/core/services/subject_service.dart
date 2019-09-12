@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:edukasi_pot/core/services/api/api.dart';
 import 'package:edukasi_pot/core/services/api/models.dart';
+import 'package:edukasi_pot/core/services/stoppable_service.dart';
 import 'package:edukasi_pot/locator.dart';
 
-class SubjectService {
+class SubjectService implements StoppableService {
   Api _api = locator<Api>();
 
   StreamController<Subject> subjectController = StreamController<Subject>();
@@ -22,7 +23,7 @@ class SubjectService {
   Future getSubjectInSession() async {
     DateTime now = DateTime.parse('2019-07-30T07:45:00Z').toLocal();
 
-    for (var subject in subjects) {
+    for (var subject in _subjects) {
       if (subject.startTime.isBefore(now) && subject.endTime.isAfter(now)) {
         _subjectInSession = subject;
         break;
@@ -33,4 +34,17 @@ class SubjectService {
   void addSubjectToStream(Subject subject) {
     subjectController.add(subject);
   }
+
+  void clearSubjectInSession() {
+    _subjectInSession = null;
+  }
+
+  @override
+  bool get serviceStopped => null;
+
+  @override
+  void start() {}
+
+  @override
+  void stop() {}
 }

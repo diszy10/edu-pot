@@ -10,14 +10,14 @@ class MockApi implements Api {
       return User(
         id: '1',
         name: 'Airin Rachmi',
-        imageUrl: 'assets/graphics/airin.jpg',
+        imageUrl: 'assets/images/airin.jpg',
       );
     }
     if (email == 'user2@test.com' && password == 'test') {
       return User(
         id: '2',
         name: 'Indah Putri',
-        imageUrl: 'assets/graphics/indah.jpeg',
+        imageUrl: 'assets/images/indah.jpeg',
       );
     } else {
       throw ('Authentication failed');
@@ -33,14 +33,14 @@ class MockApi implements Api {
         Subject(
           id: '1',
           title: 'Math & Logic',
-          klass: '3A',
+          klass: '5A',
           startTime: DateTime.parse('2019-07-30T07:30:00Z'),
           endTime: DateTime.parse('2019-07-30T09:00:00Z'),
         ),
         Subject(
           id: '2',
           title: 'Math & Logic',
-          klass: '4A',
+          klass: '5B',
           startTime: DateTime.parse('2019-07-30T09:30:00Z'),
           endTime: DateTime.parse('2019-07-30T11:00:00Z'),
         ),
@@ -113,16 +113,15 @@ class MockApi implements Api {
 
     if (subjectId == '4') {
       return [
-        Module(id: '6', title: 'Read animal life cycle diagrams'),
-        Module(id: '7', title: 'Construct animal life cycle diagrams'),
-        Module(id: '8', title: 'Compare stages of an animal\'s life cycle'),
-        Module(id: '9', title: 'Compare different animals\' life cycle'),
+        Module(id: '1', title: 'Read animal life cycle diagrams'),
+        Module(id: '2', title: 'Construct animal life cycle diagrams'),
+        Module(id: '3', title: 'Compare stages of an animal\'s life cycle'),
+        Module(id: '4', title: 'Compare different animals\' life cycle'),
         Module(
-            id: '10',
+            id: '5',
             title: 'Benefits of group behavior: North American caribou'),
-        Module(
-            id: '11', title: 'Benefits of group behavior: African wild dogs'),
-        Module(id: '12', title: 'Benefits of group behavior: leaf-cutter ants'),
+        Module(id: '6', title: 'Benefits of group behavior: African wild dogs'),
+        Module(id: '7', title: 'Benefits of group behavior: leaf-cutter ants'),
       ];
     }
 
@@ -191,42 +190,42 @@ class MockApi implements Api {
         Student(
           id: '1',
           name: 'Alano Nilles',
-          imageUrl: 'assets/graphics/alano.jpeg',
+          imageUrl: 'assets/images/alano.jpeg',
         ),
         Student(
           id: '2',
           name: 'Dennis Kusuma',
-          imageUrl: 'assets/graphics/dennis.jpeg',
+          imageUrl: 'assets/images/dennis.jpeg',
         ),
         Student(
           id: '3',
           name: 'Gina Ulva Pratiwi',
-          imageUrl: 'assets/graphics/gina.jpeg',
+          imageUrl: 'assets/images/gina.jpeg',
         ),
         Student(
           id: '4',
           name: 'Jenifer Prastuti',
-          imageUrl: 'assets/graphics/jennifer.jpeg',
+          imageUrl: 'assets/images/jennifer.jpeg',
         ),
         Student(
           id: '5',
           name: 'Lisa Savina',
-          imageUrl: 'assets/graphics/lisa.jpeg',
+          imageUrl: 'assets/images/lisa.jpeg',
         ),
         Student(
           id: '6',
           name: 'Olumide Adegoke',
-          imageUrl: 'assets/graphics/olumide.jpeg',
+          imageUrl: 'assets/images/olumide.jpeg',
         ),
         Student(
           id: '7',
           name: 'Rayuko Inoue',
-          imageUrl: 'assets/graphics/rayuko.jpeg',
+          imageUrl: 'assets/images/rayuko.jpeg',
         ),
         Student(
           id: '8',
           name: 'Sheri Tami Riyanti',
-          imageUrl: 'assets/graphics/sheri.jpeg',
+          imageUrl: 'assets/images/sheri.jpeg',
         ),
       ];
     }

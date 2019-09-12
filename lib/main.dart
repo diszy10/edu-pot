@@ -1,24 +1,27 @@
-import 'package:edukasi_pot/core/constants/route_paths.dart' as routes;
 import 'package:edukasi_pot/core/services/api/models.dart';
 import 'package:edukasi_pot/core/services/services.dart';
+import 'package:edukasi_pot/core/viewmodels/auth_model.dart';
+import 'package:edukasi_pot/lifecycle_manager.dart';
 import 'package:edukasi_pot/locator.dart';
 import 'package:edukasi_pot/ui/router.dart' as router;
+import 'package:edukasi_pot/ui/views/views.dart';
+import 'package:edukasi_pot/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,
   ]);
   SystemChrome.setEnabledSystemUIOverlays([]);
 
-  setupLocator();
-  runApp(MyApp());
+  await setupLocator();
+  runApp(MainApp());
 }
 
-class MyApp extends StatelessWidget {
+class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -31,12 +34,28 @@ class MyApp extends StatelessWidget {
             builder: (context) =>
                 locator<ConnectivityService>().connectionStatusController),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Edukasi POT',
-        initialRoute: routes.Login,
-        onGenerateRoute: router.generateRoute,
-        navigatorKey: locator<NavigationService>().navigatorKey,
+      child: LifecycleManager(
+        child: BaseView<AuthModel>(
+          builder: (context, model, _) => MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Edukasi POT',
+            home: model.isAuth
+                ? FutureBuilder(
+                    future: model.tryAutoLogin(),
+                    builder: (ctx, snapshot) {
+                      return snapshot.connectionState == ConnectionState.waiting
+                          ? SplashScreen()
+                          : model.subjectInSession != null
+                              ? SubjectDetailView(
+                                  subject: model.subjectInSession)
+                              : SubjectListView();
+                    },
+                  )
+                : LoginView(),
+            onGenerateRoute: router.generateRoute,
+            navigatorKey: locator<NavigationService>().navigatorKey,
+          ),
+        ),
       ),
     );
   }
