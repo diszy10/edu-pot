@@ -239,7 +239,7 @@ class _ActionModal extends StatefulWidget {
 }
 
 class __ActionModalState extends State<_ActionModal> {
-  String _selectedDate = 'Next Session';
+  DateTime _selectedDate;
 
   Future<void> _selectDate({@required String homeworkId}) async {
     return showDialog(
@@ -253,45 +253,112 @@ class __ActionModalState extends State<_ActionModal> {
           color: Colors.transparent,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 24.0),
-            child: BaseView<HomeworkModel>(
-              builder: (context, model, _) => CalendarCarousel<Event>(
-                width: MediaQuery.of(context).size.width * 0.35,
-                height: MediaQuery.of(context).size.height * 0.510,
-                onDayPressed: (DateTime date, _) {
-                  this.setState(() {
-                    _selectedDate =
-                        DateFormat("dd MMM yyyy").format(date).toString();
-                    model.setDeadline(homeworkId, date);
-                    Navigator.pop(context);
-                  });
-                },
-                selectedDateTime: widget.homework.deadline,
-                selectedDayButtonColor: Color(0xFF25c431),
-                selectedDayBorderColor: Color(0xFF25c431),
-                selectedDayTextStyle: TextStyle(
-                  color: Colors.white,
+            width: MediaQuery.of(context).size.width * 0.350,
+            height: MediaQuery.of(context).size.height * 0.650,
+            child: Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    SizedBox(width: 84.0),
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          'Deadline',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 28.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                    // Padding(
+                    //   padding: EdgeInsets.only(left: 16.0),
+                    //   child: Text(
+                    //     'Deadline',
+                    //     style: TextStyle(
+                    //       color: Colors.white,
+                    //       fontSize: 28.0,
+                    //       // fontWeight: FontWeight.bold,
+                    //     ),
+                    //   ),
+                    // ),
+                    FlatButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text(
+                        'Cancel',
+                        style:
+                            TextStyle(color: Color(0xFFBEC0C2), fontSize: 16.0),
+                      ),
+                    )
+                    // Container(
+                    //   decoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(16.0),
+                    //     color: Colors.black26,
+                    //   ),
+                    //   child: InkWell(
+                    //     onTap: () => Navigator.pop(context),
+                    //     borderRadius: BorderRadius.circular(16.0),
+                    //     child: Material(
+                    //       color: Colors.transparent,
+                    //       child: Container(
+                    //         padding: EdgeInsets.all(16.0),
+                    //         child: Text(
+                    //           'Cancel',
+                    //           style: TextStyle(color: Color(0xFFBEC0C2), fontSize: 16.0),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
                 ),
-                showHeaderButton: false,
-                headerTextStyle: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
+                SizedBox(height: 24.0),
+                Expanded(
+                  child: CalendarCarousel<Event>(
+                    // width: MediaQuery.of(context).size.width * 0.35,
+                    // height: MediaQuery.of(context).size.height * 0.510,
+                    onDayPressed: (DateTime date, _) {
+                      this.setState(() {
+                        _selectedDate = date;
+                        if (widget.homework.deadline != null &&
+                            _selectedDate != widget.homework.deadline) {
+                          widget.model.unDistribute(widget.homework.id);
+                        }
+                        Navigator.pop(context);
+                      });
+                    },
+                    selectedDateTime: _selectedDate ?? widget.homework.deadline,
+                    selectedDayButtonColor: Color(0xFF25c431),
+                    selectedDayBorderColor: Color(0xFF25c431),
+                    selectedDayTextStyle: TextStyle(
+                      color: Colors.white,
+                    ),
+                    showHeader: true,
+                    showHeaderButton: true,
+                    iconColor: Colors.grey,
+                    headerTextStyle: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    headerMargin: EdgeInsets.only(bottom: 32.0),
+                    weekendTextStyle: TextStyle(
+                      color: Colors.deepOrange,
+                    ),
+                    // todayButtonColor: Colors.blue,
+                    // todayBorderColor: Colors.blue,
+                    todayTextStyle: TextStyle(
+                      color: Colors.black,
+                    ),
+                    daysTextStyle: TextStyle(
+                      color: Colors.white,
+                    ),
+                    weekFormat: false,
+                    daysHaveCircularBorder: false,
+                  ),
                 ),
-                headerMargin: EdgeInsets.only(bottom: 32.0),
-                weekendTextStyle: TextStyle(
-                  color: Colors.deepOrange,
-                ),
-                // todayButtonColor: Colors.blue,
-                // todayBorderColor: Colors.blue,
-                todayTextStyle: TextStyle(
-                  color: Colors.black,
-                ),
-                daysTextStyle: TextStyle(
-                  color: Colors.white,
-                ),
-                weekFormat: false,
-                daysHaveCircularBorder: false,
-              ),
+              ],
             ),
           ),
         ),
@@ -300,10 +367,51 @@ class __ActionModalState extends State<_ActionModal> {
   }
 
   void _handleDistribute() {
-    widget.homework.isDistribute == false
-        ? widget.model.setDistribute(widget.homework.id)
-        : widget.model.unDistribute(widget.homework.id);
-    Navigator.pop(context);
+    if (_selectedDate == null &&
+        widget.homework.deadline == null &&
+        widget.homework.isDistribute == false) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text(
+            'Deadline date is still empty',
+            style: TextStyle(fontSize: 20.0),
+          ),
+          content: Text(
+            'Please set deadline date before distribute.',
+            style: TextStyle(fontSize: 16.0),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK', style: TextStyle(fontSize: 16.0)),
+              textColor: Colors.deepPurple,
+              onPressed: () => Navigator.pop(context),
+            )
+          ],
+        ),
+      );
+    } else if (_selectedDate != null && widget.homework.isDistribute == false) {
+      widget.model.setDeadline(widget.homework.id, _selectedDate);
+      widget.model.setDistribute(widget.homework.id);
+      Navigator.pop(context);
+    } else if (widget.homework.deadline != null &&
+        widget.homework.isDistribute == true) {
+      widget.model.unDistribute(widget.homework.id);
+      Navigator.pop(context);
+    }
+  }
+
+  String _buildText() {
+    if (_selectedDate == null && widget.homework.deadline == null) {
+      return 'Next Session';
+    } else if (_selectedDate != null && widget.homework.deadline == null) {
+      return DateFormat("dd MMM yyyy").format(_selectedDate).toString();
+    } else if (_selectedDate != null && widget.homework.deadline != null) {
+      return DateFormat("dd MMM yyyy").format(_selectedDate).toString();
+    }
+    return DateFormat("dd MMM yyyy")
+        .format(widget.homework.deadline)
+        .toString();
   }
 
   @override
@@ -361,11 +469,7 @@ class __ActionModalState extends State<_ActionModal> {
                               Icon(Icons.flag, color: Colors.white),
                               SizedBox(width: 10.0),
                               Text(
-                                widget.homework.deadline == null
-                                    ? _selectedDate
-                                    : DateFormat("dd MMM yyyy")
-                                        .format(widget.homework.deadline)
-                                        .toString(),
+                                _buildText(),
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16.0,
