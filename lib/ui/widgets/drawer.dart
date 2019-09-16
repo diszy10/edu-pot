@@ -17,7 +17,7 @@ class ModuleDrawer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            // User name and close drawer button
+            // User name & close drawer button
             Container(
               margin: EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 8.0),
               child: Row(

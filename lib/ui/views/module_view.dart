@@ -42,10 +42,9 @@ class _ModuleViewState extends State<ModuleView> with TickerProviderStateMixin {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            /// Sidebar
             Sidebar(),
 
-            /// Content body
+            // Module content
             Expanded(
               child: Container(
                 margin: edgeHorizontal(context, 5),
@@ -58,7 +57,7 @@ class _ModuleViewState extends State<ModuleView> with TickerProviderStateMixin {
                       children: <Widget>[
                         verticalSpaceLarge(context),
 
-                        /// Topic info badge
+                        // Topic info badge
                         Row(
                           children: <Widget>[
                             Container(
@@ -84,7 +83,7 @@ class _ModuleViewState extends State<ModuleView> with TickerProviderStateMixin {
                         ),
                         verticalSpaceSmall(context),
 
-                        /// Module topic text
+                        // Module topic text
                         Transform.translate(
                           offset: Offset(0.0, 30 * (1 - _titleAnimation.value)),
                           child: Opacity(
@@ -102,7 +101,7 @@ class _ModuleViewState extends State<ModuleView> with TickerProviderStateMixin {
                         ),
                         verticalSpaceMedium(context),
 
-                        /// Tabbar
+                        // Tabbar
                         Container(
                           height: heightBox(context, 8),
                           decoration: BoxDecoration(
@@ -132,7 +131,7 @@ class _ModuleViewState extends State<ModuleView> with TickerProviderStateMixin {
                           ),
                         ),
 
-                        /// Tabview / tab content
+                        // Tabview module content
                         Expanded(child: _ModuleTabView()),
                       ],
                     ),
@@ -221,8 +220,8 @@ class __DescriptionTabViewState extends State<_DescriptionTabView>
   void initState() {
     _controller = AnimationController(
         duration: Duration(milliseconds: 1500), vsync: this);
-    _descriptionAnimation = Tween(begin: 0.0, end: 1.0)
-        .animate(CurvedAnimation(parent: _controller, curve: Interval(0.3, 0.5)));
+    _descriptionAnimation = Tween(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(parent: _controller, curve: Interval(0.3, 0.5)));
 
     _controller.addListener(() {
       setState(() {});
@@ -286,7 +285,6 @@ class _ExerciseTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      // Exercise List
       child: ListView.builder(
         shrinkWrap: true,
         itemCount: _exerciseList.length,
@@ -296,9 +294,9 @@ class _ExerciseTabView extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () => showCustomModalBottomSheet(
-                  context: context,
-                  builder: (context) =>
-                      ExerciseBottomSheet(exercise: exercise)),
+                context: context,
+                builder: (context) => ExerciseBottomSheet(exercise: exercise),
+              ),
               child: Container(
                 padding: EdgeInsets.all(24.0),
                 decoration: BoxDecoration(

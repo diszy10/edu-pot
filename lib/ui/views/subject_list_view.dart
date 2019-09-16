@@ -24,7 +24,7 @@ class SubjectListView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                /// Title page
+                // Title page
                 Text(
                   'YOUR SCHEDULE TODAY',
                   style: TextStyle(
@@ -37,7 +37,7 @@ class SubjectListView extends StatelessWidget {
                 ),
                 verticalSpaceMedium(context),
 
-                /// Subject list
+                // Subject list
                 Container(
                   margin: edgeLeft(context, 2),
                   height: widthBox(context, 25),
@@ -53,9 +53,8 @@ class SubjectListView extends StatelessWidget {
                         child: _SubjectItem(
                           subject: subject,
                           subjectInSession: subject == model.subjectInSession,
-                          onTap: () {
-                            model.navigateToSubjectDetail(arguments: subject);
-                          },
+                          onTap: () =>
+                              model.navigateToSubjectDetail(arguments: subject),
                         ),
                       );
                     },
@@ -70,15 +69,14 @@ class SubjectListView extends StatelessWidget {
   }
 }
 
-/// Subject Card
 class _SubjectItem extends StatelessWidget {
   final Subject subject;
   final bool subjectInSession;
   final Function onTap;
 
   const _SubjectItem({
-    @required this.subject,
-    @required this.onTap,
+    this.subject,
+    this.onTap,
     this.subjectInSession,
   });
 
@@ -112,6 +110,7 @@ class _SubjectItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
+              // Class label
               Hero(
                 tag: subject.klass,
                 child: ClipPath(
@@ -143,6 +142,7 @@ class _SubjectItem extends StatelessWidget {
                   ),
                 ),
               ),
+              // Subject title & schedule time
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -164,7 +164,6 @@ class _SubjectItem extends StatelessWidget {
                         color: Color(0xff494F55),
                         fontSize: 22.0,
                         fontWeight: FontWeight.bold,
-                        // letterSpacing: 1.5,
                       ),
                       textAlign: TextAlign.center,
                     ),

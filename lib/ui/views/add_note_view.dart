@@ -1,17 +1,14 @@
 import 'dart:io';
 
 import 'package:edukasi_pot/core/enums/viewstate.dart';
-import 'package:edukasi_pot/core/services/api/models.dart';
 import 'package:edukasi_pot/core/viewmodels/viewmodels.dart';
 import 'package:edukasi_pot/ui/shared/shared.dart';
 import 'package:edukasi_pot/ui/views/base_view.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class AddNoteView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print('From note view: ${Provider.of<User>(context).name}');
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -21,7 +18,7 @@ class AddNoteView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              /// Title page
+              // Title page
               Container(
                 padding: edgeSymmetric(context, 7, 5),
                 child: Column(
@@ -46,7 +43,7 @@ class AddNoteView extends StatelessWidget {
                 ),
               ),
 
-              /// Text area
+              // Text area
               Container(
                 margin: edgeSymmetric(context, 15, 0),
                 decoration: BoxDecoration(
@@ -69,7 +66,7 @@ class AddNoteView extends StatelessWidget {
 
               verticalSpaceLarge(context),
 
-              /// Save and logout button
+              // Save & logout button
               BaseView<AuthModel>(
                 builder: (context, model, _) => Container(
                   width: double.infinity,

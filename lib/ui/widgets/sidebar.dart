@@ -21,7 +21,7 @@ class Sidebar extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              /// Menu icon
+              // Hamburger icon
               Material(
                 color: Colors.transparent,
                 child: InkWell(
@@ -38,7 +38,7 @@ class Sidebar extends StatelessWidget {
                 ),
               ),
 
-              /// Empty widget for module indicators
+              // Empty widget for module indicator
               Container(),
             ],
           ),

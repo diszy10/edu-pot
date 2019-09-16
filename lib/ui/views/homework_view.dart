@@ -21,7 +21,7 @@ class HomeworkView extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            /// Title page & navigation
+            // Title page & navigation
             Container(
               padding: edgeSymmetric(context, 7, 5),
               child: Row(
@@ -79,7 +79,7 @@ class HomeworkView extends StatelessWidget {
               ),
             ),
 
-            /// Homework list
+            // Homework list
             model.state == ViewState.Busy
                 ? Loader()
                 : model.homeworks != null
@@ -112,7 +112,7 @@ class _HomeworkList extends StatelessWidget {
           shrinkWrap: true,
           itemCount: model.homeworks.length,
           itemBuilder: (ctx, i) =>
-              new _HomeworkItem(homework: model.homeworks[i], model: model),
+              _HomeworkItem(homework: model.homeworks[i], model: model),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
             childAspectRatio: 16 / 9,
@@ -180,7 +180,7 @@ class _HomeworkItem extends StatelessWidget {
             padding: EdgeInsets.all(16.0),
             child: Stack(
               children: <Widget>[
-                /// Homework title
+                // Homework title
                 Center(
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -198,7 +198,7 @@ class _HomeworkItem extends StatelessWidget {
                   ),
                 ),
 
-                /// Distribute indicator
+                // Distribute indicator
                 if (homework.isDistribute == true)
                   Align(
                     alignment: Alignment.bottomRight,
@@ -433,7 +433,7 @@ class __ActionModalState extends State<_ActionModal> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              /// Homework title
+              // Homework title
               Center(
                 child: Text(
                   widget.homework.title,
@@ -446,7 +446,7 @@ class __ActionModalState extends State<_ActionModal> {
                 ),
               ),
 
-              /// Action buttons
+              // Action buttons
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[

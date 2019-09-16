@@ -49,7 +49,6 @@ class _ConcludeSliderState extends State<ConcludeSlider>
         builder: (context, constraints) {
           return GestureDetector(
             behavior: HitTestBehavior.translucent,
-            // onTap: () => _animateIconToEnd(width: constraints.maxWidth),
             child: Stack(
               alignment: Alignment.centerRight,
               children: <Widget>[
@@ -77,46 +76,48 @@ class _ConcludeSliderState extends State<ConcludeSlider>
     );
   }
 
-  void _confirmConclude() => showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Color(0xFF2E333D),
-            title: Text(
-              "Conclude the class?",
-              style: TextStyle(
-                fontSize: 18.0,
-                color: Color(0xFFE2E3EB),
-              ),
+  void _confirmConclude() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Color(0xFF2E333D),
+          title: Text(
+            "Conclude the class?",
+            style: TextStyle(
+              fontSize: 18.0,
+              color: Color(0xFFE2E3EB),
             ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text(
-                  "No",
-                  style: TextStyle(
-                    color: Color(0xFFE2E3EB),
-                    fontSize: 16.0,
-                  ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text(
+                "No",
+                style: TextStyle(
+                  color: Color(0xFFE2E3EB),
+                  fontSize: 16.0,
                 ),
-                onPressed: () {
-                  _cancelConclude();
-                  Navigator.pop(context);
-                },
               ),
-              FlatButton(
-                child: Text(
-                  "Yes! Conclude",
-                  style: TextStyle(
-                    color: Color(0xFFE2E3EB),
-                    fontSize: 16.0,
-                  ),
+              onPressed: () {
+                _cancelConclude();
+                Navigator.pop(context);
+              },
+            ),
+            FlatButton(
+              child: Text(
+                "Yes! Conclude",
+                style: TextStyle(
+                  color: Color(0xFFE2E3EB),
+                  fontSize: 16.0,
                 ),
-                onPressed: widget.onConclude,
               ),
-            ],
-          );
-        },
-      );
+              onPressed: widget.onConclude,
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Widget _drawConcludeSlider({double width}) {
     if (sliderAnimation == null && width != 0.0) {

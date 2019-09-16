@@ -14,11 +14,12 @@ class ExerciseBottomSheet extends StatelessWidget {
       height: media.height * 8 / 9.5,
       child: Container(
         decoration: BoxDecoration(
-            color: Theme.of(context).canvasColor,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10.0),
-              topRight: Radius.circular(10.0),
-            )),
+          color: Theme.of(context).canvasColor,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10.0),
+            topRight: Radius.circular(10.0),
+          ),
+        ),
         child: _buildContent(context, media),
       ),
     );
@@ -35,7 +36,7 @@ class ExerciseBottomSheet extends StatelessWidget {
           children: <Widget>[
             SizedBox(height: 8.0),
 
-            /// Slider button
+            // Slider button
             Center(
               child: Container(
                 margin: EdgeInsets.only(top: 16.0),
@@ -49,7 +50,7 @@ class ExerciseBottomSheet extends StatelessWidget {
             ),
             SizedBox(height: 64.0),
 
-            /// Exercise tag text
+            // Exercise tag text
             Text(
               'EXERCISES',
               style: TextStyle(
@@ -59,7 +60,7 @@ class ExerciseBottomSheet extends StatelessWidget {
             ),
             SizedBox(height: 24.0),
 
-            /// Exercise title text
+            // Exercise title text
             Text(
               exercise.title,
               style: TextStyle(
@@ -69,7 +70,7 @@ class ExerciseBottomSheet extends StatelessWidget {
             ),
             SizedBox(height: 32.0),
 
-            /// Exercise content text
+            // Exercise content text
             Text(
               exercise.content,
               style: TextStyle(fontSize: 22.0, height: 1.2),
@@ -87,7 +88,7 @@ class ExerciseBottomSheet extends StatelessWidget {
       children: <Widget>[
         Row(
           children: <Widget>[
-            /// Attachments text
+            // Attachments section title
             Text(
               'ATTACHMENTS',
               style: TextStyle(
@@ -97,7 +98,7 @@ class ExerciseBottomSheet extends StatelessWidget {
               ),
             ),
 
-            /// Line divider
+            // Line divider
             Expanded(
               child: Divider(
                 color: Colors.grey,
@@ -109,7 +110,7 @@ class ExerciseBottomSheet extends StatelessWidget {
         SizedBox(height: 32.0),
         Row(
           children: <Widget>[
-            /// PDF badge
+            // File badge
             Container(
               padding: EdgeInsets.all(4.0),
               decoration: BoxDecoration(
@@ -122,7 +123,7 @@ class ExerciseBottomSheet extends StatelessWidget {
             ),
             SizedBox(width: 16.0),
 
-            /// Attachments file
+            // Attachments file
             GestureDetector(
               onTap: () {},
               child: Text(

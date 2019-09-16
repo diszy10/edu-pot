@@ -16,6 +16,7 @@ class AttendanceView extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            // Title page & navigation
             Container(
               padding: edgeSymmetric(context, 7, 5),
               child: Row(
@@ -87,6 +88,8 @@ class AttendanceView extends StatelessWidget {
                 ],
               ),
             ),
+
+            // Student list
             model.state == ViewState.Busy
                 ? Loader()
                 : model.students != null
@@ -145,6 +148,7 @@ class _StudentItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            // Student image
             Container(
               width: MediaQuery.of(context).size.width * 0.10,
               height: MediaQuery.of(context).size.width * 0.10,
@@ -183,6 +187,8 @@ class _StudentItem extends StatelessWidget {
               ),
             ),
             verticalSpaceSmall(context),
+
+            // Student name
             Text(
               student.name,
               style: TextStyle(
