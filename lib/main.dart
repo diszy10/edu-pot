@@ -1,8 +1,8 @@
-import 'package:edukasi_pot/core/services/api/models.dart';
 import 'package:edukasi_pot/core/services/services.dart';
 import 'package:edukasi_pot/core/viewmodels/auth_model.dart';
 import 'package:edukasi_pot/lifecycle_manager.dart';
 import 'package:edukasi_pot/locator.dart';
+import 'package:edukasi_pot/provider_setup.dart';
 import 'package:edukasi_pot/ui/router.dart' as router;
 import 'package:edukasi_pot/ui/views/views.dart';
 import 'package:edukasi_pot/ui/widgets/widgets.dart';
@@ -25,15 +25,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        StreamProvider<User>.controller(
-            builder: (context) => locator<AuthService>().userController),
-        StreamProvider<Subject>.controller(
-            builder: (context) => locator<SubjectService>().subjectController),
-        StreamProvider<ConnectivityStatus>.controller(
-            builder: (context) =>
-                locator<ConnectivityService>().connectionStatusController),
-      ],
+      providers: providers,
       child: LifecycleManager(
         child: BaseView<AuthModel>(
           builder: (context, model, _) => MaterialApp(
