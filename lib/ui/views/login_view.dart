@@ -13,7 +13,8 @@ class LoginView extends StatelessWidget {
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
 
-  static String _email, _password;
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   String _validateEmail(String value) {
     Pattern pattern =
@@ -30,13 +31,63 @@ class LoginView extends StatelessWidget {
     return null;
   }
 
+  void _removeSavedEmail(BuildContext context, AuthModel model) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        content: Text('Are you sure to remove saved email ?', style: TextStyle(fontSize: 16.0)),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Cancel', style: TextStyle(fontSize: 16.0)),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          FlatButton(
+            child: Text('Remove', style: TextStyle(fontSize: 16.0)),
+            onPressed: () {
+              Navigator.of(context).pop();
+              model.removeSavedEmail();
+              _emailController.text = '';
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   void _handleLogin(BuildContext context, AuthModel model) async {
     final FormState form = _formKey.currentState;
 
     if (form.validate()) {
       form.save();
       try {
-        await model.login(_email, _password);
+        if (model.isEmailSaved == true) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+              content: Text('Do you agree to save email address ?', style: TextStyle(fontSize: 16.0)),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Cancel', style: TextStyle(fontSize: 16.0)),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                FlatButton(
+                  child: Text('Agree', style: TextStyle(fontSize: 16.0)),
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    await model.login(
+                        _emailController.text, _passwordController.text);
+                  },
+                ),
+              ],
+            ),
+          );
+        } else if (model.isEmailSaved == false) {
+          await model.login(_emailController.text, _passwordController.text);
+        }
       } catch (e) {
         showDialog(
           context: context,
@@ -51,6 +102,10 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseView<AuthModel>(
+      onModelReady: (model) {
+        print('rebuild from onmodelready: ${_emailController.text}');
+        _emailController.text = model.email;
+      },
       builder: (context, model, child) => Scaffold(
         body: model.state == ViewState.Busy
             ? SplashScreen()
@@ -91,13 +146,14 @@ class LoginView extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   CustomTextField(
+                                    controller: _emailController,
                                     hintText: "Email",
-                                    initialValue: 'user1@test.com',
+                                    // initialValue: 'user1@test.com',
                                     validator: _validateEmail,
                                     focusNode: _emailFocus,
                                     inputType: TextInputType.emailAddress,
                                     textInputAction: TextInputAction.next,
-                                    onSaved: (val) => _email = val,
+                                    // onSaved: (val) => _email = val,
                                     onFieldSubmitted: (value) {
                                       _emailFocus.unfocus();
                                       FocusScope.of(context)
@@ -106,22 +162,35 @@ class LoginView extends StatelessWidget {
                                   ),
                                   verticalSpaceSmall(context),
                                   CustomPasswordField(
+                                    controller: _passwordController,
                                     hintText: "Password",
-                                    initialValue: 'test',
+                                    // initialValue: 'test',
                                     validator: _validatePassword,
                                     focusNode: _passwordFocus,
                                     textInputAction: TextInputAction.done,
-                                    onSaved: (val) => _password = val,
+                                    // onSaved: (val) => _password = val,
                                     onFieldSubmitted: (value) {
                                       _passwordFocus.unfocus();
                                     },
                                   ),
-                                  verticalSpaceMedium(context),
+                                  verticalSpaceSmall(context),
+                                  model.email == null
+                                      ? _RememberCheckbox(model)
+                                      : Padding(
+                                          padding: EdgeInsets.all(16.0),
+                                          child: GestureDetector(
+                                            onTap: () => _removeSavedEmail(
+                                                context, model),
+                                            child: Text('Remove Saved Email',
+                                                style:
+                                                    TextStyle(fontSize: 16.0)),
+                                          ),
+                                        ),
+                                  verticalSpaceSmall(context),
                                   Container(
                                     decoration: BoxDecoration(
                                       color: Color(0xFF5B6CEC),
-                                      borderRadius:
-                                          BorderRadius.circular(4.0),
+                                      borderRadius: BorderRadius.circular(4.0),
                                     ),
                                     child: Material(
                                       color: Colors.transparent,
@@ -135,8 +204,7 @@ class LoginView extends StatelessWidget {
                                                   ViewState.Authenticate
                                               ? Container(
                                                   padding: Platform.isIOS
-                                                      ? edgeVertical(
-                                                          context, 3)
+                                                      ? edgeVertical(context, 3)
                                                       : edgeVertical(
                                                           context, 2.15),
                                                   child: Loader(
@@ -147,8 +215,8 @@ class LoginView extends StatelessWidget {
                                                   ),
                                                 )
                                               : Container(
-                                                  padding: edgeVertical(
-                                                      context, 3),
+                                                  padding:
+                                                      edgeVertical(context, 3),
                                                   child: Text(
                                                     'Log in',
                                                     style: TextStyle(
@@ -173,6 +241,40 @@ class LoginView extends StatelessWidget {
                   ),
                 ],
               ),
+      ),
+    );
+  }
+}
+
+class _RememberCheckbox extends StatefulWidget {
+  final AuthModel model;
+
+  const _RememberCheckbox(this.model);
+
+  @override
+  __RememberCheckboxState createState() => __RememberCheckboxState();
+}
+
+class __RememberCheckboxState extends State<_RememberCheckbox> {
+  bool _checked = false;
+
+  void _valueOnChanged(bool value) {
+    setState(() {
+      _checked = value;
+      widget.model.setRememberEmail(value);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 225.0,
+      child: CheckboxListTile(
+        value: _checked,
+        onChanged: _valueOnChanged,
+        title: Text('Remember Email', style: TextStyle(fontSize: 16.0)),
+        controlAffinity: ListTileControlAffinity.leading,
+        activeColor: Color(0xFF5B6CEC),
       ),
     );
   }

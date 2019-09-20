@@ -19,8 +19,8 @@ class LocalStorageService {
     return _instance;
   }
 
+  // Prefs User
   static const String UserKey = 'user';
-
   User get user {
     var userJson = _getFromDisk(UserKey);
     if (userJson == null) {
@@ -29,24 +29,31 @@ class LocalStorageService {
 
     return User.fromJson(json.decode(userJson));
   }
-
   set user(User userToSave) {
     saveStringToDisk(UserKey, json.encode(userToSave.toJson()));
   }
+  void removeUser() {
+    _preferences.remove(UserKey);
+  }
 
-  dynamic _getFromDisk(String key) {
+  // Prefs Email
+  static const String EmailKey = 'email';
+  String get email => _getFromDisk(EmailKey) ?? null;
+  set email(String email) {
+    saveStringToDisk(EmailKey, email);
+  }
+  void removeEmail() {
+    _preferences.remove(EmailKey);
+  }
+
+  String _getFromDisk(String key) {
     var value = _preferences.get(key);
     // print('(TRACE) LocalStorageService:_getFromDisk. key: $key value: $value');
     return value;
   }
-
   void saveStringToDisk(String key, String content) {
     // print(
     //     '(TRACE) LocalStorageService:_saveStringToDisk. key: $key value: $content');
-    _preferences.setString(UserKey, content);
-  }
-
-  void clear() {
-    _preferences.clear();
+    _preferences.setString(key, content);
   }
 }

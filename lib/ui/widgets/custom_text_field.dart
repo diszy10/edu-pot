@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class CustomTextField extends StatefulWidget {
   final Key key;
+  final TextEditingController controller;
   final String hintText;
   final String labelText;
   final String helperText;
@@ -20,6 +21,7 @@ class CustomTextField extends StatefulWidget {
 
   const CustomTextField(
       {this.key,
+      this.controller,
       this.hintText,
       this.labelText,
       this.helperText,
@@ -44,6 +46,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   Widget build(BuildContext context) {
     return TextFormField(
       key: widget.key,
+      controller: widget.controller,
       keyboardType: widget.inputType,
       obscureText: widget.obscureText ?? false,
       focusNode: widget.focusNode,
@@ -74,6 +77,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
 class CustomPasswordField extends StatefulWidget {
   final Key key;
+  final TextEditingController controller;
   final String hintText;
   final String labelText;
   final String helperText;
@@ -86,6 +90,7 @@ class CustomPasswordField extends StatefulWidget {
 
   const CustomPasswordField(
       {this.key,
+      this.controller,
       this.hintText,
       this.labelText,
       this.helperText,
@@ -108,6 +113,7 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
   Widget build(BuildContext context) {
     return CustomTextField(
       key: widget.key,
+      controller: widget.controller,
       hintText: widget.hintText,
       focusNode: widget.focusNode,
       obscureText: _obscureText,

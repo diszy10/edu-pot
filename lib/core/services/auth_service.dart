@@ -40,7 +40,7 @@ class AuthService implements StoppableService {
 
   void logout() {
     _subjectsService.clearSubjectInSession();
-    _localStorageService.clear();
+    _localStorageService.removeUser();
   }
 
   @override

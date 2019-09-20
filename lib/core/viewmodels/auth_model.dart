@@ -2,6 +2,7 @@ import 'package:edukasi_pot/core/constants/route_paths.dart' as routes;
 import 'package:edukasi_pot/core/enums/viewstate.dart';
 import 'package:edukasi_pot/core/services/api/models.dart';
 import 'package:edukasi_pot/core/services/auth_service.dart';
+import 'package:edukasi_pot/core/services/localstorage_service.dart';
 import 'package:edukasi_pot/core/services/navigation_service.dart';
 import 'package:edukasi_pot/core/services/subject_service.dart';
 import 'package:edukasi_pot/core/viewmodels/base_model.dart';
@@ -29,6 +30,10 @@ class AuthModel extends BaseModel {
       setState(ViewState.Busy);
       await Future.delayed(Duration(milliseconds: 600));
 
+      if (_isEmailSaved == true) {
+        _localStorageService.email = email;
+      }
+
       var subjectInSession = _subjectsService.subjectInSession;
       if (subjectInSession != null) {
         _navigationService.navigateToReplacement(routes.SubjectDetail,
@@ -53,5 +58,22 @@ class AuthModel extends BaseModel {
 
     setState(ViewState.Idle);
     _navigationService.logout();
+  }
+
+
+  LocalStorageService _localStorageService = locator<LocalStorageService>();
+
+  get email => _localStorageService.email;
+
+  bool _isEmailSaved = false;
+  get isEmailSaved => _isEmailSaved;
+  
+  void setRememberEmail(bool value) {
+    _isEmailSaved = value;
+  }
+
+  void removeSavedEmail() {
+    _localStorageService.removeEmail();
+    notifyListeners();
   }
 }
