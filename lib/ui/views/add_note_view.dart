@@ -1,12 +1,20 @@
 import 'dart:io';
 
 import 'package:edukasi_pot/core/enums/viewstate.dart';
-import 'package:edukasi_pot/core/viewmodels/viewmodels.dart';
+import 'package:edukasi_pot/core/viewmodels/add_note_model.dart';
 import 'package:edukasi_pot/ui/shared/shared.dart';
 import 'package:edukasi_pot/ui/views/base_view.dart';
 import 'package:flutter/material.dart';
 
 class AddNoteView extends StatelessWidget {
+  final _noteController = TextEditingController();
+
+  void _handleSaveNote(AddNoteModel model) {
+    // if (_noteController.text != null) {
+    // }
+    model.logout();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,6 +59,8 @@ class AddNoteView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 child: TextFormField(
+                  controller: _noteController,
+                  textInputAction: TextInputAction.done,
                   maxLines: 15,
                   decoration: InputDecoration(
                     hintText:
@@ -67,7 +77,7 @@ class AddNoteView extends StatelessWidget {
               verticalSpaceLarge(context),
 
               // Save & logout button
-              BaseView<AuthModel>(
+              BaseView<AddNoteModel>(
                 builder: (context, model, _) => Container(
                   width: double.infinity,
                   height: 70.0,
@@ -76,7 +86,7 @@ class AddNoteView extends StatelessWidget {
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () {
-                        model.logout();
+                        _handleSaveNote(model);
                       },
                       child: Center(
                         child: model.state == ViewState.Busy

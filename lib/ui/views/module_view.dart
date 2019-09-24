@@ -232,6 +232,12 @@ class __DescriptionTabViewState extends State<_DescriptionTabView>
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(

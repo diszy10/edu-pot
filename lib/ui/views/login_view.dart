@@ -35,7 +35,8 @@ class LoginView extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        content: Text('Are you sure to remove saved email ?', style: TextStyle(fontSize: 16.0)),
+        content: Text('Are you sure to remove saved email ?',
+            style: TextStyle(fontSize: 16.0)),
         actions: <Widget>[
           FlatButton(
             child: Text('Cancel', style: TextStyle(fontSize: 16.0)),
@@ -66,10 +67,12 @@ class LoginView extends StatelessWidget {
           showDialog(
             context: context,
             builder: (BuildContext context) => AlertDialog(
-              content: Text('Do you agree to save email address ?', style: TextStyle(fontSize: 16.0)),
+              // title: Text('Remember email address ?'),
+              content: Text('Do you agree to save email address ?',
+                  style: TextStyle(fontSize: 16.0)),
               actions: <Widget>[
                 FlatButton(
-                  child: Text('Cancel', style: TextStyle(fontSize: 16.0)),
+                  child: Text('Disagree', style: TextStyle(fontSize: 16.0)),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -102,10 +105,7 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseView<AuthModel>(
-      onModelReady: (model) {
-        print('rebuild from onmodelready: ${_emailController.text}');
-        _emailController.text = model.email;
-      },
+      onModelReady: (model) => _emailController.text = model.email,
       builder: (context, model, child) => Scaffold(
         body: model.state == ViewState.Busy
             ? SplashScreen()

@@ -51,3 +51,10 @@ class Student {
 
   Student({this.id, this.name, this.imageUrl, this.isAbsent = false});
 }
+
+class NoteSession {
+  String id, subjectId, notes;
+  DateTime timestamp;
+
+  NoteSession({this.id, this.subjectId, this.timestamp, this.notes});
+}
