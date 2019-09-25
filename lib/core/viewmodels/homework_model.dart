@@ -5,6 +5,7 @@ import 'package:edukasi_pot/core/services/homework_service.dart';
 import 'package:edukasi_pot/core/services/navigation_service.dart';
 import 'package:edukasi_pot/core/viewmodels/base_model.dart';
 import 'package:edukasi_pot/locator.dart';
+import 'package:flutter/material.dart';
 
 class HomeworkModel extends BaseModel {
   NavigationService _navigationService = locator<NavigationService>();
@@ -26,6 +27,11 @@ class HomeworkModel extends BaseModel {
 
   void setDistribute(String homeworkId) {
     _homeworksService.setDistribute(homeworkId);
+    notifyListeners();
+  }
+
+  void setColor(String homeworkId, Color selectedColor) {
+    _homeworksService.setColor(homeworkId, selectedColor);
     notifyListeners();
   }
 

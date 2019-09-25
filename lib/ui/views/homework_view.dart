@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:edukasi_pot/core/enums/viewstate.dart';
 import 'package:edukasi_pot/core/services/api/models.dart';
 import 'package:edukasi_pot/core/viewmodels/viewmodels.dart';
@@ -8,6 +6,7 @@ import 'package:edukasi_pot/ui/views/base_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
+import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -133,29 +132,12 @@ class _HomeworkItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Color> colors = [
-      Color(0xFF007789),
-      Color(0xFF3D85D3),
-      Color(0xFF34BA9C),
-      Color(0xFFB57E55),
-      Color(0xFFF62B84),
-      Color(0xFFA0B658)
-    ];
-
-    final Random random = Random();
     return Container(
       margin: edgeSymmetric(context, 2, 2),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),
-        color: colors[random.nextInt(6)],
-        // color: Colors.white,
+        color: homework.color ?? Colors.white,
         boxShadow: <BoxShadow>[
-          // BoxShadow(
-          //   color: Colors.black26,
-          //   offset: Offset(4.0, 8.0),
-          //   blurRadius: 8.0,
-          //   spreadRadius: 0.0,
-          // ),
           BoxShadow(
             color: Colors.black12,
             offset: Offset(4.0, 8.0),
@@ -170,10 +152,9 @@ class _HomeworkItem extends StatelessWidget {
             barrierDismissible: true,
             context: context,
             builder: (BuildContext context) => _ActionModal(
-                colors: colors,
-                random: random,
-                homework: homework,
-                model: model),
+              homework: homework,
+              model: model,
+            ),
           ),
           borderRadius: BorderRadius.circular(16.0),
           child: Container(
@@ -187,7 +168,9 @@ class _HomeworkItem extends StatelessWidget {
                     child: Text(
                       homework.title,
                       style: TextStyle(
-                        color: Colors.white,
+                        color: homework.color != null
+                            ? Colors.white
+                            : Colors.black,
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
                       ),
@@ -227,12 +210,7 @@ class _ActionModal extends StatefulWidget {
   final HomeworkModel model;
   final Homework homework;
 
-  final List<Color> colors;
-  final Random random;
-
-  const _ActionModal(
-      {Key key, this.model, this.homework, this.colors, this.random})
-      : super(key: key);
+  const _ActionModal({Key key, this.model, this.homework}) : super(key: key);
 
   @override
   __ActionModalState createState() => __ActionModalState();
@@ -366,6 +344,48 @@ class __ActionModalState extends State<_ActionModal> {
     );
   }
 
+  void _selectColor() {
+    Navigator.pop(context);
+    showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (BuildContext context) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            width: MediaQuery.of(context).size.width * 0.3,
+            height: MediaQuery.of(context).size.height * 0.325,
+            padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+            child: MaterialColorPicker(
+              onColorChange: (Color color) {
+                widget.model.setColor(widget.homework.id, color);
+                Navigator.pop(context);
+              },
+              onlyShadeSelection: true,
+              circleSize: 180.0,
+              spacing: 24.0,
+              selectedColor: widget.homework.color,
+              // colors: [
+              //   Colors.red,
+              //   Colors.deepOrange,
+              //   Colors.yellowAccent,
+              //   Colors.greenAccent,
+              //   Colors.blueAccent,
+              //   Colors.deepPurple,
+              // ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   void _handleDistribute() {
     if (_selectedDate == null &&
         widget.homework.deadline == null &&
@@ -425,20 +445,52 @@ class __ActionModalState extends State<_ActionModal> {
         child: Container(
           width: MediaQuery.of(context).size.width * 0.5,
           height: MediaQuery.of(context).size.height * 0.3,
-          padding: EdgeInsets.all(50.0),
+          // padding: EdgeInsets.all(50.0),
+          // padding: edgeSymmetric(context, 3, 3),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16.0),
-            color: widget.colors[widget.random.nextInt(6)],
-          ),
+              borderRadius: BorderRadius.circular(16.0),
+              // color: widget.colors[widget.random.nextInt(6)],
+              color: widget.homework.color ?? Colors.white),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
+              // Close button
+              Padding(
+                padding: EdgeInsets.only(top: 16.0, right: 16.0),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50.0),
+                      // border: Border.all(color: Colors.black45)
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () => Navigator.pop(context),
+                        borderRadius: BorderRadius.circular(50.0),
+                        child: Container(
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(Icons.close,
+                                color: widget.homework.color != null
+                                    ? Colors.white
+                                    : Colors.black45)),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
               // Homework title
-              Center(
+              Container(
+                // padding: EdgeInsets.only(
+                //     top: MediaQuery.of(context).size.height * 0.05),
                 child: Text(
                   widget.homework.title,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: widget.homework.color != null
+                        ? Colors.white
+                        : Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 18.0,
                   ),
@@ -447,86 +499,134 @@ class __ActionModalState extends State<_ActionModal> {
               ),
 
               // Action buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50.0),
-                      color: Colors.black26,
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () =>
-                            _selectDate(homeworkId: widget.homework.id),
-                        borderRadius: BorderRadius.circular(50.0),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 16.0, horizontal: 24.0),
-                          child: Row(
-                            children: <Widget>[
-                              Icon(Icons.flag, color: Colors.white),
-                              SizedBox(width: 10.0),
-                              Text(
-                                _buildText(),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )
-                            ],
+              Container(
+                padding: EdgeInsets.only(right: 32.0, bottom: 32.0, left: 32.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        // Deadline date button
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50.0),
+                            border: widget.homework.color == null
+                                ? Border.all(color: orange)
+                                : null,
+                            color: widget.homework.color != null
+                                ? Colors.black26
+                                : null,
                           ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50.0),
-                      color: Colors.white,
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: _handleDistribute,
-                        borderRadius: BorderRadius.circular(50.0),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 16.0, horizontal: 24.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              widget.homework.isDistribute == true
-                                  ? Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(50.0),
-                                        color: Colors.green,
-                                      ),
-                                      child: Icon(
-                                        Icons.done,
-                                        color: Colors.white,
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () =>
+                                  _selectDate(homeworkId: widget.homework.id),
+                              borderRadius: BorderRadius.circular(50.0),
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 16.0, horizontal: 24.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Icon(Icons.flag,
+                                        color: widget.homework.color == null
+                                            ? orange
+                                            : Colors.white),
+                                    SizedBox(width: 10.0),
+                                    Text(
+                                      _buildText(),
+                                      style: TextStyle(
+                                        color: widget.homework.color == null
+                                            ? orange
+                                            : Colors.white,
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     )
-                                  : Icon(Icons.send, color: Colors.black),
-                              SizedBox(width: 10.0),
-                              Text(
-                                'Distribute',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
+                                  ],
                                 ),
-                              )
-                            ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        horizontalSpace(context, 2),
+                        // Change color button
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50.0),
+                            border: widget.homework.color == null ? Border.all(color: Colors.black26) : null,
+                            color: widget.homework.color != null ? Colors.black26 : null,
+                          ),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: _selectColor,
+                              borderRadius: BorderRadius.circular(50.0),
+                              child: Container(
+                                padding: EdgeInsets.all(16.0),
+                                child: Icon(
+                                  Icons.color_lens,
+                                  color: widget.homework.color == null ? Colors.black45 : Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    // Distribute button
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.0),
+                        // border: Border.all(color: Color(0xFFFF5B30)),
+                        color: widget.homework.color != null
+                            ? Colors.white
+                            : deepBlue,
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: _handleDistribute,
+                          borderRadius: BorderRadius.circular(50.0),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 16.0, horizontal: 24.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                widget.homework.isDistribute == true
+                                    ? Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(50.0),
+                                          color: Colors.green,
+                                        ),
+                                        child: Icon(Icons.done,
+                                            color: Colors.white),
+                                      )
+                                    : Icon(Icons.send,
+                                        color: widget.homework.color != null
+                                            ? Colors.black
+                                            : Colors.white),
+                                SizedBox(width: 10.0),
+                                Text(
+                                  'Distribute',
+                                  style: TextStyle(
+                                    color: widget.homework.color != null
+                                        ? Colors.black
+                                        : Colors.white,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               )
             ],
           ),

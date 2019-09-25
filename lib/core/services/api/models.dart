@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class User {
   String id, name, imageUrl;
 
@@ -38,11 +40,17 @@ class Exercise {
 }
 
 class Homework {
-  final String id, title;
+  String id, title;
   DateTime deadline;
   bool isDistribute;
+  Color color;
 
-  Homework({this.id, this.title, this.deadline, this.isDistribute = false});
+  Homework(
+      {this.id,
+      this.title,
+      this.deadline,
+      this.color,
+      this.isDistribute = false});
 }
 
 class Student {

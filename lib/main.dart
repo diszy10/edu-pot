@@ -4,6 +4,7 @@ import 'package:edukasi_pot/lifecycle_manager.dart';
 import 'package:edukasi_pot/locator.dart';
 import 'package:edukasi_pot/provider_setup.dart';
 import 'package:edukasi_pot/ui/router.dart' as router;
+import 'package:edukasi_pot/ui/shared/theme.dart';
 import 'package:edukasi_pot/ui/views/views.dart';
 import 'package:edukasi_pot/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +47,7 @@ class MainApp extends StatelessWidget {
                 : LoginView(),
             onGenerateRoute: router.generateRoute,
             navigatorKey: locator<NavigationService>().navigatorKey,
+            theme: themeData,
           ),
         ),
       ),

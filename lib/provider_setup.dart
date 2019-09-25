@@ -18,11 +18,11 @@ List<SingleChildCloneableWidget> independentServices = [
 ];
 
 List<SingleChildCloneableWidget> uiConsumableProviders = [
+  StreamProvider<ConnectivityStatus>.controller(
+      builder: (context) =>
+          locator<ConnectivityService>().connectionStatusController),
   StreamProvider<User>.controller(
       builder: (context) => locator<AuthService>().userController),
   StreamProvider<Subject>.controller(
-      builder: (context) => locator<SubjectService>().subjectController),
-  StreamProvider<ConnectivityStatus>.controller(
-      builder: (context) =>
-          locator<ConnectivityService>().connectionStatusController)
+      builder: (context) => locator<SubjectService>().subjectController)
 ];

@@ -4,6 +4,7 @@ import 'package:edukasi_pot/core/services/api/api.dart';
 import 'package:edukasi_pot/core/services/api/models.dart';
 import 'package:edukasi_pot/core/services/stoppable_service.dart';
 import 'package:edukasi_pot/locator.dart';
+import 'package:flutter/material.dart';
 
 class HomeworkService implements StoppableService {
   Api _api = locator<Api>();
@@ -23,6 +24,10 @@ class HomeworkService implements StoppableService {
   void resetDeadline(String homeworkId) {
     _homeworks.firstWhere((homework) => homework.id == homeworkId).deadline =
         null;
+  }
+
+  void setColor(String homeworkId, Color color) {
+    _homeworks.firstWhere((homework) => homework.id == homeworkId).color = color;
   }
 
   void setDistribute(String homeworkId) {
