@@ -79,16 +79,7 @@ class HomeworkView extends StatelessWidget {
             ),
 
             // Homework list
-            model.state == ViewState.Busy
-                ? Loader()
-                : model.homeworks != null
-                    ? _HomeworkList(model: model)
-                    : Center(
-                        child: Text(
-                          'No data found.',
-                          style: TextStyle(fontSize: 16.0),
-                        ),
-                      ),
+            model.state == ViewState.Busy ? Loader() : _HomeworkList()
           ],
         ),
       ),
@@ -97,12 +88,9 @@ class HomeworkView extends StatelessWidget {
 }
 
 class _HomeworkList extends StatelessWidget {
-  final HomeworkModel model;
-
-  const _HomeworkList({Key key, this.model}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    final model = Provider.of<HomeworkModel>(context);
     return Expanded(
       child: Padding(
         padding: edgeHorizontal(context, 5),
@@ -110,8 +98,8 @@ class _HomeworkList extends StatelessWidget {
           physics: BouncingScrollPhysics(),
           shrinkWrap: true,
           itemCount: model.homeworks.length,
-          itemBuilder: (ctx, i) =>
-              _HomeworkItem(homework: model.homeworks[i], model: model),
+          itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+              value: model.homeworks[i], child: _HomeworkItem()),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
             childAspectRatio: 16 / 9,
@@ -125,13 +113,10 @@ class _HomeworkList extends StatelessWidget {
 }
 
 class _HomeworkItem extends StatelessWidget {
-  final Homework homework;
-  final HomeworkModel model;
-
-  const _HomeworkItem({Key key, this.homework, this.model}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    final model = Provider.of<HomeworkModel>(context);
+    final homework = Provider.of<Homework>(context);
     return Container(
       margin: edgeSymmetric(context, 2, 2),
       decoration: BoxDecoration(
@@ -151,10 +136,16 @@ class _HomeworkItem extends StatelessWidget {
           onTap: () => showDialog(
             barrierDismissible: true,
             context: context,
-            builder: (BuildContext context) => _ActionModal(
-              homework: homework,
-              model: model,
-            ),
+            builder: (BuildContext context) => MultiProvider(
+              providers: [
+                ChangeNotifierProvider.value(
+                  value: model,
+                ),
+                ChangeNotifierProvider.value(
+                  value: homework,
+                )
+              ],
+              child: _ActionModal()),
           ),
           borderRadius: BorderRadius.circular(16.0),
           child: Container(
@@ -207,11 +198,6 @@ class _HomeworkItem extends StatelessWidget {
 }
 
 class _ActionModal extends StatefulWidget {
-  final HomeworkModel model;
-  final Homework homework;
-
-  const _ActionModal({Key key, this.model, this.homework}) : super(key: key);
-
   @override
   __ActionModalState createState() => __ActionModalState();
 }
@@ -219,7 +205,7 @@ class _ActionModal extends StatefulWidget {
 class __ActionModalState extends State<_ActionModal> {
   DateTime _selectedDate;
 
-  Future<void> _selectDate({@required String homeworkId}) async {
+  Future<void> _selectDate(Homework homework, HomeworkModel model) async {
     return showDialog(
       context: context,
       builder: (BuildContext context) => Dialog(
@@ -299,14 +285,14 @@ class __ActionModalState extends State<_ActionModal> {
                     onDayPressed: (DateTime date, _) {
                       this.setState(() {
                         _selectedDate = date;
-                        if (widget.homework.deadline != null &&
-                            _selectedDate != widget.homework.deadline) {
-                          widget.model.unDistribute(widget.homework.id);
+                        if (homework.deadline != null &&
+                            _selectedDate != homework.deadline) {
+                          model.unDistribute(homework.id);
                         }
                         Navigator.pop(context);
                       });
                     },
-                    selectedDateTime: _selectedDate ?? widget.homework.deadline,
+                    selectedDateTime: _selectedDate ?? homework.deadline,
                     selectedDayButtonColor: Color(0xFF25c431),
                     selectedDayBorderColor: Color(0xFF25c431),
                     selectedDayTextStyle: TextStyle(
@@ -344,8 +330,8 @@ class __ActionModalState extends State<_ActionModal> {
     );
   }
 
-  void _selectColor() {
-    Navigator.pop(context);
+  void _selectColor(Homework homework, HomeworkModel model) {
+    // Navigator.pop(context);
     showDialog(
       barrierDismissible: true,
       context: context,
@@ -364,13 +350,13 @@ class __ActionModalState extends State<_ActionModal> {
             padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
             child: MaterialColorPicker(
               onColorChange: (Color color) {
-                widget.model.setColor(widget.homework.id, color);
+                model.setColor(homework.id, color);
                 Navigator.pop(context);
               },
               onlyShadeSelection: true,
               circleSize: 180.0,
               spacing: 24.0,
-              selectedColor: widget.homework.color,
+              selectedColor: homework.color,
               // colors: [
               //   Colors.red,
               //   Colors.deepOrange,
@@ -386,10 +372,10 @@ class __ActionModalState extends State<_ActionModal> {
     );
   }
 
-  void _handleDistribute() {
+  void _handleDistribute(Homework homework, HomeworkModel model) {
     if (_selectedDate == null &&
-        widget.homework.deadline == null &&
-        widget.homework.isDistribute == false) {
+        homework.deadline == null &&
+        homework.isDistribute == false) {
       showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
@@ -410,32 +396,31 @@ class __ActionModalState extends State<_ActionModal> {
           ],
         ),
       );
-    } else if (_selectedDate != null && widget.homework.isDistribute == false) {
-      widget.model.setDeadline(widget.homework.id, _selectedDate);
-      widget.model.setDistribute(widget.homework.id);
+    } else if (_selectedDate != null && homework.isDistribute == false) {
+      model.setDeadline(homework.id, _selectedDate);
+      model.setDistribute(homework.id);
       Navigator.pop(context);
-    } else if (widget.homework.deadline != null &&
-        widget.homework.isDistribute == true) {
-      widget.model.unDistribute(widget.homework.id);
+    } else if (homework.deadline != null && homework.isDistribute == true) {
+      model.unDistribute(homework.id);
       Navigator.pop(context);
     }
   }
 
-  String _buildText() {
-    if (_selectedDate == null && widget.homework.deadline == null) {
+  String _buildText(Homework homework) {
+    if (_selectedDate == null && homework.deadline == null) {
       return 'Next Session';
-    } else if (_selectedDate != null && widget.homework.deadline == null) {
+    } else if (_selectedDate != null && homework.deadline == null) {
       return DateFormat("dd MMM yyyy").format(_selectedDate).toString();
-    } else if (_selectedDate != null && widget.homework.deadline != null) {
+    } else if (_selectedDate != null && homework.deadline != null) {
       return DateFormat("dd MMM yyyy").format(_selectedDate).toString();
     }
-    return DateFormat("dd MMM yyyy")
-        .format(widget.homework.deadline)
-        .toString();
+    return DateFormat("dd MMM yyyy").format(homework.deadline).toString();
   }
 
   @override
   Widget build(BuildContext context) {
+    final model = Provider.of<HomeworkModel>(context);
+    final homework = Provider.of<Homework>(context);
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
@@ -444,13 +429,13 @@ class __ActionModalState extends State<_ActionModal> {
         color: Colors.transparent,
         child: Container(
           width: MediaQuery.of(context).size.width * 0.5,
-          height: MediaQuery.of(context).size.height * 0.3,
+          height: MediaQuery.of(context).size.height * 0.325,
           // padding: EdgeInsets.all(50.0),
           // padding: edgeSymmetric(context, 3, 3),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16.0),
               // color: widget.colors[widget.random.nextInt(6)],
-              color: widget.homework.color ?? Colors.white),
+              color: homework.color ?? Colors.white),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -472,7 +457,7 @@ class __ActionModalState extends State<_ActionModal> {
                         child: Container(
                             padding: EdgeInsets.all(8.0),
                             child: Icon(Icons.close,
-                                color: widget.homework.color != null
+                                color: homework.color != null
                                     ? Colors.white
                                     : Colors.black45)),
                       ),
@@ -483,14 +468,12 @@ class __ActionModalState extends State<_ActionModal> {
 
               // Homework title
               Container(
-                // padding: EdgeInsets.only(
-                //     top: MediaQuery.of(context).size.height * 0.05),
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).size.height * 0.025),
                 child: Text(
-                  widget.homework.title,
+                  homework.title,
                   style: TextStyle(
-                    color: widget.homework.color != null
-                        ? Colors.white
-                        : Colors.black,
+                    color: homework.color != null ? Colors.white : Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 18.0,
                   ),
@@ -510,18 +493,16 @@ class __ActionModalState extends State<_ActionModal> {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(50.0),
-                            border: widget.homework.color == null
+                            border: homework.color == null
                                 ? Border.all(color: orange)
                                 : null,
-                            color: widget.homework.color != null
-                                ? Colors.black26
-                                : null,
+                            color:
+                                homework.color != null ? Colors.black26 : null,
                           ),
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
-                              onTap: () =>
-                                  _selectDate(homeworkId: widget.homework.id),
+                              onTap: () => _selectDate(homework, model),
                               borderRadius: BorderRadius.circular(50.0),
                               child: Container(
                                 padding: EdgeInsets.symmetric(
@@ -529,14 +510,14 @@ class __ActionModalState extends State<_ActionModal> {
                                 child: Row(
                                   children: <Widget>[
                                     Icon(Icons.flag,
-                                        color: widget.homework.color == null
+                                        color: homework.color == null
                                             ? orange
                                             : Colors.white),
                                     SizedBox(width: 10.0),
                                     Text(
-                                      _buildText(),
+                                      _buildText(homework),
                                       style: TextStyle(
-                                        color: widget.homework.color == null
+                                        color: homework.color == null
                                             ? orange
                                             : Colors.white,
                                         fontSize: 16.0,
@@ -554,19 +535,24 @@ class __ActionModalState extends State<_ActionModal> {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(50.0),
-                            border: widget.homework.color == null ? Border.all(color: Colors.black26) : null,
-                            color: widget.homework.color != null ? Colors.black26 : null,
+                            border: homework.color == null
+                                ? Border.all(color: Colors.black26)
+                                : null,
+                            color:
+                                homework.color != null ? Colors.black26 : null,
                           ),
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
-                              onTap: _selectColor,
+                              onTap: () => _selectColor(homework, model),
                               borderRadius: BorderRadius.circular(50.0),
                               child: Container(
                                 padding: EdgeInsets.all(16.0),
                                 child: Icon(
                                   Icons.color_lens,
-                                  color: widget.homework.color == null ? Colors.black45 : Colors.white,
+                                  color: homework.color == null
+                                      ? Colors.black45
+                                      : Colors.white,
                                 ),
                               ),
                             ),
@@ -579,14 +565,12 @@ class __ActionModalState extends State<_ActionModal> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50.0),
                         // border: Border.all(color: Color(0xFFFF5B30)),
-                        color: widget.homework.color != null
-                            ? Colors.white
-                            : deepBlue,
+                        color: homework.color != null ? Colors.white : deepBlue,
                       ),
                       child: Material(
                         color: Colors.transparent,
                         child: InkWell(
-                          onTap: _handleDistribute,
+                          onTap: () => _handleDistribute(homework, model),
                           borderRadius: BorderRadius.circular(50.0),
                           child: Container(
                             padding: EdgeInsets.symmetric(
@@ -594,7 +578,7 @@ class __ActionModalState extends State<_ActionModal> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: <Widget>[
-                                widget.homework.isDistribute == true
+                                homework.isDistribute == true
                                     ? Container(
                                         decoration: BoxDecoration(
                                           borderRadius:
@@ -605,14 +589,14 @@ class __ActionModalState extends State<_ActionModal> {
                                             color: Colors.white),
                                       )
                                     : Icon(Icons.send,
-                                        color: widget.homework.color != null
+                                        color: homework.color != null
                                             ? Colors.black
                                             : Colors.white),
                                 SizedBox(width: 10.0),
                                 Text(
                                   'Distribute',
                                   style: TextStyle(
-                                    color: widget.homework.color != null
+                                    color: homework.color != null
                                         ? Colors.black
                                         : Colors.white,
                                     fontSize: 16.0,

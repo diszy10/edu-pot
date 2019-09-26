@@ -13,6 +13,10 @@ class AttendanceService implements StoppableService {
     _students = await _api.getStudentsForSubject(subjectId);
   }
 
+  Student getStudent(String studentId) {
+    return _students.firstWhere((student) => student.id == studentId);
+  }
+
   void setAbsent(String studentId) {
     _students.firstWhere((student) => student.id == studentId).isAbsent = true;
   }

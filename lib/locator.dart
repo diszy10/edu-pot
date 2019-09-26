@@ -27,4 +27,5 @@ Future<void> setupLocator() async {
   locator.registerFactory(() => ModuleModel());
   locator.registerFactory(() => HomeworkModel());
   locator.registerFactory(() => AttendanceModel());
+  locator.registerFactory(() => AddNoteModel());
 }

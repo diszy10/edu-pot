@@ -8,7 +8,7 @@ import 'package:edukasi_pot/locator.dart';
 
 class AttendanceModel extends BaseModel {
   NavigationService _navigationService = locator<NavigationService>();
-  
+
   AttendanceService _attendancesService = locator<AttendanceService>();
 
   List<Student> get students => _attendancesService.students;
@@ -17,6 +17,10 @@ class AttendanceModel extends BaseModel {
     setState(ViewState.Busy);
     await _attendancesService.getStudents(subjectId);
     setState(ViewState.Idle);
+  }
+
+  Student findById(String studentId) {
+    return _attendancesService.getStudent(studentId);
   }
 
   void toggleAbsent(String studentId) {

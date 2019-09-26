@@ -39,7 +39,7 @@ class Exercise {
   Exercise({this.title, this.content});
 }
 
-class Homework {
+class Homework with ChangeNotifier {
   String id, title;
   DateTime deadline;
   bool isDistribute;
@@ -53,7 +53,7 @@ class Homework {
       this.isDistribute = false});
 }
 
-class Student {
+class Student with ChangeNotifier {
   final String id, name, imageUrl;
   bool isAbsent;
 

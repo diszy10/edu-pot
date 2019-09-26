@@ -90,16 +90,7 @@ class AttendanceView extends StatelessWidget {
             ),
 
             // Student list
-            model.state == ViewState.Busy
-                ? Loader()
-                : model.students != null
-                    ? _StudentList(students: model.students, model: model)
-                    : Center(
-                        child: Text(
-                          'No data found.',
-                          style: TextStyle(fontSize: 16.0),
-                        ),
-                      )
+            model.state == ViewState.Busy ? Loader() : _StudentList()
           ],
         ),
       ),
@@ -108,21 +99,20 @@ class AttendanceView extends StatelessWidget {
 }
 
 class _StudentList extends StatelessWidget {
-  final List<Student> students;
-  final AttendanceModel model;
-
-  const _StudentList({this.students, this.model});
-
   @override
   Widget build(BuildContext context) {
+    final model = Provider.of<AttendanceModel>(context);
     return Expanded(
       child: Padding(
         padding: edgeHorizontal(context, 5),
         child: GridView.builder(
           physics: BouncingScrollPhysics(),
           shrinkWrap: true,
-          itemCount: students.length,
-          itemBuilder: (ctx, i) => _StudentItem(student: students[i]),
+          itemCount: model.students.length,
+          itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+            value: model.students[i],
+            child: _StudentItem(),
+          ),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 4,
             childAspectRatio: 1.15,
@@ -136,69 +126,66 @@ class _StudentList extends StatelessWidget {
 }
 
 class _StudentItem extends StatelessWidget {
-  final Student student;
-
-  const _StudentItem({this.student});
-
   @override
   Widget build(BuildContext context) {
-    return BaseView<AttendanceModel>(
-      builder: (context, model, child) => Container(
-        // margin: edgeSymmetric(context, 2, 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            // Student image
-            Container(
-              width: MediaQuery.of(context).size.width * 0.10,
-              height: MediaQuery.of(context).size.width * 0.10,
-              decoration: student.isAbsent == true
-                  ? BoxDecoration(
-                      border: Border.all(color: Colors.white, width: 5.0),
-                      borderRadius: BorderRadius.circular(32.0),
-                      color: Color(0xFFFF5B33).withOpacity(0.8),
-                      image: DecorationImage(
-                        colorFilter: ColorFilter.mode(
-                            Colors.black.withOpacity(0.3), BlendMode.dstATop),
-                        fit: BoxFit.cover,
-                        image: AssetImage(student.imageUrl),
-                      ),
-                    )
-                  : BoxDecoration(
-                      border: Border.all(color: Colors.white, width: 5.0),
-                      borderRadius: BorderRadius.circular(32.0),
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage(student.imageUrl),
-                      ),
-                    ),
-              child: AspectRatio(
-                aspectRatio: 12 / 6,
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () => student.isAbsent == false
-                        ? model.toggleAbsent(student.id)
-                        : model.toggleAttend(student.id),
+    final model = Provider.of<AttendanceModel>(context);
+    final student = Provider.of<Student>(context);
+    return Container(
+      // margin: edgeSymmetric(context, 2, 2),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          // Student image
+          Container(
+            width: MediaQuery.of(context).size.width * 0.10,
+            height: MediaQuery.of(context).size.width * 0.10,
+            decoration: student.isAbsent == true
+                ? BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 5.0),
                     borderRadius: BorderRadius.circular(32.0),
-                    child: SizedBox(),
+                    color: Color(0xFFFF5B33).withOpacity(0.8),
+                    image: DecorationImage(
+                      colorFilter: ColorFilter.mode(
+                          Colors.black.withOpacity(0.3), BlendMode.dstATop),
+                      fit: BoxFit.cover,
+                      image: AssetImage(student.imageUrl),
+                    ),
+                  )
+                : BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 5.0),
+                    borderRadius: BorderRadius.circular(32.0),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage(student.imageUrl),
+                    ),
                   ),
+            child: AspectRatio(
+              aspectRatio: 12 / 6,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () => student.isAbsent == false
+                      ? model.toggleAbsent(student.id)
+                      : model.toggleAttend(student.id),
+                  // onTap: () {},
+                  borderRadius: BorderRadius.circular(32.0),
+                  child: SizedBox(),
                 ),
               ),
             ),
-            verticalSpaceSmall(context),
+          ),
+          verticalSpaceSmall(context),
 
-            // Student name
-            Text(
-              student.name,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 18.0,
-              ),
-              textAlign: TextAlign.center,
-            )
-          ],
-        ),
+          // Student name
+          Text(
+            student.name,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 18.0,
+            ),
+            textAlign: TextAlign.center,
+          )
+        ],
       ),
     );
   }
