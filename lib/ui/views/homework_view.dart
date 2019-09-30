@@ -17,6 +17,7 @@ class HomeworkView extends StatelessWidget {
       onModelReady: (model) =>
           model.getHomeworksForSubject(Provider.of<Subject>(context).id),
       builder: (context, model, _) => Scaffold(
+        backgroundColor: Color(0xFFF6F8F9),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
