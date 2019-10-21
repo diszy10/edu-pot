@@ -1,16 +1,16 @@
-import 'package:edukasi_pot/core/services/api/api.dart';
+import 'package:edukasi_pot/core/data/repository.dart';
 import 'package:edukasi_pot/core/services/api/models.dart';
 import 'package:edukasi_pot/core/services/stoppable_service.dart';
 import 'package:edukasi_pot/locator.dart';
 
 class AttendanceService implements StoppableService {
-  Api _api = locator<Api>();
+  Repository _repo = locator<Repository>();
 
   List<Student> _students;
   List<Student> get students => _students;
 
   Future getStudents(int subjectId) async {
-    _students = await _api.getStudentsForSubject(subjectId);
+    _students = await _repo.getStudents(subjectId);
   }
 
   Student getStudent(int studentId) {

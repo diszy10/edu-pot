@@ -1,14 +1,11 @@
 import 'dart:async';
 
 import 'package:edukasi_pot/core/data/repository.dart';
-import 'package:edukasi_pot/core/services/api/api.dart';
 import 'package:edukasi_pot/core/services/api/models.dart';
 import 'package:edukasi_pot/core/services/stoppable_service.dart';
 import 'package:edukasi_pot/locator.dart';
 
 class SubjectService implements StoppableService {
-  // Api _api = locator<Api>();
-
   Repository _repo = locator<Repository>();
 
   StreamController<Subject> subjectController = StreamController<Subject>();

@@ -55,7 +55,7 @@ class _ModuleViewState extends State<ModuleView> with TickerProviderStateMixin {
                     body: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        verticalSpaceLarge(context),
+                        verticalSpaceMedium(context),
 
                         // Topic info badge
                         Row(
@@ -92,14 +92,14 @@ class _ModuleViewState extends State<ModuleView> with TickerProviderStateMixin {
                               widget.module.title,
                               style: TextStyle(
                                 color: Color(0xFF323232),
-                                fontSize: 70.0,
+                                fontSize: 54.0,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1.5,
                               ),
                             ),
                           ),
                         ),
-                        verticalSpaceMedium(context),
+                        verticalSpaceSmall(context),
 
                         // Tabbar
                         Container(
