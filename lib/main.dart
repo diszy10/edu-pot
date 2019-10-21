@@ -1,22 +1,56 @@
+import 'package:edukasi_pot/core/services/services.dart';
+import 'package:edukasi_pot/core/viewmodels/auth_model.dart';
+import 'package:edukasi_pot/lifecycle_manager.dart';
+import 'package:edukasi_pot/locator.dart';
+import 'package:edukasi_pot/provider_setup.dart';
+import 'package:edukasi_pot/ui/router.dart' as router;
+import 'package:edukasi_pot/ui/shared/theme.dart';
+import 'package:edukasi_pot/ui/views/views.dart';
+import 'package:edukasi_pot/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
-import './screens/login.dart';
-
-void main() {
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
+Future<void> main() async {
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+  ]);
   SystemChrome.setEnabledSystemUIOverlays([]);
-  runApp(EdukasiPoTApp());
+
+  await setupLocator();
+  runApp(MainApp());
 }
 
-class EdukasiPoTApp extends StatelessWidget {
+class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Edukasi POTY',
-      home: LoginPage(),
+    return MultiProvider(
+      providers: providers,
+      child: LifecycleManager(
+        child: BaseView<AuthModel>(
+          builder: (context, model, _) => MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Edukasi POT',
+            home: model.isAuth
+                ? FutureBuilder(
+                    future: model.tryAutoLogin(),
+                    builder: (ctx, snapshot) {
+                      return snapshot.connectionState == ConnectionState.waiting
+                          ? SplashScreen()
+                          : model.subjectInSession != null
+                              ? SubjectDetailView(
+                                  subject: model.subjectInSession)
+                              : SubjectListView();
+                    },
+                  )
+                : LoginView(),
+            onGenerateRoute: router.generateRoute,
+            navigatorKey: locator<NavigationService>().navigatorKey,
+            theme: themeData,
+          ),
+        ),
+      ),
     );
   }
 }
