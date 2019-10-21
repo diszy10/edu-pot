@@ -16,7 +16,7 @@ class SubjectModel extends BaseModel {
   List<Subject> get subjects => _subjectsService.subjects;
   Subject get subjectInSession => _subjectsService.subjectInSession;
 
-  Future<void> getSubjects(String userId) async {
+  Future<void> getSubjects(int userId) async {
     await _subjectsService.getSubjects(userId);
   }
 
@@ -24,7 +24,7 @@ class SubjectModel extends BaseModel {
     await _subjectsService.getSubjectInSession();
   }
 
-  Future<void> getModules(String subjectId) async {
+  Future<void> getModules(int subjectId) async {
     setState(ViewState.Busy);
     await _modulesService.getModules(subjectId);
 

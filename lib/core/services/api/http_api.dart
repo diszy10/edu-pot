@@ -3,22 +3,22 @@ import 'package:edukasi_pot/core/services/api/models.dart';
 
 class HttpApi implements Api {
   @override
-  Future<List<Homework>> getHomeworksForSubject(String subjectId) {
+  Future<List<Homework>> getHomeworksForSubject(int subjectId) {
     return null;
   }
 
   @override
-  Future<List<Module>> getModulesForSubject(String subjectId) {
+  Future<List<Module>> getModulesForSubject(int subjectId) {
     return null;
   }
 
   @override
-  Future<List<Student>> getStudentsForSubject(String subjectId) {
+  Future<List<Student>> getStudentsForSubject(int subjectId) {
     return null;
   }
 
   @override
-  Future<List<Subject>> getSubjectsForUser(String userId) {
+  Future<List<Subject>> getSubjectsForUser(int userId) {
     return null;
   }
 

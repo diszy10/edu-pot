@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class User {
-  String id, name, imageUrl;
+  int id;
+  String name, imageUrl;
 
   User({this.id, this.name, this.imageUrl});
 
@@ -21,8 +22,9 @@ class User {
 }
 
 class Subject {
-  final String id, title, klass;
-  final DateTime startTime, endTime;
+  int id;
+  String title, klass;
+  DateTime startTime, endTime;
 
   Subject({this.id, this.title, this.klass, this.startTime, this.endTime});
 }
@@ -40,7 +42,8 @@ class Exercise {
 }
 
 class Homework with ChangeNotifier {
-  String id, title;
+  int id;
+  String title;
   DateTime deadline;
   bool isDistribute;
   Color color;
@@ -54,7 +57,8 @@ class Homework with ChangeNotifier {
 }
 
 class Student with ChangeNotifier {
-  final String id, name, imageUrl;
+  int id;
+  String name, imageUrl;
   bool isAbsent;
 
   Student({this.id, this.name, this.imageUrl, this.isAbsent = false});

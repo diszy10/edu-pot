@@ -14,28 +14,28 @@ class HomeworkModel extends BaseModel {
 
   List<Homework> get homeworks => _homeworksService.homeworks;
 
-  Future<void> getHomeworksForSubject(String subjectId) async {
+  Future<void> getHomeworksForSubject(int subjectId) async {
     setState(ViewState.Busy);
     await _homeworksService.getHomeworks(subjectId);
     setState(ViewState.Idle);
   }
 
-  void setDeadline(String homeworkId, DateTime deadlineDate) {
+  void setDeadline(int homeworkId, DateTime deadlineDate) {
     _homeworksService.setDeadline(homeworkId, deadlineDate);
     notifyListeners();
   }
 
-  void setDistribute(String homeworkId) {
+  void setDistribute(int homeworkId) {
     _homeworksService.setDistribute(homeworkId);
     notifyListeners();
   }
 
-  void setColor(String homeworkId, Color selectedColor) {
+  void setColor(int homeworkId, Color selectedColor) {
     _homeworksService.setColor(homeworkId, selectedColor);
     notifyListeners();
   }
 
-  void unDistribute(String homeworkId) {
+  void unDistribute(int homeworkId) {
     _homeworksService.unDistribute(homeworkId);
     _homeworksService.resetDeadline(homeworkId);
     notifyListeners();

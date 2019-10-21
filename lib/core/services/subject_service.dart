@@ -1,12 +1,15 @@
 import 'dart:async';
 
+import 'package:edukasi_pot/core/data/repository.dart';
 import 'package:edukasi_pot/core/services/api/api.dart';
 import 'package:edukasi_pot/core/services/api/models.dart';
 import 'package:edukasi_pot/core/services/stoppable_service.dart';
 import 'package:edukasi_pot/locator.dart';
 
 class SubjectService implements StoppableService {
-  Api _api = locator<Api>();
+  // Api _api = locator<Api>();
+
+  Repository _repo = locator<Repository>();
 
   StreamController<Subject> subjectController = StreamController<Subject>();
 
@@ -16,8 +19,8 @@ class SubjectService implements StoppableService {
   Subject _subjectInSession;
   Subject get subjectInSession => _subjectInSession;
 
-  Future getSubjects(String userId) async {
-    _subjects = await _api.getSubjectsForUser(userId);
+  Future getSubjects(int userId) async {
+    _subjects = await _repo.getSubjects(userId);
   }
 
   Future getSubjectInSession() async {

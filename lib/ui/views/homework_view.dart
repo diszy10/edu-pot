@@ -137,16 +137,14 @@ class _HomeworkItem extends StatelessWidget {
           onTap: () => showDialog(
             barrierDismissible: true,
             context: context,
-            builder: (BuildContext context) => MultiProvider(
-              providers: [
-                ChangeNotifierProvider.value(
-                  value: model,
-                ),
-                ChangeNotifierProvider.value(
-                  value: homework,
-                )
-              ],
-              child: _ActionModal()),
+            builder: (BuildContext context) => MultiProvider(providers: [
+              ChangeNotifierProvider.value(
+                value: model,
+              ),
+              ChangeNotifierProvider.value(
+                value: homework,
+              )
+            ], child: _ActionModal()),
           ),
           borderRadius: BorderRadius.circular(16.0),
           child: Container(

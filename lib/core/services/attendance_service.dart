@@ -9,19 +9,19 @@ class AttendanceService implements StoppableService {
   List<Student> _students;
   List<Student> get students => _students;
 
-  Future getStudents(String subjectId) async {
+  Future getStudents(int subjectId) async {
     _students = await _api.getStudentsForSubject(subjectId);
   }
 
-  Student getStudent(String studentId) {
+  Student getStudent(int studentId) {
     return _students.firstWhere((student) => student.id == studentId);
   }
 
-  void setAbsent(String studentId) {
+  void setAbsent(int studentId) {
     _students.firstWhere((student) => student.id == studentId).isAbsent = true;
   }
 
-  void setAttend(String studentId) {
+  void setAttend(int studentId) {
     _students.firstWhere((student) => student.id == studentId).isAbsent = false;
   }
 

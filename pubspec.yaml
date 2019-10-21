@@ -28,11 +28,14 @@ dependencies:
   flutter_html: ^0.10.4
   shared_preferences: ^0.5.3+4
   flutter_material_color_picker: ^1.0.5
+  moor_flutter: ^1.7.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.7.2+1
+  moor_generator: ^1.7.1
+  build_runner: ^1.7.1
 
 flutter_icons:
   android: true 

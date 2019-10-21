@@ -3,13 +3,13 @@ import 'package:edukasi_pot/core/services/api/models.dart';
 import 'package:edukasi_pot/core/services/stoppable_service.dart';
 import 'package:edukasi_pot/locator.dart';
 
-class ModuleService implements StoppableService{
+class ModuleService implements StoppableService {
   Api _api = locator<Api>();
 
   List<Module> _modules;
   List<Module> get modules => _modules;
 
-  Future getModules(String subjectId) async {
+  Future getModules(int subjectId) async {
     _modules = await _api.getModulesForSubject(subjectId);
   }
 
@@ -24,10 +24,8 @@ class ModuleService implements StoppableService{
   bool get serviceStopped => null;
 
   @override
-  void start() {
-  }
+  void start() {}
 
   @override
-  void stop() {
-  }
+  void stop() {}
 }
