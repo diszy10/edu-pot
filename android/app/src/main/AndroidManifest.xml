@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.RECIEVE_BOOT_COMPLETED"/>
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="edukasi_pot"
+        android:label="Edukasi POT"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

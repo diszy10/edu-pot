@@ -1,51 +1,55 @@
+import 'package:edukasi_pot/core/services/services.dart';
+import 'package:edukasi_pot/core/viewmodels/auth_model.dart';
+import 'package:edukasi_pot/lifecycle_manager.dart';
+import 'package:edukasi_pot/locator.dart';
+import 'package:edukasi_pot/provider_setup.dart';
+import 'package:edukasi_pot/ui/router.dart' as router;
+import 'package:edukasi_pot/ui/shared/theme.dart';
+import 'package:edukasi_pot/ui/views/views.dart';
+import 'package:edukasi_pot/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:provider/provider.dart';
 
-import 'package:edukasi_pot/config/config.dart';
-import 'package:edukasi_pot/helpers/helpers.dart';
-import 'package:edukasi_pot/models/models.dart';
-import 'package:edukasi_pot/providers/providers.dart';
-import 'package:edukasi_pot/router.dart';
-
-void baseMain() {
-  // Initialize singleton
-  AppDatabase _db = AppDatabase();
-  Api _api = Api();
-
+Future<void> main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,
   ]);
-
   SystemChrome.setEnabledSystemUIOverlays([]);
-  runApp(MultiProvider(providers: [
-    Provider<Api>.value(value: _api),
-    Provider<AppDatabase>.value(value: _db),
-    ChangeNotifierProvider<AuthProvider>(
-      builder: (context) => AuthProvider(_api),
-    ),
-    ChangeNotifierProvider<SubjectProvider>(
-      builder: (context) => SubjectProvider(_db, _api),
-    )
-  ], child: _MainApp()));
+
+  await setupLocator();
+  runApp(MainApp());
 }
 
-class _MainApp extends StatelessWidget {
-  const _MainApp({
-    Key key,
-  }) : super(key: key);
-
+class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: Config().getString(Config.appName),
-      onGenerateRoute: AppRouter.generateRoute,
-      theme: ThemeData(
-        primaryColor: Color(0xFF5B6CEC),
-        scaffoldBackgroundColor: Color(0xFFF9F6F5),
+    return MultiProvider(
+      providers: providers,
+      child: LifecycleManager(
+        child: BaseView<AuthModel>(
+          builder: (context, model, _) => MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Edukasi POT',
+            home: model.isAuth
+                ? FutureBuilder(
+                    future: model.tryAutoLogin(),
+                    builder: (ctx, snapshot) {
+                      return snapshot.connectionState == ConnectionState.waiting
+                          ? SplashScreen()
+                          : model.subjectInSession != null
+                              ? SubjectDetailView(
+                                  subject: model.subjectInSession)
+                              : SubjectListView();
+                    },
+                  )
+                : LoginView(),
+            onGenerateRoute: router.generateRoute,
+            navigatorKey: locator<NavigationService>().navigatorKey,
+            theme: themeData,
+          ),
+        ),
       ),
     );
   }
