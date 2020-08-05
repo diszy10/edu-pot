@@ -11,3 +11,9 @@ flutter pub get
 ```sh
 flutter run
 ```
+
+### Credential test
+
+`user1@email.com / test123`
+
+`user2@email.com / test123`

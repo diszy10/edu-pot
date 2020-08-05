@@ -6,14 +6,14 @@ class MockApi implements Api {
   Future<User> getUser(String email, String password) async {
     await Future.delayed(Duration(seconds: 1));
 
-    if (email == 'user1@test.com' && password == 'test') {
+    if (email == 'user1@email.com' && password == 'test123') {
       return User(
         id: 1,
         name: 'Airin Rachmi',
         imageUrl: 'assets/images/airin.jpg',
       );
     }
-    if (email == 'user2@test.com' && password == 'test') {
+    if (email == 'user2@email.com' && password == 'test123') {
       return User(
         id: 2,
         name: 'Indah Putri',
